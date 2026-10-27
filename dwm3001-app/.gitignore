@@ -1,0 +1,78 @@
+
+# ==========================================
+# DWM3001CDK - Zephyr RTOS Project
+# ==========================================
+
+# Zephyr build directories
+**/build/
+**/build-*/
+**/cmake-build-*/
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+compile_commands.json
+build.ninja
+.ninja_deps
+.ninja_log
+
+# Zephyr generated outputs
+zephyr.elf
+zephyr.hex
+zephyr.bin
+zephyr.map
+zephyr.uf2
+zephyr.lst
+zephyr.stat
+zephyr.dts
+
+# Python virtual environments
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# VS Code generated files
+.vscode/ipch/
+.vscode/.browse.VC.db*
+.vscode/*.log
+
+# JetBrains IDEs
+.idea/
+
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Temporary files
+*.swp
+*.swo
+*~
+*.tmp
+*.bak
+*.orig
+
+# Local logs
+*.log
+
+# Test and coverage outputs
+.coverage
+htmlcov/
+coverage/
+
+# Local environment variables
+.env
+.env.local
+.env.*.local
+
+# Debug generated files
+*.core
+core
