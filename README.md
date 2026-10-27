@@ -33,3 +33,4 @@ The script will:
 - If the project is moved or renamed, delete
   `dwm3001-app/build/` before rebuilding.
 - Flashing replaces the board's existing application firmware.
+git
