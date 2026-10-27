@@ -1,5 +1,6 @@
 {
   "nrf-connect.applications": [
-    "${workspaceFolder}/examples/blinky"
+    "${workspaceFolder}/examples/blinky",
+    "${workspaceFolder}/examples/accel_polling"
   ]
 }
