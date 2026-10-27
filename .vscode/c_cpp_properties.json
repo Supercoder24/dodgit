@@ -1,0 +1,12 @@
+
+{
+    "configurations": [
+        {
+            "name": "Zephyr DWM3001CDK",
+            "compileCommands": "${workspaceFolder}/dwm3001-app/build/compile_commands.json",
+            "cStandard": "c17",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
+}

@@ -1,0 +1,63 @@
+cmake:
+  application:
+    configuration-dir: '/Users/hustler/Desktop/MSU/Graduate/Fall-2026/ToyDesign/Group/Code/dodgit/dwm3001-app'
+    source-dir: '/Users/hustler/Desktop/MSU/Graduate/Fall-2026/ToyDesign/Group/Code/dodgit/dwm3001-app'
+  board:
+    name: 'decawave_dwm3001cdk'
+    path:
+     - '/Users/hustler/zephyrproject/zephyr/boards/qorvo/decawave_dwm3001cdk'
+    qualifiers: 'nrf52833'
+    revision: ''
+  devicetree:
+    bindings-dirs:
+     - '/Users/hustler/zephyrproject/zephyr/dts/bindings'
+    files:
+     - '/Users/hustler/zephyrproject/zephyr/boards/qorvo/decawave_dwm3001cdk/decawave_dwm3001cdk.dts'
+    include-dirs:
+     - '/Users/hustler/zephyrproject/modules/hal/ambiq/dts'
+     - '/Users/hustler/zephyrproject/modules/hal/atmel/include'
+     - '/Users/hustler/zephyrproject/modules/hal/bouffalolab/include'
+     - '/Users/hustler/zephyrproject/modules/hal/bouffalolab/include/zephyr'
+     - '/Users/hustler/zephyrproject/modules/hal/gigadevice/include'
+     - '/Users/hustler/zephyrproject/modules/hal/infineon/dts'
+     - '/Users/hustler/zephyrproject/modules/hal/microchip/include'
+     - '/Users/hustler/zephyrproject/modules/hal/microchip/dts'
+     - '/Users/hustler/zephyrproject/modules/hal/nuvoton/dts'
+     - '/Users/hustler/zephyrproject/modules/hal/nxp/dts'
+     - '/Users/hustler/zephyrproject/modules/hal/stm32/dts'
+     - '/Users/hustler/zephyrproject/modules/hal/ti/dts'
+     - '/Users/hustler/zephyrproject/zephyr/include'
+     - '/Users/hustler/zephyrproject/zephyr/include/zephyr'
+     - '/Users/hustler/zephyrproject/zephyr/dts/common'
+     - '/Users/hustler/zephyrproject/zephyr/dts/vendor'
+     - '/Users/hustler/zephyrproject/zephyr/dts/tricore'
+     - '/Users/hustler/zephyrproject/zephyr/dts/rx'
+     - '/Users/hustler/zephyrproject/zephyr/dts/x86'
+     - '/Users/hustler/zephyrproject/zephyr/dts/xtensa'
+     - '/Users/hustler/zephyrproject/zephyr/dts/sparc'
+     - '/Users/hustler/zephyrproject/zephyr/dts/riscv'
+     - '/Users/hustler/zephyrproject/zephyr/dts/posix'
+     - '/Users/hustler/zephyrproject/zephyr/dts/arm64'
+     - '/Users/hustler/zephyrproject/zephyr/dts/arm'
+     - '/Users/hustler/zephyrproject/zephyr/dts/arc'
+     - '/Users/hustler/zephyrproject/zephyr/dts'
+  kconfig:
+    files:
+     - '/Users/hustler/zephyrproject/zephyr/boards/qorvo/decawave_dwm3001cdk/decawave_dwm3001cdk_defconfig'
+     - '/Users/hustler/Desktop/MSU/Graduate/Fall-2026/ToyDesign/Group/Code/dodgit/dwm3001-app/prj.conf'
+    user-files:
+     - '/Users/hustler/Desktop/MSU/Graduate/Fall-2026/ToyDesign/Group/Code/dodgit/dwm3001-app/prj.conf'
+  toolchain:
+    name: 'zephyr'
+    path: '/Users/hustler/zephyr-sdk-1.0.1'
+  vendor-specific:
+    nordic:
+      svdfile: '/Users/hustler/zephyrproject/modules/hal/nordic/nrfx/bsp/stable/mdk/nrf52/nrf52833/nrf52833.svd'
+  zephyr:
+    version: '4.5.0-rc3'
+    zephyr-base: '/Users/hustler/zephyrproject/zephyr'
+version: '0.1.0'
+west:
+  command: '/Users/hustler/zephyrproject/.venv/bin/west build -b decawave_dwm3001cdk /Users/hustler/Desktop/MSU/Graduate/Fall-2026/ToyDesign/Group/Code/dodgit/dwm3001-app -d /Users/hustler/Desktop/MSU/Graduate/Fall-2026/ToyDesign/Group/Code/dodgit/dwm3001-app/build -- -DCMAKE_EXPORT_COMPILE_COMMANDS=ON'
+  topdir: '/Users/hustler/zephyrproject'
+  version: '1.5.0'
