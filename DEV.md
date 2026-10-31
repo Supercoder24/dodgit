@@ -25,7 +25,8 @@ NOTE: Need at least 15 GB free or installations will fail
   * Select Global
   * Select nRF Connect SDK (NOT Bare Metal)
 9. Clone this git repo and open in VSCode
-10. The example projects should all appear in the nRF Connect Extension
+10. Run `git submodule update --init` to load the DW3xxx Driver Submodule
+11. The example projects should all appear in the nRF Connect Extension
 
 
 ## First Time Project Initialization
