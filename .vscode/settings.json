@@ -2,6 +2,8 @@
   "nrf-connect.applications": [
     "${workspaceFolder}/examples/blinky",
     "${workspaceFolder}/examples/accel_polling",
-    "${workspaceFolder}/examples/qorvo-sdk-zephyr"
+    "${workspaceFolder}/examples/qorvo-sdk-zephyr",
+    "${workspaceFolder}/ball",
+    "${workspaceFolder}/pouch"
   ]
 }
