@@ -4,6 +4,7 @@
     "${workspaceFolder}/examples/accel_polling",
     "${workspaceFolder}/examples/qorvo-sdk-zephyr",
     "${workspaceFolder}/ball",
-    "${workspaceFolder}/pouch"
+    "${workspaceFolder}/pouch",
+    "${workspaceFolder}/examples/accel_ble"
   ]
 }
