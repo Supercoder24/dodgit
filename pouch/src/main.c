@@ -12,7 +12,8 @@
  *   short press (< 3 s) : lose one life (ignored at 0 lives)
  *   hold (>= 3 s)       : simulated reset from the ball, lives = LIVES_MAX
  *
- * Lives are shown as that many LEDs lit on led0..led2 (steady). At 0 lives
+ * Lives are shown as that many LEDs lit on led2..led0 (steady), so the bright
+ * green led0 turns off first. At 0 lives
  * led0..led2 blink together once per second.
  */
 
@@ -172,10 +173,10 @@ static void lives_show(void)
 {
   if (lives > 0)
   {
-    /* N lives = led0..led(N-1) lit, steady */
+    /* N lives = last N of led0..led2 lit, steady (green drops first) */
     for (int i = 0; i < 3; i++)
     {
-      led_set(i, i < lives);
+      led_set(i, i >= 3 - lives);
     }
   }
   else
