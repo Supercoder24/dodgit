@@ -7,7 +7,7 @@ First [Setup the Development Environment](#setup-the-development-environment)
 3. Connect the board via the right/bottom micro-USB port
 4. Click the Flash button in the Actions section
 
-Note: Does NOT work with `accel_ble_nus`, use `accel_ble` instead.
+Note: Does NOT work with `accel_ble_nus`, use `accel_ble` instead. Also doesn't work with `hit_ball` and `hit_wearable`.
 
 ## Setup the Development Environment
 

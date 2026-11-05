@@ -96,3 +96,9 @@ Note: Does NOT work with `accel_ble`, use `accel_ble_nus` instead
 # Original jerk-detection application:
 ./flash.sh
 ```
+
+### Two-board hit prototype
+
+Use `examples/hit_ball` and `examples/hit_wearable` for always-active ball-impact + 1 metre proximity
+hit candidates, wearable LED feedback and wireless Mac terminal logs. See the
+[setup and bench-test guide](examples/hit_common/README.md).
