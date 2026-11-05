@@ -1,4 +1,3 @@
-
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
@@ -19,7 +18,8 @@ for arg in "$@"; do
         --build-only) BUILD_ONLY=1 ;;
         -h|--help)
             echo "Usage: $0 [application-directory] [--build-only]"
-            echo "Default: dwm3001-app. Examples: examples/blinky, examples/accel_polling, examples/qorvo-sdk-zephyr, examples/accel_ble, ball, pouch"
+            echo "Set JLINK_SN to select a board when multiple J-Link probes are connected."
+            echo "Default: dwm3001-app. Examples: examples/blinky, examples/accel_polling, examples/qorvo-sdk-zephyr, examples/accel_ble, examples/hit_ball, examples/hit_wearable, ball, pouch"
             exit 0 ;;
         --*) fail "Unknown option: $arg" ;;
         *)
@@ -80,9 +80,13 @@ fi
 # Flash board
 echo "========== FLASHING DWM3001CDK =========="
 
+JLINK_ARGS=(--runner jlink)
+if [[ -n "${JLINK_SN:-}" ]]; then
+    JLINK_ARGS+=(--dev-id "$JLINK_SN")
+fi
 west flash \
     -d "$BUILD_DIR" \
-    --runner jlink
+    "${JLINK_ARGS[@]}"
 
 echo "========== COMPLETE =========="
 echo "Firmware build and flash commands completed."

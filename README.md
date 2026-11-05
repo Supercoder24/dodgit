@@ -1,3 +1,9 @@
+## Two-board hit prototype
+
+Use `examples/hit_ball` and `examples/hit_wearable` for always-active ball-impact + 1 metre proximity
+hit candidates, wearable LED feedback and wireless Mac terminal logs. See the
+[setup and bench-test guide](examples/hit_common/README.md).
+
 ## Examples on the jerkDetection branch
 
 The examples, ball/pouch apps and pinned UWB driver from `setup` are available

@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.20.0)
+list(APPEND ZEPHYR_EXTRA_MODULES ${CMAKE_CURRENT_SOURCE_DIR}/../../modules/zephyr-dw3000-decadriver)
+find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
+project(hit_wearable)
+zephyr_include_directories(${ZEPHYR_BINARY_DIR}/include/generated/zephyr)
+target_include_directories(app PRIVATE ../hit_common)
+target_sources(app PRIVATE src/main.c ../hit_common/uwb.c ../hit_common/impact.c)
