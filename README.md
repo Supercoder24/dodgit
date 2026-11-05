@@ -1,3 +1,21 @@
+## Examples on the jerkDetection branch
+
+The examples, ball/pouch apps and pinned UWB driver from `setup` are available
+here using the existing standalone Zephyr environment. No Nordic SDK installation
+is needed for the builds tested here. See [examples/README.md](examples/README.md)
+for commands, compatibility changes and validation status.
+
+```bash
+# Build only, without accessing the board:
+./flash.sh examples/qorvo-sdk-zephyr --build-only
+
+# Build and flash a connected DWM3001CDK:
+./flash.sh examples/qorvo-sdk-zephyr
+
+# Original jerk-detection application:
+./flash.sh
+```
+
 
 ## Build and Flash Firmware
 
