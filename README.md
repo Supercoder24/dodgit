@@ -84,6 +84,8 @@ here using the existing standalone Zephyr environment. No Nordic SDK installatio
 is needed for the builds tested here. See [examples/README.md](examples/README.md)
 for commands, compatibility changes and validation status.
 
+Note: Does NOT work with `accel_ble`, use `accel_ble_nus` instead
+
 ```bash
 # Build only, without accessing the board:
 ./flash.sh examples/qorvo-sdk-zephyr --build-only
