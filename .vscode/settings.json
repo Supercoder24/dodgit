@@ -1,3 +1,11 @@
 {
-    "cmake.sourceDirectory": "/Users/hustler/Desktop/MSU/Graduate/Fall-2026/Toy Design/Group/Code/dodgit/dwm3001-app"
+  "nrf-connect.applications": [
+    "${workspaceFolder}/examples/blinky",
+    "${workspaceFolder}/examples/accel_polling",
+    "${workspaceFolder}/examples/qorvo-sdk-zephyr",
+    "${workspaceFolder}/ball",
+    "${workspaceFolder}/pouch",
+    "${workspaceFolder}/examples/accel_ble"
+  ],
+  "cmake.sourceDirectory": "/Users/hustler/Desktop/MSU/Graduate/Fall-2026/Toy Design/Group/Code/dodgit/dwm3001-app"
 }
