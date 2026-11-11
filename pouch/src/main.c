@@ -2,48 +2,53 @@
  * dodgit - Pouch firmware (DWM3001CDK)
  *
  * Startup:
- *   1. led3 (blue) stays OFF: it marks this board as a pouch (the ball has it on).
- *   2. Quick DW3110 ID check (dwt_probe + device ID upper half 0xDECA).
- *      PASS: led0 (green) blinks 3 times, then the main loop starts.
- *      FAIL: led1 + led2 (red) blink forever.
+ *   1. led3 (blue) stays OFF while playing: it marks this board as a pouch (the ball has it on).
+ *   2. Self-test: DW3110 UWB radio probe.
+ *      PASS: led0 (green) blinks 3 times, then roll call starts.
+ *      FAIL: led1 + led2 (red) blink together, slowly, forever.
  *
- * Main loop, currently driven only by the user button so it can be tested on
- * a single board without radio:
- *   short press (< 3 s) : lose one life (ignored at 0 lives)
- *   hold (>= 3 s)       : simulated reset from the ball, lives = LIVES_MAX
+ * Roll call (see shared/README.md): the pouch announces its 32-bit hardware ID to the
+ * ball until the ball answers with a timeslot. All later ranging replies and hit/reset
+ * acknowledgments are sent in that timeslot. What the LEDs show:
  *
- * Lives are shown as that many LEDs lit on led2..led0 (steady), so the bright
- * green led0 turns off first. At 0 lives
- * led0..led2 blink together once per second.
+ *   JOINING      blue blinks (2 Hz), everything else off     - no timeslot yet
+ *   JOINED       blue steady + assigned timeslot in binary   - timeslot received, waiting
+ *                on led2 led1 led0 (led0 = 1s bit)             for the ball to start the game
+ *   ACTIVE       blue off, lives shown (below)               - ball is ranging: game running
+ *   JOIN FAILED  ALL FOUR LEDs flash fast (5 Hz), forever    - the ball was already ranging
+ *                                                               before we got a timeslot
+ *
+ * A pouch switched on after the ball left Roll Call (a "late pouch") cannot join: it ends
+ * up in JOIN FAILED. Turn off all pouches and the ball, then start again.
+ *
+ * Lives (ACTIVE): that many of led2..led0 lit, steady (the green led0 goes out first).
+ * At 0 lives led0..led2 blink together once per second. A HIT message from the ball
+ * costs one life (ignored at 0 lives); a RESET message restores LIVES_MAX.
+ *
+ * The pouch does not use its button or accelerometer.
  */
 
 #include <zephyr/kernel.h>
 #include <zephyr/drivers/gpio.h>
-#include <deca_device_api.h>
-#include <deca_probe_interface.h>
-#include <dw3000_hw.h>
+#include "settings.h"
+#include "uwb.h"
 
-#define LIVES_MAX 3 /* initial lives and the value after a reset */
-
-#define LOOP_PERIOD_MS 10
-#define HOLD_TIME_MS 3000
-#define DEBOUNCE_SAMPLES 3 /* 3 x 10 ms of stable level */
-
+#define JOINING_BLINK_PERIOD_MS 500 /* blue blink while waiting for a timeslot */
+#define FAIL_BLINK_PERIOD_MS 200    /* roll-call failure: all LEDs, 5 Hz */
 #define DEAD_BLINK_PERIOD_MS 1000
 #define DEAD_BLINK_ON_MS 500
 
 static int lives = LIVES_MAX;
 
 /* ---------------------------------------------------------------------------
- * LEDs and button (aliases from the decawave_dwm3001cdk board DTS)
+ * LEDs (aliases from the decawave_dwm3001cdk board DTS)
  * ------------------------------------------------------------------------- */
 static const struct gpio_dt_spec leds[] = {
     GPIO_DT_SPEC_GET(DT_ALIAS(led0), gpios), /* D9  green */
     GPIO_DT_SPEC_GET(DT_ALIAS(led1), gpios), /* D12 red */
     GPIO_DT_SPEC_GET(DT_ALIAS(led2), gpios), /* D11 red */
-    GPIO_DT_SPEC_GET(DT_ALIAS(led3), gpios), /* D10 blue - identity, off on pouch */
+    GPIO_DT_SPEC_GET(DT_ALIAS(led3), gpios), /* D10 blue - identity */
 };
-static const struct gpio_dt_spec button = GPIO_DT_SPEC_GET(DT_ALIAS(sw0), gpios);
 
 static void led_set(int i, bool on)
 {
@@ -60,87 +65,12 @@ static bool hw_init(void)
       return false;
     }
   }
-  if (!gpio_is_ready_dt(&button) || gpio_pin_configure_dt(&button, GPIO_INPUT) < 0)
-  {
-    printk("Button init failed\n");
-    return false;
-  }
   return true;
 }
 
 /* ---------------------------------------------------------------------------
- * Button: polled every LOOP_PERIOD_MS with a small debounce.
- *   BTN_SHORT - released before HOLD_TIME_MS
- *   BTN_HOLD  - fired once when HOLD_TIME_MS is reached while still pressed;
- *               the following release is swallowed (no BTN_SHORT).
+ * Startup self-test
  * ------------------------------------------------------------------------- */
-enum btn_event
-{
-  BTN_NONE,
-  BTN_SHORT,
-  BTN_HOLD,
-};
-
-static enum btn_event button_poll(void)
-{
-  static bool stable;     /* debounced level, true = pressed */
-  static int same_count;  /* consecutive raw samples differing from stable */
-  static int64_t press_start;
-  static bool hold_fired;
-
-  bool raw = gpio_pin_get_dt(&button) > 0;
-  int64_t now = k_uptime_get();
-
-  if (raw != stable)
-  {
-    if (++same_count >= DEBOUNCE_SAMPLES)
-    {
-      stable = raw;
-      same_count = 0;
-      if (stable)
-      {
-        press_start = now;
-        hold_fired = false;
-      }
-      else if (!hold_fired)
-      {
-        return BTN_SHORT;
-      }
-    }
-  }
-  else
-  {
-    same_count = 0;
-  }
-
-  if (stable && !hold_fired && now - press_start >= HOLD_TIME_MS)
-  {
-    hold_fired = true;
-    return BTN_HOLD;
-  }
-  return BTN_NONE;
-}
-
-/* ---------------------------------------------------------------------------
- * Startup self-test: quick DW3110 ID check only
- * ------------------------------------------------------------------------- */
-static bool dw3110_id_check(void)
-{
-  dw3000_hw_init();
-  dw3000_hw_reset();
-
-  /* Wait for DW3110 to finish reset */
-  k_msleep(2000);
-
-  int32_t rc = dwt_probe((struct dwt_probe_s *)&dw3000_probe_interf);
-  uint32_t dev_id = dwt_readdevid();
-  bool ok = rc == DWT_SUCCESS && (dev_id & 0xFFFF0000) == 0xDECA0000;
-
-  printk("DW3110 probe rc = %d, device ID = 0x%08X\n", rc, dev_id);
-  printk("DW3110 ID check: %s\n", ok ? "PASS" : "FAIL");
-  return ok;
-}
-
 static void self_test_pass_blink(void)
 {
   for (int i = 0; i < 3; i++)
@@ -152,9 +82,11 @@ static void self_test_pass_blink(void)
   }
 }
 
-static void self_test_fail_halt(void)
+/* Radio failure: only led1 + led2 (red) blink, slowly. Deliberately calmer than the
+ * roll-call failure pattern below. */
+static void self_test_fail_halt(int rc)
 {
-  printk("Halting: DW3110 not detected\n");
+  printk("Halting: DW3110 init failed (%d)\n", rc);
   while (1)
   {
     led_set(1, true);
@@ -167,48 +99,63 @@ static void self_test_fail_halt(void)
 }
 
 /* ---------------------------------------------------------------------------
- * Lives display
+ * LED display for each phase
  * ------------------------------------------------------------------------- */
-static void lives_show(void)
+static void show_leds(enum pouch_phase phase)
 {
-  if (lives > 0)
+  int64_t now = k_uptime_get();
+
+  switch (phase)
   {
-    /* N lives = last N of led0..led2 lit, steady (green drops first) */
-    for (int i = 0; i < 3; i++)
-    {
-      led_set(i, i >= 3 - lives);
-    }
+  case POUCH_JOINING:
+    led_set(0, false);
+    led_set(1, false);
+    led_set(2, false);
+    led_set(3, now % JOINING_BLINK_PERIOD_MS < JOINING_BLINK_PERIOD_MS / 2);
+    break;
+
+  case POUCH_JOINED:
+  {
+    int slot = uwb_pouch_slot();
+    led_set(0, slot & 1);
+    led_set(1, (slot >> 1) & 1);
+    led_set(2, (slot >> 2) & 1);
+    led_set(3, true);
+    break;
   }
-  else
+
+  case POUCH_ACTIVE:
+    led_set(3, false);
+    if (lives > 0)
+    {
+      /* N lives = last N of led0..led2 lit, steady (green drops first) */
+      for (int i = 0; i < 3; i++)
+      {
+        led_set(i, i >= 3 - lives);
+      }
+    }
+    else
+    {
+      /* Out of lives: blink all three once per second to show we are alive */
+      bool on = now % DEAD_BLINK_PERIOD_MS < DEAD_BLINK_ON_MS;
+      for (int i = 0; i < 3; i++)
+      {
+        led_set(i, on);
+      }
+    }
+    break;
+
+  case POUCH_JOIN_FAILED:
   {
-    /* Out of lives: blink all three once per second to show we are alive */
-    bool on = k_uptime_get() % DEAD_BLINK_PERIOD_MS < DEAD_BLINK_ON_MS;
-    for (int i = 0; i < 3; i++)
+    bool on = now % FAIL_BLINK_PERIOD_MS < FAIL_BLINK_PERIOD_MS / 2;
+    for (int i = 0; i < 4; i++)
     {
       led_set(i, on);
     }
+    break;
+  }
   }
 }
-
-/* ---------------------------------------------------------------------------
- * Future radio behavior (not implemented yet):
- *
- *   on ranging request from the ball:
- *     reply immediately (near-instant response so the ball's distance
- *     estimate is accurate); include lives so the ball can skip pouches
- *     with 0 lives when looking for the thrower
- *
- *   on HIT message addressed to this pouch:
- *     if (lives > 0) lives--;
- *     send_ack(ball, HIT);
- *
- *   on RESET message (broadcast from the ball):
- *     lives = LIVES_MAX;
- *     send_ack(ball, RESET);
- *
- * Until then the button stands in for these messages: short press = HIT,
- * hold = RESET.
- * ------------------------------------------------------------------------- */
 
 int main(void)
 {
@@ -218,45 +165,75 @@ int main(void)
   {
     return 0;
   }
+  led_set(3, false); /* identity: blue off on a pouch */
 
-  /* Identity: blue LED stays off on a pouch. */
-  led_set(3, false);
-
-  if (!dw3110_id_check())
+  int rc = uwb_init();
+  if (rc)
   {
-    self_test_fail_halt();
+    self_test_fail_halt(rc);
   }
   self_test_pass_blink();
 
-  printk("Lives: %d\n", lives);
+  printk("Pouch hardware ID: 0x%08x\n", uwb_pouch_uid());
+  printk("Roll call: sending JOIN until the ball assigns a timeslot\n");
+
+  enum pouch_phase last_phase = uwb_pouch_phase();
+  bool have_hit = false;   /* have we counted a hit yet? (for de-duplicating retries) */
+  uint16_t last_hit_seq = 0;
 
   while (1)
   {
-    /* Future: poll the radio here for ranging requests, HIT and RESET
-     * messages (see pseudocode above). */
+    /* One short radio step. This is also where ranging replies, hit and reset
+     * messages are handled (and acknowledged) in the pouch's timeslot. */
+    struct pouch_event ev;
+    uwb_pouch_step(lives, &ev);
 
-    enum btn_event ev = button_poll();
-
-    if (ev == BTN_HOLD)
+    enum pouch_phase phase = uwb_pouch_phase();
+    if (phase != last_phase)
     {
-      lives = LIVES_MAX;
-      printk("Button: hold -> reset, lives = %d\n", lives);
-    }
-    else if (ev == BTN_SHORT)
-    {
-      if (lives > 0)
+      switch (phase)
       {
-        lives--;
-        printk("Button: short press -> hit, lives = %d\n", lives);
+      case POUCH_JOINED:
+        printk("Roll call: assigned timeslot %d, waiting for the game to start\n", uwb_pouch_slot());
+        break;
+      case POUCH_ACTIVE:
+        printk("Ball is ranging: game started, lives = %d\n", lives);
+        break;
+      case POUCH_JOIN_FAILED:
+        printk("Roll call FAILED: ball is already ranging and never gave us a timeslot "
+               "(joined too late?). Turn everything off and start again.\n");
+        break;
+      default:
+        break;
+      }
+      last_phase = phase;
+    }
+
+    if (ev.type == EV_HIT)
+    {
+      if (have_hit && ev.hit_seq == last_hit_seq)
+      {
+        printk("Hit #%u repeated, ignored\n", ev.hit_seq);
       }
       else
       {
-        printk("Button: short press ignored, no lives left\n");
+        have_hit = true;
+        last_hit_seq = ev.hit_seq;
+        if (lives > 0)
+        {
+          lives--;
+        }
+        printk("HIT #%u, lives = %d\n", ev.hit_seq, lives);
       }
     }
+    else if (ev.type == EV_RESET)
+    {
+      lives = LIVES_MAX;
+      have_hit = false;
+      printk("RESET, lives = %d\n", lives);
+    }
 
-    lives_show();
-    k_msleep(LOOP_PERIOD_MS);
+    show_leds(phase);
   }
   return 0;
 }

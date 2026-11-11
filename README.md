@@ -43,17 +43,17 @@ Abhi's MacOS setup scripts
 ### `docs/`
 Markdown (`.md`) files containing more complicated documentation, structure, and planning resources than are found in the READMEs.
 ### `examples/`
-Multiple externally loaded or AI-generated nRF Connect projects demonstrating basic tasks such as blinking an LED, reading accelerometer data, and connecting to the onboard DW3000 UWB Ranging chip. See [Notes](examples/NOTES.md) for key takeaways and summaries.
+Multiple externally loaded or AI-generated nRF Connect projects demonstrating basic tasks such as blinking an LED, reading accelerometer data, and connecting to the onboard DW3110 UWB ranging chip. See [Notes](examples/NOTES.md) for key takeaways and summaries.
 ### `ball/` and `pouch/`
 Main scripts for the ball (throwable) and pouch (wearable).
 ### `shared/`
-Scripts and helpers used by both the ball and pouch.
+Code used by both the ball and pouch: UWB protocol (roll call, timeslots, ranging, hit/reset), DS-TWR math, tunable settings. See [shared/README.md](shared/README.md).
 ### `tools/`
-Python scripts for interfacing with devices over bluetooth and/or logging data to `.csv` files in the `data/` folder.
+Python scripts for interfacing with devices over bluetooth and/or logging data to `.csv` files in the `data/` folder. `ball_monitor.py` watches the ball's debug log over Bluetooth (see [Ball README](ball/README.md)).
 ### `.vscode/`
 Environment setup and Extensions settings
 ### `modules/`
-Contains the sub-repository zephyr-dw3000-decawave for interfacing with the DW3000 chip from the Zephyr RTOS. Can also contain other important dependencies in the future.
+Contains the sub-repository zephyr-dw3000-decawave for interfacing with the DW3110 chip (part of the DW3000 family) from the Zephyr RTOS. Can also contain other important dependencies in the future.
 ### `data/`
 Generated `.csv` files from running demos, examples, and tests
 ### `tests/`
@@ -62,12 +62,16 @@ Automated tests for tools, helpers, and shared scripts
 ## Gameplay
 1. Turn on the ball
 2. Turn on all pouches (make sure within timeout)
-3. Either wait for timeout or press reset button once on ball to activate ready state
+3. Either wait for the roll-call timeout (15 s after the last pouch registered) or press the ball's user button (SW0) once to end roll call. Roll call cannot end before at least one pouch has registered.
 4. Begin throwing at each other
-5. When only one player has any lives left, hold the reset button on the ball for three seconds to restart
+5. When only one player has any lives left, hold the ball's user button (SW0) for three seconds to reset every pouch's lives
 
 If another player wants to join the game, turn all the wearables off, turn the ball off and back on again, then turn all the wearables on.
 
 Maximum 8 players = 8 pouches + 1 ball = 9 devices total.
+
+Note: pouches can only register during roll call. A pouch turned on after roll call has ended shows the "join failed" pattern (all four LEDs flashing fast) and cannot join; see [Pouch README](pouch/README.md).
+
+Note: SW0 is the board's user button (it will be replaced by an external button later). It is unrelated to the hardware RESET button, which just reboots the board.
 
 TODO: Find more elegant solution for adding wearables/coordinating roll call.

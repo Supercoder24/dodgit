@@ -124,6 +124,6 @@ Note: Does NOT work with `accel_ble`, use `accel_ble_nus` instead
 
 ## Two-board hit prototype (MacOS Bash Scripts)
 
-Use `examples/hit_ball` and `examples/hit_wearable` for always-active ball-impact + 1 metre proximity
+Use `examples/hit_ball` and `examples/hit_wearable` for always-active ball-impact + 1 meter proximity
 hit candidates, wearable LED feedback and wireless Mac terminal logs. See the
 [setup and bench-test guide](examples/hit_common/README.md).
