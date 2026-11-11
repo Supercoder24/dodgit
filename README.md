@@ -5,17 +5,21 @@ CSE 4990 - Toy Design Group Project
 ### Technical Overview
 The project can be divided into two major components: a singular ball and multiple pouches. Both serve different roles but also have many commonalities.
 
-Both the ball and the pouches are powered by the Qorvo DWM3001CDK, an Ultra-Wideband (UWB) ranging development board that also supports other methods of radio communication. This board includes a user-assignable button (+ a non-assignable RESET button), 4 user-assignable single-color LEDs (+ a non-assignable J-Link programming LED), 1 dual-color LED, and a plethora of GPIO pins resembling a Raspberry Pi interface.
+Both the ball and the pouches are powered by the Qorvo DWM3001CDK, an Ultra-Wideband (UWB) ranging development board that also supports other methods of radio communication. This board includes a user-assignable button (+ a non-assignable RESET button), 4 user-assignable single-color LEDs (+ a non-assignable J-Link programming LED), 1 dual-color LED, and a plethora of GPIO pins resembling a Raspberry Pi interface. See [Decadriver Guide](docs/Decadriver_Guide.md) for more details.
 
 Additionally, both use WS2812 5050 LED strips, containing 8 individually addressed RGB LEDs each, to display feedback to players.
 
 #### Ball (Throwable)
+See [Ball README](ball/README.md) and [Ball FSM](docs/FSMs.md).
+
 The ball contains a Qorvo DWM3001CDK, along with an 8x1 RGB LED strip, a single button, and a battery pack with an on/off switch. It's primary functions include:
 * Game management/synchronization
 * Detecting when it is thrown (via onboard accelermeter)
 * Detecting and characterizing hits (via accelerometer + UWB ranging)
 
 #### Pouches (Wearable)
+See [Pouch README](pouch/README.md).
+
 Each pouch contains a Qorvo DWM3001CDK, along with an 8x1 RGB LED strip and a battery pack with an on/off switch. It's primary functions include:
 * Displaying a player's remaining lives
 * Responding near-instantaneously to UWB ranging requests
@@ -34,71 +38,23 @@ A 10-year-old boy who loves throwing things and playing outside with friends. He
 ## Navigation
 ### `DEV.md`
 Starting point for setting up your local development environment.
-### `.vscode/`
-Environment setup and Extensions settigns
+### `setup/`
+Abhi's MacOS setup scripts
+### `docs/`
+Markdown (`.md`) files containing more complicated documentation, structure, and planning resources than are found in the READMEs.
 ### `examples/`
-Multiple nRF Connect projects demonstrating basic tasks such as blinking an LED, reading accelerometer data, and connecting to the onboard DW3000 UWB Ranging chip
+Multiple externally loaded or AI-generated nRF Connect projects demonstrating basic tasks such as blinking an LED, reading accelerometer data, and connecting to the onboard DW3000 UWB Ranging chip. See [Notes](examples/NOTES.md) for key takeaways and summaries.
+### `ball/` and `pouch/`
+Main scripts for the ball (throwable) and pouch (wearable).
+### `shared/`
+Scripts and helpers used by both the ball and pouch.
+### `tools/`
+Python scripts for interfacing with devices over bluetooth and/or logging data to `.csv` files in the `data/` folder.
+### `.vscode/`
+Environment setup and Extensions settings
 ### `modules/`
 Contains the sub-repository zephyr-dw3000-decawave for interfacing with the DW3000 chip from the Zephyr RTOS. Can also contain other important dependencies in the future.
-
-## Build and Flash Firmware (MacOS with Abhi's Scripts)
-
-### Requirements
-
-- macOS with Zephyr development environment installed
-- DWM3001CDK development board
-- SEGGER J-Link tools
-- USB connection through J9
-
-### Build and Flash
-
-After updating `dwm3001-app/src/main.c` or `prj.conf`,
-run the following from the repository root:
-
-```bash
-./flash.sh
-```
-
-The script will:
-
-1. Activate the Zephyr Python environment.
-2. Build the firmware with West.
-3. Generate `zephyr.hex`.
-4. Flash the DWM3001CDK using J-Link.
-5. Reset the board.
-
-### Notes
-
-- The script stops if compilation fails.
-- Successful incremental builds reuse cached artifacts.
-- The `build/` directory should remain in `.gitignore`.
-- If the project is moved or renamed, delete
-  `dwm3001-app/build/` before rebuilding.
-- Flashing replaces the board's existing application firmware.
-git
-
-### Running Examples
-
-The examples, ball/pouch apps and pinned UWB driver from `setup` are available
-here using the existing standalone Zephyr environment. No Nordic SDK installation
-is needed for the builds tested here. See [examples/README.md](examples/README.md)
-for commands, compatibility changes and validation status.
-
-Note: Does NOT work with `accel_ble`, use `accel_ble_nus` instead
-
-```bash
-# Build only, without accessing the board:
-./flash.sh examples/qorvo-sdk-zephyr --build-only
-
-# Build and flash a connected DWM3001CDK:
-./flash.sh examples/qorvo-sdk-zephyr
-
-# Original jerk-detection application:
-./flash.sh
-```
-
-### Two-board hit prototype
-
-Use `examples/hit_ball` and `examples/hit_wearable` for always-active ball-impact + 1 metre proximity
-hit candidates, wearable LED feedback and wireless Mac terminal logs. See the
-[setup and bench-test guide](examples/hit_common/README.md).
+### `data/`
+Generated `.csv` files from running demos, examples, and tests
+### `tests/`
+Automated tests for tools, helpers, and shared scripts

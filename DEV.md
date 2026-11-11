@@ -1,6 +1,6 @@
 # Development Reference
 
-## Build and Flash Code
+## Build and Flash Code (Universal VSCode Extension)
 First [Setup the Development Environment](#setup-the-development-environment)
 1. Open the nRF Connect Extension
 2. Click the Build button in the Actions section
@@ -9,7 +9,7 @@ First [Setup the Development Environment](#setup-the-development-environment)
 
 Note: Does NOT work with `accel_ble_nus`, use `accel_ble` instead. Also doesn't work with `hit_ball` and `hit_wearable`.
 
-## Setup the Development Environment
+## Setup the Development Environment (Universal VSCode Extension)
 
 On Windows:
 
@@ -58,8 +58,70 @@ NOTE: Need at least 15 GB free or installations will fail
 13. Select `decawave_dwm3001cdk/nrf52833` from the "Board Target" selector, then "Generate and Build"
 
 
-## First Time Project Initialization
+## First Time Project Initialization (Universal VSCode Extension)
 1. In the Extension, click Create New Application
 2. Load from sample
 3. Search for blinky
 4. Remove .git from the example project: `rm -rf examples/blinky/.git`
+
+## Build and Flash Firmware (MacOS Bash Scripts)
+
+### Requirements
+
+- macOS with Zephyr development environment installed
+- DWM3001CDK development board
+- SEGGER J-Link tools
+- USB connection through J9
+
+### Build and Flash
+
+After updating `dwm3001-app/src/main.c` or `prj.conf`,
+run the following from the repository root:
+
+```bash
+./flash.sh
+```
+
+The script will:
+
+1. Activate the Zephyr Python environment.
+2. Build the firmware with West.
+3. Generate `zephyr.hex`.
+4. Flash the DWM3001CDK using J-Link.
+5. Reset the board.
+
+### Notes
+
+- The script stops if compilation fails.
+- Successful incremental builds reuse cached artifacts.
+- The `build/` directory should remain in `.gitignore`.
+- If the project is moved or renamed, delete
+  `dwm3001-app/build/` before rebuilding.
+- Flashing replaces the board's existing application firmware.
+git
+
+## Running Examples (MacOS Bash Scripts)
+
+The examples, ball/pouch apps and pinned UWB driver from `setup` are available
+here using the existing standalone Zephyr environment. No Nordic SDK installation
+is needed for the builds tested here. See [examples/README.md](examples/README.md)
+for commands, compatibility changes and validation status.
+
+Note: Does NOT work with `accel_ble`, use `accel_ble_nus` instead
+
+```bash
+# Build only, without accessing the board:
+./flash.sh examples/qorvo-sdk-zephyr --build-only
+
+# Build and flash a connected DWM3001CDK:
+./flash.sh examples/qorvo-sdk-zephyr
+
+# Original jerk-detection application:
+./flash.sh
+```
+
+## Two-board hit prototype (MacOS Bash Scripts)
+
+Use `examples/hit_ball` and `examples/hit_wearable` for always-active ball-impact + 1 metre proximity
+hit candidates, wearable LED feedback and wireless Mac terminal logs. See the
+[setup and bench-test guide](examples/hit_common/README.md).
