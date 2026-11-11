@@ -75,8 +75,10 @@ NOTE: Need at least 15 GB free or installations will fail
 
 ### Build and Flash
 
-After updating `dwm3001-app/src/main.c` or `prj.conf`,
-run the following from the repository root:
+After updating `examples/dwm3001-app/src/main.c` or `prj.conf`,
+run the following from the repository root (with no argument `flash.sh` builds
+and flashes `examples/dwm3001-app`; pass a folder such as `ball` or `pouch` to
+flash a different app, and set `JLINK_SN` to pick the board):
 
 ```bash
 ./flash.sh
@@ -96,7 +98,7 @@ The script will:
 - Successful incremental builds reuse cached artifacts.
 - The `build/` directory should remain in `.gitignore`.
 - If the project is moved or renamed, delete
-  `dwm3001-app/build/` before rebuilding.
+  the application's `build/` directory (e.g. `examples/dwm3001-app/build/`) before rebuilding.
 - Flashing replaces the board's existing application firmware.
 git
 
@@ -116,7 +118,7 @@ Note: Does NOT work with `accel_ble`, use `accel_ble_nus` instead
 # Build and flash a connected DWM3001CDK:
 ./flash.sh examples/qorvo-sdk-zephyr
 
-# Original jerk-detection application:
+# Original jerk-detection application (default app):
 ./flash.sh
 ```
 

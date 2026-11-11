@@ -10,7 +10,7 @@ fail() {
     exit 1
 }
 
-APP="dwm3001-app"
+APP="examples/dwm3001-app"
 BUILD_ONLY=0
 APP_SELECTED=0
 for arg in "$@"; do
@@ -19,7 +19,7 @@ for arg in "$@"; do
         -h|--help)
             echo "Usage: $0 [application-directory] [--build-only]"
             echo "Set JLINK_SN to select a board when multiple J-Link probes are connected."
-            echo "Default: dwm3001-app. Examples: examples/blinky, examples/accel_polling, examples/qorvo-sdk-zephyr, examples/accel_ble, examples/hit_ball, examples/hit_wearable, ball, pouch"
+            echo "Default: examples/dwm3001-app. Examples: ball, pouch, examples/uwb_master, examples/uwb_slave, examples/blinky, examples/accel_polling, examples/qorvo-sdk-zephyr, examples/accel_ble, examples/hit_ball, examples/hit_wearable"
             exit 0 ;;
         --*) fail "Unknown option: $arg" ;;
         *)
