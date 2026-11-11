@@ -58,3 +58,16 @@ Contains the sub-repository zephyr-dw3000-decawave for interfacing with the DW30
 Generated `.csv` files from running demos, examples, and tests
 ### `tests/`
 Automated tests for tools, helpers, and shared scripts
+
+## Gameplay
+1. Turn on the ball
+2. Turn on all pouches (make sure within timeout)
+3. Either wait for timeout or press reset button once on ball to activate ready state
+4. Begin throwing at each other
+5. When only one player has any lives left, hold the reset button on the ball for three seconds to restart
+
+If another player wants to join the game, turn all the wearables off, turn the ball off and back on again, then turn all the wearables on.
+
+Maximum 8 players = 8 pouches + 1 ball = 9 devices total.
+
+TODO: Find more elegant solution for adding wearables/coordinating roll call.

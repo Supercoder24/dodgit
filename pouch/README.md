@@ -7,6 +7,11 @@ Firmware for the wearable pouch (DWM3001CDK, `decawave_dwm3001cdk/nrf52833`).
   * PASS: led0 (green) blinks 3 times, then the main loop starts.
   * FAIL: led1 + led2 (red) blink forever.
 
+## Roll Call/Timeslots
+When the wearable is first turned on, it sends a short message containing the last few digits of its unique hardware ID. It repeats this message periodically until either a) it realizes that the ball is not performing a roll call and is actually ranging instead or b) the ball sends an acknowledgement and the assigned timeslot. If a), stop trying, blink lights in a pattern to demonstrate initialization failure. If b), store the assigned timeslot to a variable.
+
+Use the assigned timeslot in all ranging replies, as well as for reporting Acknowledgement for hits and resets.
+
 ## Lives
 `LIVES_MAX` (top of `src/main.c`, default 3) sets the starting lives and the value after a reset.
 

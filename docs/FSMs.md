@@ -17,19 +17,34 @@ From:
 * Initial State
 
 To:
-* Disarmed
+* Roll Call
 
 During:
 * Nothing
 
 Transitions:
-* When power switch flipped on, automatically transition to Disarmed
+* When power switch flipped on, automatically transition to "Roll Call"
 
 Note: not included in code as a state, but instead as the setup and selftest code run before entering the main state machine.
 
-### Disarmed
+### Roll Call
 From:
 * Off
+
+To:
+* Disarmed
+
+During:
+* Listen for roll call from wearables
+* Light Strip is White
+
+Transitions:
+* When reset button pressed (not held), transition to Disarmed
+* Also automatic transition if no wearable turned on for a set amount of time (maybe 15 seconds after last pouch checked in)
+
+### Disarmed
+From:
+* Roll Call
 * Reset
 * Classify
 * Inform
@@ -57,11 +72,12 @@ To:
 
 During:
 * Constantly ranging
-* Constantly monitoring accelerometer
+* Constantly monitoring accelerometer, only if transitioning based on freefall. Ignore for now.
 * Light Strip is Yellow
 
 Transitions:
-* If leave proximity of pouch that was detected earlier (on transition from Disarmed to Ready), and/or detect acceleration of a throw, transition to **Armed**
+* If leave proximity of pouch that was detected earlier (on transition from Disarmed to Ready), transition to **Armed**
+* Maybe transition also on acceleration of a throw, if classifiable. Ignore for now.
 
 Note: possibly transition back to disarmed if throw acceleration not detected on leave proximity. That might result in false negatives though. Currently false positives are handled in the upcoming Classify step, so aren't an issue.
 
