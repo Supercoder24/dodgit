@@ -11,4 +11,5 @@ find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
 zephyr_include_directories(${ZEPHYR_BINARY_DIR}/include/generated/zephyr)
 project(ball)
 
-target_sources(app PRIVATE src/main.c)
+target_include_directories(app PRIVATE ../shared)
+target_sources(app PRIVATE src/main.c src/ble_log.c src/impact.c ../shared/uwb.c)

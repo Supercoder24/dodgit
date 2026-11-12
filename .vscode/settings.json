@@ -5,7 +5,9 @@
     "${workspaceFolder}/examples/qorvo-sdk-zephyr",
     "${workspaceFolder}/ball",
     "${workspaceFolder}/pouch",
-    "${workspaceFolder}/examples/accel_ble"
+    "${workspaceFolder}/examples/accel_ble",
+    "${workspaceFolder}/examples/uwb_slave",
+    "${workspaceFolder}/examples/uwb_master"
   ],
   "cmake.sourceDirectory": "/Users/hustler/Desktop/MSU/Graduate/Fall-2026/Toy Design/Group/Code/dodgit/dwm3001-app"
 }

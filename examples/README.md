@@ -1,4 +1,5 @@
 # Examples with the existing Zephyr setup
+> Note: This file based on MacOS Bash Scripts, use [DEV.md](../DEV.md) instructions for Universal VSCode Extension.
 
 This experiment branch starts from `jerkDetection` and imports the examples,
 ball/pouch firmware, driver submodule and reference docs from `setup` at
