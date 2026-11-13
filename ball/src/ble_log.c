@@ -1,20 +1,20 @@
 /*
  * dodgit - ball debug log over Bluetooth. See ble_log.h.
  *
- * Uses the nRF Connect SDK Nordic UART Service library (CONFIG_BT_NUS, <bluetooth/services/nus.h>),
- * exactly like examples/accel_ble. (NOT the Zephyr-upstream NUS used by accel_ble_nus.)
- * Connection / advertising / notification handling follows accel_ble/src/main.c.
+ * Uses the upstream Zephyr Nordic UART Service (CONFIG_BT_ZEPHYR_NUS),
+ * as in examples/accel_ble_nus.
  *
  * Flow: ble_log() formats a line, prints it with printk and, if notifications are enabled,
  * puts it in a queue. A low-priority thread sends queued lines to the laptop, split into
- * pieces that fit the negotiated MTU (bt_nus_get_mtu). Connection and advertising are
+ * pieces that fit the negotiated ATT notification payload. Connection and advertising are
  * handled by callbacks, so the main thread never waits for Bluetooth.
  */
 #include <zephyr/kernel.h>
 #include <zephyr/sys/atomic.h>
 #include <zephyr/bluetooth/bluetooth.h>
 #include <zephyr/bluetooth/conn.h>
-#include <bluetooth/services/nus.h> /* nRF Connect SDK library, not zephyr/bluetooth/services/ */
+#include <zephyr/bluetooth/gatt.h>
+#include <zephyr/bluetooth/services/nus.h>
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
@@ -61,7 +61,7 @@ static const struct bt_data ad[] = {
     BT_DATA_BYTES(BT_DATA_FLAGS, BT_LE_AD_GENERAL | BT_LE_AD_NO_BREDR),
     BT_DATA(BT_DATA_NAME_COMPLETE, CONFIG_BT_DEVICE_NAME, sizeof(CONFIG_BT_DEVICE_NAME) - 1),
 };
-static const struct bt_data sd[] = {BT_DATA_BYTES(BT_DATA_UUID128_ALL, BT_UUID_NUS_VAL)};
+static const struct bt_data sd[] = {BT_DATA_BYTES(BT_DATA_UUID128_ALL, BT_UUID_NUS_SRV_VAL)};
 
 static void adv_work_fn(struct k_work *work)
 {
@@ -108,12 +108,12 @@ BT_CONN_CB_DEFINE(conn_cbs) = {
 };
 
 /* The laptop enabled/disabled notifications on the NUS TX characteristic. */
-static void on_send_enabled(enum bt_nus_send_status status)
+static void on_send_enabled(bool enabled, void *ctx)
 {
   k_msgq_purge(&log_q);
-  atomic_set(&subscribed, status == BT_NUS_SEND_STATUS_ENABLED);
+  atomic_set(&subscribed, enabled);
 }
-static struct bt_nus_cb nus_cbs = {.send_enabled = on_send_enabled};
+static struct bt_nus_cb nus_cbs = {.notif_enabled = on_send_enabled};
 
 int ble_log_init(void)
 {
@@ -122,7 +122,7 @@ int ble_log_init(void)
   {
     return rc;
   }
-  rc = bt_nus_init(&nus_cbs);
+  rc = bt_nus_cb_register(&nus_cbs, NULL);
   if (rc)
   {
     return rc;
@@ -158,9 +158,9 @@ static void sender(void *a, void *b, void *c)
       {
         break;
       }
-      /* Largest payload the link currently allows (0 until the connection is ready). */
-      uint32_t mtu = bt_nus_get_mtu(conn);
-      size_t chunk = MIN(len - pos, mtu ? mtu : 20);
+      /* ATT reserves three MTU bytes for the notification opcode and handle. */
+      uint32_t mtu = bt_gatt_get_mtu(conn);
+      size_t chunk = MIN(len - pos, mtu > 3 ? mtu - 3 : 20);
       int rc = bt_nus_send(conn, line.data + pos, chunk);
       bt_conn_unref(conn);
       if (!rc)

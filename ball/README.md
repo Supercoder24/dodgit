@@ -56,13 +56,13 @@ State changes, `ROLLCALL ...` registrations, `RANGE ... slot= uid= distance= mm 
 `IMPACT`, `Classify: ...`, `HIT_ACK` / `HIT_UNACKED`, and the Reset summary.
 
 ## Bluetooth debug log
-`BLE_DEBUG` is defined at the top of `src/main.c`. With it, the ball advertises as **`dodgit-ball`** (Nordic UART Service) and sends every log line to a connected laptop. Delete the `#define` for a build with no Bluetooth (the Bluetooth stack is configured in `prj.conf` but never started). Nothing depends on the link: with nobody connected the ball behaves identically and still prints to the console.
+Define `BLE_DEBUG` at the top of `src/main.c` to enable wireless logging. With it, the ball advertises as **`dodgit-ball`** (Nordic UART Service) and sends every log line to a connected laptop. Delete the `#define` for a build with no Bluetooth (the Bluetooth stack is configured in `prj.conf` but never started). Nothing depends on the link: with nobody connected the ball behaves identically and still prints to the console.
 
 ```bash
 .venv/bin/python tools/ball_monitor.py              # scan, connect, print + save to data/ball_<time>.csv
 .venv/bin/python tools/ball_monitor.py --no-status  # hide the 4-per-second STATUS lines (still saved)
 ```
-The Bluetooth log uses the **nRF Connect SDK** Nordic UART Service library (`CONFIG_BT_NUS`, `<bluetooth/services/nus.h>`), the same as `examples/accel_ble` - not the Zephyr-upstream NUS of `accel_ble_nus`. It therefore needs a build with the nRF Connect SDK (the VS Code extension).
+The Bluetooth log uses the **upstream Zephyr** Nordic UART Service (`CONFIG_BT_ZEPHYR_NUS`, `<zephyr/bluetooth/services/nus.h>`), as in `examples/accel_ble_nus`. It builds with the standalone Zephyr workspace used by `flash.sh`; the Nordic SDK NUS configuration (`CONFIG_BT_NUS`) is not used.
 
 (One-time setup: `uv pip install --python .venv/bin/python -r tools/requirements.txt`; macOS must allow Bluetooth for your terminal.) Close the monitor before connecting another BLE client; the ball accepts one connection.
 

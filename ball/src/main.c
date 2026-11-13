@@ -36,7 +36,7 @@
  * (The Bluetooth stack is configured in prj.conf; it is simply never started when the
  * flag is off.)
  * ------------------------------------------------------------------------- */
-#define BLE_DEBUG
+// #define BLE_DEBUG
 
 #include <zephyr/kernel.h>
 #include <zephyr/drivers/gpio.h>
