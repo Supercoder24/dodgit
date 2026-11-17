@@ -10,21 +10,29 @@
 #define MAX_POUCHES 8  /* timeslots in the roll-call table (the prototype uses <= 4) */
 
 /* ---- Distances (millimeters) -------------------------------------------- */
-#define PICKUP_DISTANCE_MM 500   /* Disarmed -> Ready: ball this close to a pouch with lives */
-#define LEAVE_DISTANCE_MM 1000   /* Ready -> Armed: thrower pouch farther than this ... */
-#define LEAVE_MISS_ROUNDS 3      /* ... or not heard for this many ranging rounds in a row */
-#define HIT_DISTANCE_MM 1000     /* Classify: closest pouch must be within this to count */
+#define PICKUP_DISTANCE_MM 1000   /* Disarmed -> Ready: ball this close to a pouch with lives */
+#define LEAVE_DISTANCE_MM 1000   /* Ready -> Armed: thrower pouch farther than this (or not heard) ... */
+#define TOO_CLOSE_MM 300         /* Ready: ranging fails when pouch and ball nearly touch. If the thrower
+                                  * goes silent and its last valid range was <= this, it is assumed to
+                                  * still be right next to the ball (not thrown). Tune on hardware. */
+#define TRANSITION_CONFIRM_ROUNDS 2 /* Disarmed -> Ready and Ready -> Armed only after the distance
+                                     * condition held for this many consecutive ranging rounds
+                                     * (filters out occasional noisy measurements) */
+#define HIT_DISTANCE_MM 900     /* Classify: closest pouch must be within this to count */
 #define SELF_HIT_IF_SINGLE_POUCH 1 /* with exactly one pouch registered, Classify may hit the thrower
                                     * (normally "thrower hit itself" goes back to Ready). For bench
                                     * tests with two boards; has no effect with 2+ pouches. */
 
 /* ---- Accelerometer (ball only) ------------------------------------------ */
+#define FREEFALL_MG 500          /* |a| below this (well under 1 g = 1000) means free fall */
+#define FREEFALL_MIN_MS 30       /* |a| must stay below FREEFALL_MG this long to count */
+#define FREEFALL_HOLD_MS 3000    /* Ready -> Armed: free fall must have been seen this recently */
 #define IMPACT_MG 2500           /* |a| at or above this is an impact */
 #define IMPACT_COOLDOWN_MS 1000  /* ignore further impacts for this long after one */
 #define ACCEL_SAMPLE_PERIOD_MS 5 /* 200 Hz polling of the sensor (sensor itself runs at 400 Hz) */
 
 /* ---- Roll call ------------------------------------------------------------ */
-#define ROLLCALL_TIMEOUT_MS 15000 /* leave Roll Call this long after the last NEW pouch registered */
+#define ROLLCALL_TIMEOUT_MS 5000 /* leave Roll Call this long after the last NEW pouch registered */
 #define JOIN_RETRY_MIN_MS 100     /* pouch re-sends JOIN after a random delay in this range */
 #define JOIN_RETRY_MAX_MS 300
 

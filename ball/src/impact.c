@@ -23,6 +23,7 @@ static int cooldown_ms;
 static int64_t warm_until_ms;
 static atomic_t peak_mg;   /* max |a| since impact_take_peak() */
 static atomic_t error_count;
+static atomic_t freefall_ms; /* k_uptime_get_32() of the latest free-fall sample, 0 = none */
 
 int impact_init(int32_t threshold, int cooldown)
 {
@@ -69,6 +70,17 @@ uint32_t impact_errors(void)
   return (uint32_t)atomic_get(&error_count);
 }
 
+bool impact_freefall_recent(int hold_ms)
+{
+  uint32_t t = (uint32_t)atomic_get(&freefall_ms);
+  return t != 0 && (uint32_t)(k_uptime_get_32() - t) <= (uint32_t)hold_ms;
+}
+
+void impact_freefall_clear(void)
+{
+  atomic_set(&freefall_ms, 0);
+}
+
 void impact_flush(void)
 {
   k_msgq_purge(&impact_q);
@@ -78,6 +90,7 @@ static void sample_thread(void *a, void *b, void *c)
 {
   bool armed_gate = true; /* hysteresis: true once |a| has dropped below 3/4 threshold */
   int64_t cooldown_until = 0;
+  int64_t freefall_since = 0; /* start of the current run of |a| < FREEFALL_MG, 0 = none */
 
   while (1)
   {
@@ -110,6 +123,21 @@ static void sample_thread(void *a, void *b, void *c)
     if (mg > atomic_get(&peak_mg))
     {
       atomic_set(&peak_mg, mg);
+    }
+    if (mg < FREEFALL_MG)
+    {
+      if (freefall_since == 0)
+      {
+        freefall_since = now;
+      }
+      if (now - freefall_since >= FREEFALL_MIN_MS)
+      {
+        atomic_set(&freefall_ms, (atomic_val_t)(k_uptime_get_32() | 1)); /* never 0 */
+      }
+    }
+    else
+    {
+      freefall_since = 0;
     }
     if (mg < threshold_mg * 3 / 4)
     {

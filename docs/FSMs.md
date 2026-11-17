@@ -63,7 +63,8 @@ During:
 * Light Strip is Green
 
 Transitions:
-* If a pouch *that has more than 0 lives* is detected with a certain distance, this indicates a player has picked up the ball, so transition to **Ready**
+* If a pouch *that has more than 0 lives* is detected within a certain distance for multiple consecutive ranging rounds, this indicates a player has picked up the ball, so transition to **Ready**
+* A single round that fails the condition restarts the count, so occasional noisy measurements are discarded
 
 Note: first state after Roll Call. (The software state machine itself starts in Roll Call, after setup and self test have concluded succesfully.)
 
@@ -77,14 +78,16 @@ To:
 
 During:
 * Constantly ranging
-* Constantly monitoring accelerometer, only if transitioning based on freefall. Ignore for now.
+* Constantly monitoring accelerometer for free fall
 * Light Strip is Yellow
 
 Transitions:
-* If leave proximity of pouch that was detected earlier (on transition from Disarmed to Ready), transition to **Armed**
-* Maybe transition also on acceleration of a throw, if classifiable. Ignore for now.
+* Transition to **Armed** only when BOTH hold:
+  * The pouch that was detected earlier (on transition from Disarmed to Ready) is out of range for multiple consecutive ranging rounds, or not answering. A single in-range round restarts the count.
+  * Free fall has been detected very recently. Only free fall after entering Ready counts (the latch is cleared on entry). A timestamp is used, not a live reading, because free fall usually ends before the ranging check completes.
+* Out of range without free fall: stay in Ready (keep waiting). Free fall while still in range: no transition.
 
-Note: possibly transition back to disarmed if throw acceleration not detected on leave proximity. That might result in false negatives though. Currently false positives are handled in the upcoming Classify step, so aren't an issue.
+Note: if the thrower pouch goes silent right after a very close reading, that is treated as a ranging failure from the ball touching the pouch, not as being out of range.
 
 ### Armed
 From:

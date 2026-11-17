@@ -32,8 +32,8 @@ See `docs/FSMs.md`. Summary of what the code does in each state:
 | State     | Ranging | Accel | Exit |
 |-----------|---------|-------|------|
 | Roll Call | no (listens for JOIN) | no | SW0 short press / timeout, once >= 1 pouch registered -> Disarmed |
-| Disarmed  | every loop | no | pouch with lives > 0 within `PICKUP_DISTANCE_MM` -> Ready (remembers it as the thrower) |
-| Ready     | every loop | no (freefall detection ignored for now) | thrower farther than `LEAVE_DISTANCE_MM`, or not heard for `LEAVE_MISS_ROUNDS` rounds -> Armed |
+| Disarmed  | every loop | no | pouch with lives > 0 within `PICKUP_DISTANCE_MM` for `TRANSITION_CONFIRM_ROUNDS` consecutive rounds -> Ready (remembers it as the thrower) |
+| Ready     | every loop | free fall only | thrower farther than `LEAVE_DISTANCE_MM`, or not heard, for `TRANSITION_CONFIRM_ROUNDS` consecutive rounds **and** free fall (`\|a\| < FREEFALL_MG` for `FREEFALL_MIN_MS`) seen within `FREEFALL_HOLD_MS` -> Armed |
 | Armed     | off (radio idle) | yes | impact >= `IMPACT_MG` -> Classify |
 | Classify  | one quick round (up to `CLASSIFY_ATTEMPTS` if nobody answers) | no | no pouch within `HIT_DISTANCE_MM` -> Disarmed; closest is the thrower -> Ready; else -> Inform |
 | Inform    | HIT message + wait for ACK | no | ACK, or `INFORM_TIMEOUT_MS` -> Disarmed |

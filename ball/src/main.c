@@ -227,7 +227,9 @@ static int64_t state_entered_ms;
 static int thrower_slot = -1;     /* pouch that was holding the ball (set on Disarmed -> Ready) */
 static int hit_slot = -1;         /* pouch that was hit (set in Classify, used in Inform) */
 static uint16_t hit_seq;          /* number of the current hit; the pouch ignores repeats */
-static int missed_rounds;         /* Ready: consecutive rounds the thrower did not answer */
+static int confirm_rounds;        /* Disarmed/Ready: consecutive rounds the transition condition held */
+static int last_thrower_mm;       /* Ready: last valid range to the thrower (0 = assume touching) */
+static int pickup_candidate = -1; /* Disarmed: slot being confirmed as the picker-up */
 static int64_t last_checkin_ms;   /* Roll Call: when the last NEW pouch registered */
 static int64_t flash_until_ms;    /* Roll Call: led0 flash end */
 static int64_t last_log_ms;       /* throttle for the range log */
@@ -241,6 +243,13 @@ static void enter_state(enum ball_state next)
   LOG("State: %s -> %s", state_name(state), state_name(next));
   state = next;
   state_entered_ms = k_uptime_get();
+  confirm_rounds = 0; /* every state starts its own confirmation count */
+  pickup_candidate = -1;
+  last_thrower_mm = 0;
+  if (next == STATE_READY)
+  {
+    impact_freefall_clear(); /* only free fall after this point counts as a throw */
+  }
 
   switch (next)
   {
@@ -351,18 +360,30 @@ static void run_disarmed(void)
   log_ranges(n);
 
   int c = closest(n, true);
-  if (c >= 0 && ranges[c].mm <= PICKUP_DISTANCE_MM)
+  if (c < 0 || ranges[c].mm > PICKUP_DISTANCE_MM)
   {
-    thrower_slot = ranges[c].slot;
-    missed_rounds = 0;
+    confirm_rounds = 0; /* a single bad round restarts the count */
+    pickup_candidate = -1;
+    return;
+  }
+  if (ranges[c].slot != pickup_candidate)
+  {
+    pickup_candidate = ranges[c].slot;
+    confirm_rounds = 0;
+  }
+  if (++confirm_rounds >= TRANSITION_CONFIRM_ROUNDS)
+  {
+    thrower_slot = pickup_candidate;
+    confirm_rounds = 0;
     LOG("Pickup by slot %d (%d mm)", thrower_slot, ranges[c].mm);
     enter_state(STATE_READY);
+    last_thrower_mm = ranges[c].mm; /* after enter_state, which clears it */
   }
 }
 
 /* Ready (Light Strip: Yellow)
- *   Constantly ranging. Leaving the thrower's proximity means the ball was thrown.
- *   (Accelerometer-based throw detection is intentionally not used yet.) */
+ *   Constantly ranging. The ball counts as thrown only when the thrower is out of range
+ *   AND the accelerometer has seen free fall (|a| well below 1 g) recently. */
 static void run_ready(void)
 {
   int n = uwb_ball_range_round(ranges, MAX_POUCHES);
@@ -372,25 +393,33 @@ static void run_ready(void)
   }
   log_ranges(n);
 
-  bool near = false;
+  /* A round counts as "out" if the thrower is too far, or silent after a last valid range
+   * beyond TOO_CLOSE_MM. Silence right after a very close range is a ranging failure from
+   * the ball touching the pouch, so the ball is still held. */
+  bool out = last_thrower_mm > TOO_CLOSE_MM;
   for (int i = 0; i < n; i++)
   {
     if (ranges[i].slot == thrower_slot)
     {
-      near = ranges[i].mm <= LEAVE_DISTANCE_MM;
-      if (!near)
-      {
-        LOG("Thrower slot %d is %d mm away: thrown", thrower_slot, ranges[i].mm);
-        enter_state(STATE_ARMED);
-        return;
-      }
-      missed_rounds = 0;
-      return;
+      last_thrower_mm = ranges[i].mm;
+      out = ranges[i].mm > LEAVE_DISTANCE_MM;
+      break;
     }
   }
-  if (++missed_rounds >= LEAVE_MISS_ROUNDS) /* out of range counts as left */
+  if (!out)
   {
-    LOG("Thrower slot %d out of range: thrown", thrower_slot);
+    confirm_rounds = 0; /* a single in-range round restarts the count */
+    return;
+  }
+  if (confirm_rounds < TRANSITION_CONFIRM_ROUNDS)
+  {
+    confirm_rounds++;
+  }
+  /* Out of range alone is not enough: the accelerometer must also have seen free fall. */
+  if (confirm_rounds >= TRANSITION_CONFIRM_ROUNDS && impact_freefall_recent(FREEFALL_HOLD_MS))
+  {
+    LOG("Thrower slot %d out of range for %d rounds + free fall: thrown", thrower_slot,
+        confirm_rounds);
     enter_state(STATE_ARMED);
   }
 }
@@ -437,7 +466,7 @@ static void run_classify(void)
   else if (ranges[c].slot == thrower_slot && !single_pouch_test())
   {
     LOG("Classify: closest is the thrower (slot %d) -> back to Ready", thrower_slot);
-    missed_rounds = 0;
+    confirm_rounds = 0;
     enter_state(STATE_READY);
   }
   else

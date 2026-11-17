@@ -24,6 +24,13 @@ int32_t impact_take_peak(void);
 /* Number of failed sensor reads since boot. */
 uint32_t impact_errors(void);
 
+/* True if free fall (|a| < FREEFALL_MG for >= FREEFALL_MIN_MS) ended or is ongoing within the
+ * last hold_ms milliseconds. */
+bool impact_freefall_recent(int hold_ms);
+
+/* Forget any detected free fall (call when entering Ready). */
+void impact_freefall_clear(void);
+
 /* Drop all queued impacts (call when entering Armed so old bumps don't count). */
 void impact_flush(void);
 
