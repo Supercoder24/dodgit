@@ -10,3 +10,21 @@
         irq-gpios = <&gpio1 2 GPIO_ACTIVE_HIGH>;
     };
 };
+
+/* External button (the on-board SW0 is inaccessible inside the ball).
+ * Wired between header J10 pin 15 (GPIO_RPI, nRF P0.28) and GND (e.g. pin 9).
+ * The internal pull-up is used, so no resistor is needed. main.c reads it through
+ * the sw0 alias, so it replaces the on-board SW0. */
+/ {
+    buttons_ext {
+        compatible = "gpio-keys";
+        ext_btn: ext_btn {
+            gpios = <&gpio0 28 (GPIO_PULL_UP | GPIO_ACTIVE_LOW)>;
+            label = "External button";
+        };
+    };
+
+    aliases {
+        sw0 = &ext_btn;
+    };
+};

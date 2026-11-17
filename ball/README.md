@@ -22,7 +22,7 @@ As each pouch is turned on it sends a short message containing its 32-bit hardwa
 * Random JOIN back-off makes collisions between pouches turned on at the same moment unlikely, but not impossible; a collided JOIN is simply retried. The ball is not told about collisions, so if a pouch seems stuck in "joining", switch it off and on again.
 
 ## Buttons
-SW0 (user button) stands in for the future external button. It is unrelated to the hardware RESET button, which reboots the MCU.
+The `sw0` alias is the external button, wired between header J10 pin 15 (nRF P0.28) and GND (e.g. pin 9) with the internal pull-up; see `boards/decawave_dwm3001cdk_nrf52833.overlay`. The on-board SW0 (P0.02) is no longer used. Neither is related to the hardware RESET button, which reboots the MCU.
 * Short press (< 3 s): end Roll Call (if at least one pouch registered). Ignored in all other states.
 * Hold (>= 3 s, fires while still held): **Reset** from any state except Roll Call.
 
