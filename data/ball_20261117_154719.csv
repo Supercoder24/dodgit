@@ -1,0 +1,686 @@
+host_utc,category,line
+2026-11-17T21:47:23.159955+00:00,range,RANGE 71993 slot=1 uid=0xc87da704 distance=8903 mm lives=3
+2026-11-17T21:47:23.189932+00:00,warn,STATUS 72010 state=Ready pouches=2 peak=1712 mg still=4 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:23.386094+00:00,range,RANGE 72200 slot=1 uid=0xc87da704 distance=8969 mm lives=3
+2026-11-17T21:47:23.445660+00:00,warn,STATUS 72262 state=Ready pouches=2 peak=1064 mg still=3 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:23.580496+00:00,range,RANGE 72406 slot=1 uid=0xc87da704 distance=8979 mm lives=3
+2026-11-17T21:47:23.686777+00:00,warn,STATUS 72519 state=Ready pouches=2 peak=1881 mg still=8 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:23.776184+00:00,range,RANGE 72607 slot=1 uid=0xc87da704 distance=8981 mm lives=3
+2026-11-17T21:47:23.947709+00:00,warn,STATUS 72770 state=Ready pouches=2 peak=1061 mg still=2 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:24.015010+00:00,range,RANGE 72813 slot=1 uid=0xc87da704 distance=8996 mm lives=3
+2026-11-17T21:47:24.195387+00:00,range,RANGE 73022 slot=1 uid=0xc87da704 distance=8964 mm lives=3
+2026-11-17T21:47:24.211557+00:00,warn,STATUS 73028 state=Ready pouches=2 peak=1064 mg still=78 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:24.420549+00:00,range,RANGE 73229 slot=1 uid=0xc87da704 distance=8929 mm lives=3
+2026-11-17T21:47:24.450964+00:00,warn,STATUS 73280 state=Ready pouches=2 peak=1023 mg still=4 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:24.599328+00:00,range,RANGE 73436 slot=1 uid=0xc87da704 distance=9000 mm lives=3
+2026-11-17T21:47:24.704670+00:00,warn,STATUS 73532 state=Ready pouches=2 peak=1212 mg still=70 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:24.841072+00:00,range,RANGE 73649 none answered
+2026-11-17T21:47:24.960286+00:00,warn,STATUS 73788 state=Ready pouches=2 peak=1884 mg still=4 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:25.034651+00:00,range,RANGE 73853 slot=1 uid=0xc87da704 distance=9038 mm lives=3
+2026-11-17T21:47:25.245543+00:00,warn,STATUS 74042 state=Ready pouches=2 peak=1018 mg still=144 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:25.246022+00:00,range,RANGE 74063 slot=1 uid=0xc87da704 distance=9012 mm lives=3
+2026-11-17T21:47:25.439966+00:00,range,RANGE 74273 slot=1 uid=0xc87da704 distance=9059 mm lives=3
+2026-11-17T21:47:25.500321+00:00,warn,STATUS 74301 state=Ready pouches=2 peak=1003 mg still=213 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:25.664684+00:00,range,RANGE 74480 slot=1 uid=0xc87da704 distance=9067 mm lives=3
+2026-11-17T21:47:25.740043+00:00,warn,STATUS 74554 state=Ready pouches=2 peak=987 mg still=88 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:25.859616+00:00,range,RANGE 74687 slot=1 uid=0xc87da704 distance=9089 mm lives=3
+2026-11-17T21:47:25.979746+00:00,warn,STATUS 74805 state=Ready pouches=2 peak=993 mg still=59 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:26.070064+00:00,range,RANGE 74894 slot=1 uid=0xc87da704 distance=9069 mm lives=3
+2026-11-17T21:47:26.235291+00:00,warn,STATUS 75058 state=Ready pouches=2 peak=1005 mg still=312 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:26.265158+00:00,range,RANGE 75101 slot=1 uid=0xc87da704 distance=9058 mm lives=3
+2026-11-17T21:47:26.490117+00:00,range,RANGE 75311 slot=1 uid=0xc87da704 distance=8958 mm lives=3
+2026-11-17T21:47:26.490867+00:00,warn,STATUS 75317 state=Ready pouches=2 peak=997 mg still=571 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:26.699909+00:00,range,RANGE 75527 slot=1 uid=0xc87da704 distance=9137 mm lives=3
+2026-11-17T21:47:26.790074+00:00,warn,STATUS 75576 state=Ready pouches=2 peak=1016 mg still=129 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:26.894865+00:00,range,RANGE 75733 slot=1 uid=0xc87da704 distance=9226 mm lives=3
+2026-11-17T21:47:27.000362+00:00,warn,STATUS 75829 state=Ready pouches=2 peak=1001 mg still=382 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:27.105337+00:00,range,RANGE 75940 slot=1 uid=0xc87da704 distance=9142 mm lives=3
+2026-11-17T21:47:27.270381+00:00,warn,STATUS 76081 state=Ready pouches=2 peak=992 mg still=634 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:27.315051+00:00,range,RANGE 76147 slot=1 uid=0xc87da704 distance=9173 mm lives=3
+2026-11-17T21:47:27.539938+00:00,warn,STATUS 76333 state=Ready pouches=2 peak=984 mg still=886 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:27.540785+00:00,range,RANGE 76356 none answered
+2026-11-17T21:47:27.750925+00:00,range,RANGE 76564 slot=1 uid=0xc87da704 distance=9032 mm lives=3
+2026-11-17T21:47:27.839959+00:00,warn,STATUS 76592 state=Ready pouches=2 peak=1005 mg still=1145 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:27.930812+00:00,range,RANGE 76771 slot=1 uid=0xc87da704 distance=9043 mm lives=3
+2026-11-17T21:47:28.020279+00:00,warn,STATUS 76845 state=Ready pouches=2 peak=1001 mg still=1398 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:28.154670+00:00,range,RANGE 76980 slot=1 uid=0xc87da704 distance=9011 mm lives=3
+2026-11-17T21:47:28.290193+00:00,warn,STATUS 77099 state=Ready pouches=2 peak=1010 mg still=1652 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:28.380281+00:00,range,RANGE 77187 slot=1 uid=0xc87da704 distance=9008 mm lives=3
+2026-11-17T21:47:28.515493+00:00,warn,STATUS 77352 state=Ready pouches=2 peak=993 mg still=1905 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:28.650297+00:00,range,RANGE 77395 slot=1 uid=0xc87da704 distance=8976 mm lives=3
+2026-11-17T21:47:28.785309+00:00,range,RANGE 77606 slot=1 uid=0xc87da704 distance=9110 mm lives=3
+2026-11-17T21:47:28.786667+00:00,warn,STATUS 77611 state=Ready pouches=2 peak=1001 mg still=20 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:29.010093+00:00,range,RANGE 77814 slot=1 uid=0xc87da704 distance=9033 mm lives=3
+2026-11-17T21:47:29.055192+00:00,warn,STATUS 77864 state=Ready pouches=2 peak=1001 mg still=273 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:29.190296+00:00,range,RANGE 78021 slot=1 uid=0xc87da704 distance=8958 mm lives=3
+2026-11-17T21:47:29.280746+00:00,warn,STATUS 78117 state=Ready pouches=2 peak=1004 mg still=526 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:29.460208+00:00,range,RANGE 78228 slot=1 uid=0xc87da704 distance=8965 mm lives=3
+2026-11-17T21:47:29.550495+00:00,warn,STATUS 78370 state=Ready pouches=2 peak=991 mg still=779 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:29.730415+00:00,range,RANGE 78436 slot=1 uid=0xc87da704 distance=8889 mm lives=3
+2026-11-17T21:47:29.955472+00:00,warn,STATUS 78624 state=Ready pouches=2 peak=1010 mg still=1033 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:30.000289+00:00,range,RANGE 78644 slot=1 uid=0xc87da704 distance=8911 mm lives=3
+2026-11-17T21:47:30.045308+00:00,range,RANGE 78854 slot=1 uid=0xc87da704 distance=8881 mm lives=3
+2026-11-17T21:47:30.045844+00:00,warn,STATUS 78882 state=Ready pouches=2 peak=1005 mg still=1291 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:30.225759+00:00,range,RANGE 79062 slot=1 uid=0xc87da704 distance=8838 mm lives=3
+2026-11-17T21:47:30.315592+00:00,warn,STATUS 79135 state=Ready pouches=2 peak=984 mg still=1544 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:30.495074+00:00,range,RANGE 79268 slot=1 uid=0xc87da704 distance=8874 mm lives=3
+2026-11-17T21:47:30.629824+00:00,warn,STATUS 79387 state=Ready pouches=2 peak=997 mg still=1796 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:30.809545+00:00,range,RANGE 79475 slot=1 uid=0xc87da704 distance=8875 mm lives=3
+2026-11-17T21:47:30.810729+00:00,warn,STATUS 79640 state=Ready pouches=2 peak=1001 mg still=2049 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:30.854680+00:00,range,RANGE 79683 slot=1 uid=0xc87da704 distance=8955 mm lives=3
+2026-11-17T21:47:31.124992+00:00,range,RANGE 79893 slot=1 uid=0xc87da704 distance=8893 mm lives=3
+2026-11-17T21:47:31.125764+00:00,warn,STATUS 79898 state=Ready pouches=2 peak=1005 mg still=2307 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:31.260650+00:00,range,RANGE 80101 slot=1 uid=0xc87da704 distance=8980 mm lives=3
+2026-11-17T21:47:31.395440+00:00,warn,STATUS 80152 state=Ready pouches=2 peak=988 mg still=2561 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:31.530271+00:00,range,RANGE 80306 slot=1 uid=0xc87da704 distance=8939 mm lives=3
+2026-11-17T21:47:31.710614+00:00,warn,STATUS 80402 state=Ready pouches=2 peak=997 mg still=2811 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:31.711071+00:00,range,RANGE 80514 slot=1 uid=0xc87da704 distance=8946 mm lives=3
+2026-11-17T21:47:31.890610+00:00,warn,STATUS 80656 state=Ready pouches=2 peak=999 mg still=3065 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:32.070116+00:00,range,RANGE 80722 slot=1 uid=0xc87da704 distance=9061 mm lives=3
+2026-11-17T21:47:32.160525+00:00,warn,STATUS 80909 state=Ready pouches=2 peak=995 mg still=3318 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:32.161038+00:00,range,RANGE 80930 slot=1 uid=0xc87da704 distance=9002 mm lives=3
+2026-11-17T21:47:32.340390+00:00,range,RANGE 81133 slot=1 uid=0xc87da704 distance=9067 mm lives=3
+2026-11-17T21:47:32.340897+00:00,warn,STATUS 81161 state=Ready pouches=2 peak=992 mg still=3570 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:32.565693+00:00,range,RANGE 81340 slot=1 uid=0xc87da704 distance=8996 mm lives=3
+2026-11-17T21:47:32.610089+00:00,warn,STATUS 81413 state=Ready pouches=2 peak=1005 mg still=3822 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:32.745362+00:00,range,RANGE 81547 slot=1 uid=0xc87da704 distance=9007 mm lives=3
+2026-11-17T21:47:32.880860+00:00,warn,STATUS 81666 state=Ready pouches=2 peak=1005 mg still=4075 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:32.925275+00:00,range,RANGE 81754 slot=1 uid=0xc87da704 distance=9000 mm lives=3
+2026-11-17T21:47:33.150643+00:00,warn,STATUS 81919 state=Ready pouches=2 peak=989 mg still=4328 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:33.151066+00:00,range,RANGE 81962 slot=1 uid=0xc87da704 distance=8988 mm lives=3
+2026-11-17T21:47:33.465586+00:00,range,RANGE 82171 slot=1 uid=0xc87da704 distance=8935 mm lives=3
+2026-11-17T21:47:33.466109+00:00,warn,STATUS 82177 state=Ready pouches=2 peak=987 mg still=4586 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:33.555260+00:00,range,RANGE 82378 slot=1 uid=0xc87da704 distance=8910 mm lives=3
+2026-11-17T21:47:33.600573+00:00,warn,STATUS 82429 state=Ready pouches=2 peak=988 mg still=4838 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:33.781025+00:00,range,RANGE 82584 slot=1 uid=0xc87da704 distance=9029 mm lives=3
+2026-11-17T21:47:33.781707+00:00,other,Ready: ball lay still for 5000 ms (dropped?) -> Disarmed
+2026-11-17T21:47:33.781876+00:00,state,State: Ready -> Disarmed
+2026-11-17T21:47:33.870659+00:00,warn,STATUS 82680 state=Disarmed pouches=2 peak=991 mg still=5089 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:33.960393+00:00,range,RANGE 82790 slot=1 uid=0xc87da704 distance=8901 mm lives=3
+2026-11-17T21:47:34.140530+00:00,warn,STATUS 82938 state=Disarmed pouches=2 peak=1004 mg still=5347 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:34.230502+00:00,range,RANGE 83009 slot=1 uid=0xc87da704 distance=8834 mm lives=3
+2026-11-17T21:47:34.365554+00:00,warn,STATUS 83197 state=Disarmed pouches=2 peak=994 mg still=5606 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:34.410314+00:00,range,RANGE 83226 slot=1 uid=0xc87da704 distance=8945 mm lives=3
+2026-11-17T21:47:34.681174+00:00,range,RANGE 83435 slot=1 uid=0xc87da704 distance=8909 mm lives=3
+2026-11-17T21:47:34.681728+00:00,warn,STATUS 83462 state=Disarmed pouches=2 peak=987 mg still=5871 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:34.815578+00:00,range,RANGE 83654 slot=1 uid=0xc87da704 distance=8907 mm lives=3
+2026-11-17T21:47:34.905463+00:00,warn,STATUS 83721 state=Disarmed pouches=2 peak=1001 mg still=6130 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:35.040546+00:00,range,RANGE 83872 slot=1 uid=0xc87da704 distance=8857 mm lives=3
+2026-11-17T21:47:35.176002+00:00,warn,STATUS 83984 state=Disarmed pouches=2 peak=993 mg still=6393 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:35.265418+00:00,range,RANGE 84075 slot=1 uid=0xc87da704 distance=8899 mm lives=3
+2026-11-17T21:47:35.445563+00:00,warn,STATUS 84243 state=Disarmed pouches=2 peak=993 mg still=6652 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:35.490178+00:00,range,RANGE 84294 slot=1 uid=0xc87da704 distance=8966 mm lives=3
+2026-11-17T21:47:35.669910+00:00,range,RANGE 84502 slot=1 uid=0xc87da704 distance=8965 mm lives=3
+2026-11-17T21:47:35.714919+00:00,warn,STATUS 84508 state=Disarmed pouches=2 peak=986 mg still=6917 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:35.940415+00:00,range,RANGE 84721 slot=1 uid=0xc87da704 distance=8974 mm lives=3
+2026-11-17T21:47:35.940889+00:00,warn,STATUS 84767 state=Disarmed pouches=2 peak=1001 mg still=160 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:36.165752+00:00,range,RANGE 84938 slot=1 uid=0xc87da704 distance=8977 mm lives=3
+2026-11-17T21:47:36.255650+00:00,warn,STATUS 85025 state=Disarmed pouches=2 peak=1022 mg still=418 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:36.345523+00:00,range,RANGE 85155 slot=1 uid=0xc87da704 distance=9000 mm lives=3
+2026-11-17T21:47:36.570392+00:00,warn,STATUS 85283 state=Disarmed pouches=2 peak=1002 mg still=676 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:36.571345+00:00,range,RANGE 85374 slot=1 uid=0xc87da704 distance=8999 mm lives=3
+2026-11-17T21:47:36.750452+00:00,warn,STATUS 85542 state=Disarmed pouches=2 peak=989 mg still=935 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:36.840247+00:00,range,RANGE 85592 slot=1 uid=0xc87da704 distance=8974 mm lives=3
+2026-11-17T21:47:36.975340+00:00,range,RANGE 85805 slot=1 uid=0xc87da704 distance=9010 mm lives=3
+2026-11-17T21:47:37.020398+00:00,warn,STATUS 85810 state=Disarmed pouches=2 peak=1035 mg still=1203 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:37.380657+00:00,range,RANGE 86022 slot=1 uid=0xc87da704 distance=9032 mm lives=3
+2026-11-17T21:47:37.381279+00:00,warn,STATUS 86069 state=Disarmed pouches=2 peak=999 mg still=1462 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:37.515831+00:00,range,RANGE 86241 slot=1 uid=0xc87da704 distance=9038 mm lives=3
+2026-11-17T21:47:37.516381+00:00,warn,STATUS 86328 state=Disarmed pouches=2 peak=1035 mg still=1721 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:37.785299+00:00,range,RANGE 86459 slot=1 uid=0xc87da704 distance=8998 mm lives=3
+2026-11-17T21:47:37.829911+00:00,warn,STATUS 86586 state=Disarmed pouches=2 peak=1033 mg still=43 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:37.920250+00:00,range,RANGE 86677 slot=1 uid=0xc87da704 distance=8899 mm lives=3
+2026-11-17T21:47:38.100545+00:00,warn,STATUS 86845 state=Disarmed pouches=2 peak=985 mg still=302 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:38.101444+00:00,range,RANGE 86895 slot=1 uid=0xc87da704 distance=8930 mm lives=3
+2026-11-17T21:47:38.280730+00:00,range,RANGE 87104 slot=1 uid=0xc87da704 distance=8903 mm lives=3
+2026-11-17T21:47:38.281156+00:00,warn,STATUS 87109 state=Disarmed pouches=2 peak=984 mg still=566 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:38.550264+00:00,range,RANGE 87322 slot=1 uid=0xc87da704 distance=8937 mm lives=3
+2026-11-17T21:47:38.550880+00:00,warn,STATUS 87368 state=Disarmed pouches=2 peak=1014 mg still=825 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:38.732196+00:00,range,RANGE 87540 slot=1 uid=0xc87da704 distance=8918 mm lives=3
+2026-11-17T21:47:38.820769+00:00,warn,STATUS 87627 state=Disarmed pouches=2 peak=984 mg still=1084 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:39.000418+00:00,range,RANGE 87758 slot=1 uid=0xc87da704 distance=8906 mm lives=3
+2026-11-17T21:47:39.121527+00:00,warn,STATUS 87886 state=Disarmed pouches=2 peak=999 mg still=1343 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:39.210867+00:00,range,RANGE 87976 slot=1 uid=0xc87da704 distance=8936 mm lives=3
+2026-11-17T21:47:39.391885+00:00,warn,STATUS 88145 state=Disarmed pouches=2 peak=991 mg still=1602 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:39.392431+00:00,range,RANGE 88195 slot=1 uid=0xc87da704 distance=8947 mm lives=3
+2026-11-17T21:47:39.572611+00:00,range,RANGE 88404 slot=1 uid=0xc87da704 distance=8921 mm lives=3
+2026-11-17T21:47:39.627130+00:00,warn,STATUS 88410 state=Disarmed pouches=2 peak=1054 mg still=20 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:39.796405+00:00,range,RANGE 88622 slot=1 uid=0xc87da704 distance=9003 mm lives=3
+2026-11-17T21:47:39.841888+00:00,warn,STATUS 88668 state=Disarmed pouches=2 peak=1012 mg still=60 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:40.022482+00:00,range,RANGE 88839 slot=1 uid=0xc87da704 distance=9029 mm lives=3
+2026-11-17T21:47:40.112299+00:00,warn,STATUS 88926 state=Disarmed pouches=2 peak=967 mg still=192 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:40.247157+00:00,range,RANGE 89057 slot=1 uid=0xc87da704 distance=9047 mm lives=3
+2026-11-17T21:47:40.381940+00:00,warn,STATUS 89185 state=Disarmed pouches=2 peak=1019 mg still=99 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:40.516548+00:00,range,RANGE 89275 slot=1 uid=0xc87da704 distance=9039 mm lives=3
+2026-11-17T21:47:40.606215+00:00,warn,STATUS 89443 state=Disarmed pouches=2 peak=1004 mg still=357 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:40.651127+00:00,range,RANGE 89493 slot=1 uid=0xc87da704 distance=9056 mm lives=3
+2026-11-17T21:47:40.921352+00:00,range,RANGE 89702 slot=1 uid=0xc87da704 distance=9033 mm lives=3
+2026-11-17T21:47:40.966334+00:00,warn,STATUS 89707 state=Disarmed pouches=2 peak=1005 mg still=13 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:41.146719+00:00,range,RANGE 89902 slot=1 uid=0xc87da704 distance=9020 mm lives=3
+2026-11-17T21:47:41.147554+00:00,warn,STATUS 89969 state=Disarmed pouches=2 peak=1024 mg still=61 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:41.282146+00:00,range,RANGE 90121 slot=1 uid=0xc87da704 distance=8986 mm lives=3
+2026-11-17T21:47:41.461929+00:00,warn,STATUS 90228 state=Disarmed pouches=2 peak=1198 mg still=12 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:41.641336+00:00,range,RANGE 90338 slot=1 uid=0xc87da704 distance=8934 mm lives=3
+2026-11-17T21:47:41.686485+00:00,warn,STATUS 90486 state=Disarmed pouches=2 peak=1037 mg still=8 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:41.731511+00:00,range,RANGE 90556 slot=1 uid=0xc87da704 distance=8945 mm lives=3
+2026-11-17T21:47:41.912476+00:00,warn,STATUS 90745 state=Disarmed pouches=2 peak=1094 mg still=13 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:41.957869+00:00,range,RANGE 90774 slot=1 uid=0xc87da704 distance=8910 mm lives=3
+2026-11-17T21:47:42.182117+00:00,range,RANGE 90983 slot=1 uid=0xc87da704 distance=8960 mm lives=3
+2026-11-17T21:47:42.182579+00:00,warn,STATUS 91009 state=Disarmed pouches=2 peak=1129 mg still=70 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:42.451879+00:00,range,RANGE 91201 slot=1 uid=0xc87da704 distance=8962 mm lives=3
+2026-11-17T21:47:42.497132+00:00,warn,STATUS 91268 state=Disarmed pouches=2 peak=1068 mg still=7 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:42.586782+00:00,range,RANGE 91419 slot=1 uid=0xc87da704 distance=9082 mm lives=3
+2026-11-17T21:47:42.721887+00:00,warn,STATUS 91527 state=Disarmed pouches=2 peak=1337 mg still=4 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:42.812173+00:00,range,RANGE 91637 slot=1 uid=0xc87da704 distance=8964 mm lives=3
+2026-11-17T21:47:42.947318+00:00,warn,STATUS 91785 state=Disarmed pouches=2 peak=1061 mg still=2 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:43.128134+00:00,range,RANGE 91855 slot=1 uid=0xc87da704 distance=9104 mm lives=3
+2026-11-17T21:47:43.128478+00:00,other,Pickup by slot 0 (72 mm)
+2026-11-17T21:47:43.128665+00:00,state,State: Disarmed -> Ready
+2026-11-17T21:47:43.307033+00:00,warn,STATUS 92037 state=Ready pouches=2 peak=1018 mg still=13 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:43.307497+00:00,range,RANGE 92058 slot=0 uid=0xd683e32c distance=66 mm lives=3
+2026-11-17T21:47:43.307684+00:00,range,RANGE 92058 slot=1 uid=0xc87da704 distance=8820 mm lives=3
+2026-11-17T21:47:43.441864+00:00,range,RANGE 92262 slot=1 uid=0xc87da704 distance=8980 mm lives=3
+2026-11-17T21:47:43.486565+00:00,warn,STATUS 92290 state=Ready pouches=2 peak=983 mg still=59 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:43.667354+00:00,range,RANGE 92469 slot=0 uid=0xd683e32c distance=25 mm lives=3
+2026-11-17T21:47:43.668061+00:00,range,RANGE 92469 slot=1 uid=0xc87da704 distance=9025 mm lives=3
+2026-11-17T21:47:43.711927+00:00,warn,STATUS 92549 state=Ready pouches=2 peak=1095 mg still=11 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:43.846961+00:00,range,RANGE 92672 slot=1 uid=0xc87da704 distance=9064 mm lives=3
+2026-11-17T21:47:43.982262+00:00,warn,STATUS 92802 state=Ready pouches=2 peak=995 mg still=8 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:44.071779+00:00,range,RANGE 92878 slot=1 uid=0xc87da704 distance=9079 mm lives=3
+2026-11-17T21:47:44.253793+00:00,warn,STATUS 93053 state=Ready pouches=2 peak=1011 mg still=14 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:44.254247+00:00,range,RANGE 93085 slot=1 uid=0xc87da704 distance=9171 mm lives=3
+2026-11-17T21:47:44.477182+00:00,range,RANGE 93295 slot=1 uid=0xc87da704 distance=9163 mm lives=3
+2026-11-17T21:47:44.477604+00:00,warn,STATUS 93312 state=Ready pouches=2 peak=1028 mg still=59 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:44.701618+00:00,range,RANGE 93502 slot=1 uid=0xc87da704 distance=9130 mm lives=3
+2026-11-17T21:47:44.746747+00:00,warn,STATUS 93574 state=Ready pouches=2 peak=996 mg still=59 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:44.882324+00:00,range,RANGE 93708 slot=1 uid=0xc87da704 distance=9145 mm lives=3
+2026-11-17T21:47:45.016625+00:00,warn,STATUS 93826 state=Ready pouches=2 peak=1011 mg still=59 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:45.107109+00:00,range,RANGE 93914 slot=0 uid=0xd683e32c distance=12 mm lives=3
+2026-11-17T21:47:45.107517+00:00,range,RANGE 93914 slot=1 uid=0xc87da704 distance=9163 mm lives=3
+2026-11-17T21:47:45.286946+00:00,warn,STATUS 94084 state=Ready pouches=2 peak=1028 mg still=3 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:45.288502+00:00,range,RANGE 94115 slot=0 uid=0xd683e32c distance=40 mm lives=3
+2026-11-17T21:47:45.288716+00:00,range,RANGE 94115 slot=1 uid=0xc87da704 distance=8966 mm lives=3
+2026-11-17T21:47:45.558118+00:00,range,RANGE 94319 slot=0 uid=0xd683e32c distance=8 mm lives=3
+2026-11-17T21:47:45.558571+00:00,range,RANGE 94319 slot=1 uid=0xc87da704 distance=9398 mm lives=3
+2026-11-17T21:47:45.558670+00:00,warn,STATUS 94341 state=Ready pouches=2 peak=1157 mg still=4 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:45.693000+00:00,range,RANGE 94521 slot=0 uid=0xd683e32c distance=43 mm lives=3
+2026-11-17T21:47:45.693245+00:00,range,RANGE 94521 slot=1 uid=0xc87da704 distance=8887 mm lives=3
+2026-11-17T21:47:45.783341+00:00,warn,STATUS 94600 state=Ready pouches=2 peak=1140 mg still=9 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:45.916557+00:00,range,RANGE 94727 slot=1 uid=0xc87da704 distance=9011 mm lives=3
+2026-11-17T21:47:46.052400+00:00,warn,STATUS 94858 state=Ready pouches=2 peak=1032 mg still=7 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:46.141765+00:00,range,RANGE 94934 slot=1 uid=0xc87da704 distance=9084 mm lives=3
+2026-11-17T21:47:46.277072+00:00,warn,STATUS 95109 state=Ready pouches=2 peak=1265 mg still=11 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:46.412187+00:00,range,RANGE 95141 slot=0 uid=0xd683e32c distance=287 mm lives=3
+2026-11-17T21:47:46.412617+00:00,range,RANGE 95141 slot=1 uid=0xc87da704 distance=9299 mm lives=3
+2026-11-17T21:47:46.636831+00:00,range,RANGE 95345 slot=0 uid=0xd683e32c distance=485 mm lives=3
+2026-11-17T21:47:46.637417+00:00,range,RANGE 95345 slot=1 uid=0xc87da704 distance=9427 mm lives=3
+2026-11-17T21:47:46.637772+00:00,warn,STATUS 95368 state=Ready pouches=2 peak=1464 mg still=5 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:46.727198+00:00,range,RANGE 95546 slot=0 uid=0xd683e32c distance=595 mm lives=3
+2026-11-17T21:47:46.727630+00:00,range,RANGE 95546 slot=1 uid=0xc87da704 distance=9564 mm lives=3
+2026-11-17T21:47:46.817367+00:00,warn,STATUS 95625 state=Ready pouches=2 peak=1724 mg still=2 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:46.952509+00:00,range,RANGE 95748 slot=0 uid=0xd683e32c distance=710 mm lives=3
+2026-11-17T21:47:46.953327+00:00,range,RANGE 95748 slot=1 uid=0xc87da704 distance=9665 mm lives=3
+2026-11-17T21:47:47.086948+00:00,warn,STATUS 95885 state=Ready pouches=2 peak=2064 mg still=4 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:47.132187+00:00,range,RANGE 95950 slot=0 uid=0xd683e32c distance=672 mm lives=3
+2026-11-17T21:47:47.132598+00:00,range,RANGE 95950 slot=1 uid=0xc87da704 distance=9571 mm lives=3
+2026-11-17T21:47:47.312252+00:00,warn,STATUS 96143 state=Ready pouches=2 peak=1312 mg still=7 ms resets=1 rejected=17 accel_errors=1
+2026-11-17T21:47:47.402468+00:00,range,RANGE 96164 slot=0 uid=0xd683e32c distance=597 mm lives=3
+2026-11-17T21:47:47.403234+00:00,range,RANGE 96164 slot=1 uid=0xc87da704 distance=9292 mm lives=3
+2026-11-17T21:47:47.446913+00:00,other,IMPACT ignored: 2744 mg without free fall just before (#18)
+2026-11-17T21:47:47.536955+00:00,range,RANGE 96373 slot=0 uid=0xd683e32c distance=616 mm lives=3
+2026-11-17T21:47:47.582627+00:00,range,RANGE 96373 slot=1 uid=0xc87da704 distance=9016 mm lives=3
+2026-11-17T21:47:47.583073+00:00,warn,STATUS 96395 state=Ready pouches=2 peak=7691 mg still=3 ms resets=1 rejected=18 accel_errors=1
+2026-11-17T21:47:47.761821+00:00,range,RANGE 96574 slot=0 uid=0xd683e32c distance=1628 mm lives=3
+2026-11-17T21:47:47.762415+00:00,range,RANGE 96574 slot=1 uid=0xc87da704 distance=7378 mm lives=3
+2026-11-17T21:47:47.852526+00:00,warn,STATUS 96654 state=Ready pouches=2 peak=14364 mg still=9 ms resets=1 rejected=18 accel_errors=1
+2026-11-17T21:47:47.941744+00:00,range,RANGE 96777 slot=0 uid=0xd683e32c distance=3598 mm lives=3
+2026-11-17T21:47:47.986428+00:00,range,RANGE 96777 slot=1 uid=0xc87da704 distance=5468 mm lives=3
+2026-11-17T21:47:48.076412+00:00,warn,STATUS 96914 state=Ready pouches=2 peak=3188 mg still=3 ms resets=1 rejected=18 accel_errors=1
+2026-11-17T21:47:48.167145+00:00,range,RANGE 96978 slot=0 uid=0xd683e32c distance=5268 mm lives=3
+2026-11-17T21:47:48.168324+00:00,range,RANGE 96978 slot=1 uid=0xc87da704 distance=3588 mm lives=3
+2026-11-17T21:47:48.391930+00:00,warn,STATUS 97170 state=Ready pouches=2 peak=3192 mg still=4 ms resets=1 rejected=18 accel_errors=1
+2026-11-17T21:47:48.392572+00:00,range,RANGE 97190 slot=0 uid=0xd683e32c distance=7069 mm lives=3
+2026-11-17T21:47:48.393719+00:00,range,RANGE 97190 slot=1 uid=0xc87da704 distance=1632 mm lives=3
+2026-11-17T21:47:48.572142+00:00,range,RANGE 97395 slot=0 uid=0xd683e32c distance=8635 mm lives=3
+2026-11-17T21:47:48.572971+00:00,range,RANGE 97395 slot=1 uid=0xc87da704 distance=134 mm lives=3
+2026-11-17T21:47:48.617215+00:00,warn,STATUS 97428 state=Ready pouches=2 peak=28384 mg still=2 ms resets=1 rejected=18 accel_errors=1
+2026-11-17T21:47:48.797853+00:00,range,RANGE 97596 slot=0 uid=0xd683e32c distance=8435 mm lives=3
+2026-11-17T21:47:48.798472+00:00,range,RANGE 97596 slot=1 uid=0xc87da704 distance=433 mm lives=3
+2026-11-17T21:47:48.841742+00:00,warn,STATUS 97679 state=Ready pouches=2 peak=27167 mg still=7 ms resets=1 rejected=18 accel_errors=1
+2026-11-17T21:47:48.886528+00:00,other,IMPACT ignored: 5413 mg without free fall just before (#19)
+2026-11-17T21:47:48.977262+00:00,range,RANGE 97796 slot=0 uid=0xd683e32c distance=8271 mm lives=3
+2026-11-17T21:47:48.977676+00:00,range,RANGE 97796 slot=1 uid=0xc87da704 distance=749 mm lives=3
+2026-11-17T21:47:49.112662+00:00,warn,STATUS 97931 state=Ready pouches=2 peak=33369 mg still=53 ms resets=1 rejected=19 accel_errors=1
+2026-11-17T21:47:49.247484+00:00,range,RANGE 97997 slot=0 uid=0xd683e32c distance=7886 mm lives=3
+2026-11-17T21:47:49.248124+00:00,range,RANGE 97997 slot=1 uid=0xc87da704 distance=950 mm lives=3
+2026-11-17T21:47:49.248250+00:00,other,IMPACT ignored: 9298 mg without free fall just before (#20)
+2026-11-17T21:47:49.428376+00:00,warn,STATUS 98184 state=Ready pouches=2 peak=9298 mg still=3 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:49.428831+00:00,range,RANGE 98204 slot=0 uid=0xd683e32c distance=7682 mm lives=3
+2026-11-17T21:47:49.428904+00:00,range,RANGE 98204 slot=1 uid=0xc87da704 distance=1142 mm lives=3
+2026-11-17T21:47:49.606857+00:00,range,RANGE 98408 slot=0 uid=0xd683e32c distance=7436 mm lives=3
+2026-11-17T21:47:49.608101+00:00,range,RANGE 98408 slot=1 uid=0xc87da704 distance=1226 mm lives=3
+2026-11-17T21:47:49.608321+00:00,other,Thrower slot 0 out of range for 1 round(s) + free fall (began 54 ms ago): thrown
+2026-11-17T21:47:49.608414+00:00,state,State: Ready -> Armed
+2026-11-17T21:47:49.651934+00:00,warn,STATUS 98438 state=Armed pouches=2 peak=1418 mg still=3 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:49.877176+00:00,warn,STATUS 98690 state=Armed pouches=2 peak=1464 mg still=2 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:50.192195+00:00,warn,STATUS 98942 state=Armed pouches=2 peak=1190 mg still=1 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:50.417211+00:00,warn,STATUS 99193 state=Armed pouches=2 peak=1013 mg still=1 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:50.642584+00:00,warn,STATUS 99444 state=Armed pouches=2 peak=1032 mg still=25 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:50.866473+00:00,warn,STATUS 99696 state=Armed pouches=2 peak=1001 mg still=204 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:51.137233+00:00,warn,STATUS 99947 state=Armed pouches=2 peak=999 mg still=455 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:51.406905+00:00,warn,STATUS 100199 state=Armed pouches=2 peak=1001 mg still=707 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:51.632524+00:00,warn,STATUS 100450 state=Armed pouches=2 peak=983 mg still=209 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:51.902141+00:00,warn,STATUS 100702 state=Armed pouches=2 peak=1017 mg still=461 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:52.127221+00:00,warn,STATUS 100954 state=Armed pouches=2 peak=2240 mg still=5 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:52.398199+00:00,warn,STATUS 101205 state=Armed pouches=2 peak=2095 mg still=7 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:52.622476+00:00,warn,STATUS 101456 state=Armed pouches=2 peak=2325 mg still=1 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:52.847590+00:00,impact,"IMPACT 101649 ms, 3857 mg"
+2026-11-17T21:47:52.848179+00:00,state,State: Armed -> Classify
+2026-11-17T21:47:52.892258+00:00,range,RANGE 101682 slot=0 uid=0xd683e32c distance=7439 mm lives=3
+2026-11-17T21:47:52.892734+00:00,range,RANGE 101682 slot=1 uid=0xc87da704 distance=144 mm lives=3
+2026-11-17T21:47:52.892840+00:00,hit,"Classify: HIT on slot 1 (144 mm), hit #20863"
+2026-11-17T21:47:52.893761+00:00,state,State: Classify -> Inform
+2026-11-17T21:47:52.894809+00:00,hit,HIT_ACK slot 1 hit #20863
+2026-11-17T21:47:52.936692+00:00,state,State: Inform -> Disarmed
+2026-11-17T21:47:52.937240+00:00,warn,STATUS 101720 state=Disarmed pouches=2 peak=4543 mg still=8 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:52.982295+00:00,other,Pickup by slot 1 (124 mm)
+2026-11-17T21:47:52.982819+00:00,state,State: Disarmed -> Ready
+2026-11-17T21:47:53.072119+00:00,range,RANGE 101883 slot=0 uid=0xd683e32c distance=7508 mm lives=3
+2026-11-17T21:47:53.072630+00:00,range,RANGE 101883 slot=1 uid=0xc87da704 distance=132 mm lives=2
+2026-11-17T21:47:53.207223+00:00,warn,STATUS 101974 state=Ready pouches=2 peak=1610 mg still=2 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:53.251926+00:00,range,RANGE 102085 slot=0 uid=0xd683e32c distance=7564 mm lives=3
+2026-11-17T21:47:53.341981+00:00,range,RANGE 102085 slot=1 uid=0xc87da704 distance=202 mm lives=2
+2026-11-17T21:47:53.387140+00:00,warn,STATUS 102224 state=Ready pouches=2 peak=2472 mg still=4 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:53.477430+00:00,range,RANGE 102289 slot=0 uid=0xd683e32c distance=7518 mm lives=3
+2026-11-17T21:47:53.477840+00:00,range,RANGE 102289 slot=1 uid=0xc87da704 distance=158 mm lives=2
+2026-11-17T21:47:53.657113+00:00,warn,STATUS 102482 state=Ready pouches=2 peak=1572 mg still=7 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:53.701997+00:00,range,RANGE 102502 slot=0 uid=0xd683e32c distance=7633 mm lives=3
+2026-11-17T21:47:53.702633+00:00,range,RANGE 102502 slot=1 uid=0xc87da704 distance=133 mm lives=2
+2026-11-17T21:47:53.927381+00:00,range,RANGE 102706 slot=0 uid=0xd683e32c distance=7630 mm lives=3
+2026-11-17T21:47:53.927885+00:00,range,RANGE 102706 slot=1 uid=0xc87da704 distance=188 mm lives=2
+2026-11-17T21:47:53.927998+00:00,warn,STATUS 102740 state=Ready pouches=2 peak=1618 mg still=2 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:54.197585+00:00,range,RANGE 102907 slot=0 uid=0xd683e32c distance=7594 mm lives=3
+2026-11-17T21:47:54.198188+00:00,range,RANGE 102907 slot=1 uid=0xc87da704 distance=102 mm lives=2
+2026-11-17T21:47:54.199452+00:00,warn,STATUS 102998 state=Ready pouches=2 peak=1607 mg still=1 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:54.332690+00:00,range,RANGE 103110 slot=0 uid=0xd683e32c distance=7750 mm lives=3
+2026-11-17T21:47:54.333290+00:00,range,RANGE 103110 slot=1 uid=0xc87da704 distance=163 mm lives=2
+2026-11-17T21:47:54.467569+00:00,warn,STATUS 103257 state=Ready pouches=2 peak=954 mg still=3 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:54.647409+00:00,range,RANGE 103311 slot=0 uid=0xd683e32c distance=7713 mm lives=3
+2026-11-17T21:47:54.647871+00:00,range,RANGE 103311 slot=1 uid=0xc87da704 distance=138 mm lives=2
+2026-11-17T21:47:54.692326+00:00,range,RANGE 103515 slot=0 uid=0xd683e32c distance=7700 mm lives=3
+2026-11-17T21:47:54.692768+00:00,warn,STATUS 103520 state=Ready pouches=2 peak=1060 mg still=9 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:54.918142+00:00,range,RANGE 103723 slot=0 uid=0xd683e32c distance=7662 mm lives=3
+2026-11-17T21:47:54.918331+00:00,range,RANGE 103723 slot=1 uid=0xc87da704 distance=54 mm lives=2
+2026-11-17T21:47:54.969684+00:00,warn,STATUS 103779 state=Ready pouches=2 peak=1043 mg still=14 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:55.097775+00:00,range,RANGE 103925 slot=0 uid=0xd683e32c distance=7589 mm lives=3
+2026-11-17T21:47:55.098266+00:00,range,RANGE 103925 slot=1 uid=0xc87da704 distance=6 mm lives=2
+2026-11-17T21:47:55.232329+00:00,warn,STATUS 104038 state=Ready pouches=2 peak=951 mg still=273 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:55.322452+00:00,range,RANGE 104126 slot=0 uid=0xd683e32c distance=7532 mm lives=3
+2026-11-17T21:47:55.322916+00:00,range,RANGE 104126 slot=1 uid=0xc87da704 distance=13 mm lives=2
+2026-11-17T21:47:55.457267+00:00,warn,STATUS 104290 state=Ready pouches=2 peak=957 mg still=525 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:55.501934+00:00,range,RANGE 104333 slot=0 uid=0xd683e32c distance=7561 mm lives=3
+2026-11-17T21:47:55.546740+00:00,range,RANGE 104333 slot=1 uid=0xc87da704 distance=11 mm lives=2
+2026-11-17T21:47:55.726673+00:00,range,RANGE 104538 slot=0 uid=0xd683e32c distance=7666 mm lives=3
+2026-11-17T21:47:55.727565+00:00,range,RANGE 104538 slot=1 uid=0xc87da704 distance=8 mm lives=2
+2026-11-17T21:47:55.727674+00:00,warn,STATUS 104548 state=Ready pouches=2 peak=964 mg still=105 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:55.906824+00:00,range,RANGE 104739 slot=0 uid=0xd683e32c distance=7573 mm lives=3
+2026-11-17T21:47:55.954283+00:00,range,RANGE 104739 slot=1 uid=0xc87da704 distance=15 mm lives=2
+2026-11-17T21:47:55.997191+00:00,warn,STATUS 104805 state=Ready pouches=2 peak=955 mg still=23 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:56.132360+00:00,range,RANGE 104939 slot=0 uid=0xd683e32c distance=7540 mm lives=3
+2026-11-17T21:47:56.132814+00:00,range,RANGE 104939 slot=1 uid=0xc87da704 distance=14 mm lives=2
+2026-11-17T21:47:56.267525+00:00,warn,STATUS 105063 state=Ready pouches=2 peak=955 mg still=281 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:56.357666+00:00,range,RANGE 105140 slot=0 uid=0xd683e32c distance=7516 mm lives=3
+2026-11-17T21:47:56.358176+00:00,range,RANGE 105140 slot=1 uid=0xc87da704 distance=28 mm lives=2
+2026-11-17T21:47:56.492292+00:00,warn,STATUS 105322 state=Ready pouches=2 peak=955 mg still=224 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:56.537672+00:00,range,RANGE 105342 slot=0 uid=0xd683e32c distance=7510 mm lives=3
+2026-11-17T21:47:56.538769+00:00,range,RANGE 105342 slot=1 uid=0xc87da704 distance=1 mm lives=2
+2026-11-17T21:47:56.717690+00:00,range,RANGE 105546 slot=0 uid=0xd683e32c distance=7528 mm lives=3
+2026-11-17T21:47:56.718237+00:00,range,RANGE 105546 slot=1 uid=0xc87da704 distance=35 mm lives=2
+2026-11-17T21:47:56.762066+00:00,warn,STATUS 105580 state=Ready pouches=2 peak=970 mg still=482 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:56.942397+00:00,range,RANGE 105754 slot=0 uid=0xd683e32c distance=7493 mm lives=3
+2026-11-17T21:47:56.942837+00:00,range,RANGE 105754 slot=1 uid=0xc87da704 distance=33 mm lives=2
+2026-11-17T21:47:57.032616+00:00,warn,STATUS 105833 state=Ready pouches=2 peak=962 mg still=88 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:57.122038+00:00,range,RANGE 105956 slot=0 uid=0xd683e32c distance=7488 mm lives=3
+2026-11-17T21:47:57.302192+00:00,warn,STATUS 106087 state=Ready pouches=2 peak=959 mg still=342 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:57.347253+00:00,range,RANGE 106163 slot=0 uid=0xd683e32c distance=7489 mm lives=3
+2026-11-17T21:47:57.391623+00:00,range,RANGE 106163 slot=1 uid=0xc87da704 distance=45 mm lives=2
+2026-11-17T21:47:57.527276+00:00,warn,STATUS 106338 state=Ready pouches=2 peak=967 mg still=19 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:57.572522+00:00,range,RANGE 106370 slot=0 uid=0xd683e32c distance=7482 mm lives=3
+2026-11-17T21:47:57.572894+00:00,range,RANGE 106370 slot=1 uid=0xc87da704 distance=55 mm lives=2
+2026-11-17T21:47:57.752624+00:00,range,RANGE 106578 slot=0 uid=0xd683e32c distance=7488 mm lives=3
+2026-11-17T21:47:57.842100+00:00,range,RANGE 106578 slot=1 uid=0xc87da704 distance=46 mm lives=2
+2026-11-17T21:47:57.842570+00:00,warn,STATUS 106589 state=Ready pouches=2 peak=1400 mg still=18 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:57.977511+00:00,range,RANGE 106780 slot=0 uid=0xd683e32c distance=7523 mm lives=3
+2026-11-17T21:47:57.977936+00:00,range,RANGE 106780 slot=1 uid=0xc87da704 distance=269 mm lives=2
+2026-11-17T21:47:58.022380+00:00,warn,STATUS 106848 state=Ready pouches=2 peak=1261 mg still=7 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:58.157224+00:00,range,RANGE 106981 slot=0 uid=0xd683e32c distance=7545 mm lives=3
+2026-11-17T21:47:58.261727+00:00,range,RANGE 106981 slot=1 uid=0xc87da704 distance=104 mm lives=2
+2026-11-17T21:47:58.293110+00:00,warn,STATUS 107106 state=Ready pouches=2 peak=1343 mg still=2 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:58.381973+00:00,range,RANGE 107183 slot=0 uid=0xd683e32c distance=7503 mm lives=3
+2026-11-17T21:47:58.382928+00:00,range,RANGE 107183 slot=1 uid=0xc87da704 distance=173 mm lives=2
+2026-11-17T21:47:58.562391+00:00,warn,STATUS 107365 state=Ready pouches=2 peak=1299 mg still=3 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:58.563044+00:00,range,RANGE 107385 slot=0 uid=0xd683e32c distance=7497 mm lives=3
+2026-11-17T21:47:58.564243+00:00,range,RANGE 107385 slot=1 uid=0xc87da704 distance=185 mm lives=2
+2026-11-17T21:47:58.771157+00:00,range,RANGE 107591 slot=0 uid=0xd683e32c distance=7502 mm lives=3
+2026-11-17T21:47:58.771652+00:00,range,RANGE 107591 slot=1 uid=0xc87da704 distance=132 mm lives=2
+2026-11-17T21:47:58.861116+00:00,warn,STATUS 107625 state=Ready pouches=2 peak=1114 mg still=3 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:58.996266+00:00,range,RANGE 107792 slot=0 uid=0xd683e32c distance=7534 mm lives=3
+2026-11-17T21:47:58.996933+00:00,range,RANGE 107792 slot=1 uid=0xc87da704 distance=195 mm lives=2
+2026-11-17T21:47:59.086942+00:00,warn,STATUS 107882 state=Ready pouches=2 peak=1067 mg still=19 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:59.177534+00:00,range,RANGE 107993 slot=0 uid=0xd683e32c distance=7519 mm lives=3
+2026-11-17T21:47:59.178059+00:00,range,RANGE 107993 slot=1 uid=0xc87da704 distance=154 mm lives=2
+2026-11-17T21:47:59.447247+00:00,warn,STATUS 108141 state=Ready pouches=2 peak=1151 mg still=3 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:59.447735+00:00,range,RANGE 108195 slot=0 uid=0xd683e32c distance=7518 mm lives=3
+2026-11-17T21:47:59.447933+00:00,range,RANGE 108195 slot=1 uid=0xc87da704 distance=127 mm lives=2
+2026-11-17T21:47:59.627343+00:00,warn,STATUS 108394 state=Ready pouches=2 peak=1168 mg still=14 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:59.627909+00:00,range,RANGE 108414 slot=0 uid=0xd683e32c distance=7594 mm lives=3
+2026-11-17T21:47:59.628010+00:00,range,RANGE 108414 slot=1 uid=0xc87da704 distance=19 mm lives=2
+2026-11-17T21:47:59.807420+00:00,range,RANGE 108617 slot=0 uid=0xd683e32c distance=7489 mm lives=3
+2026-11-17T21:47:59.807850+00:00,range,RANGE 108617 slot=1 uid=0xc87da704 distance=31 mm lives=2
+2026-11-17T21:47:59.852476+00:00,warn,STATUS 108651 state=Ready pouches=2 peak=1063 mg still=9 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:47:59.987184+00:00,range,RANGE 108818 slot=0 uid=0xd683e32c distance=7455 mm lives=3
+2026-11-17T21:48:00.032346+00:00,range,RANGE 108818 slot=1 uid=0xc87da704 distance=30 mm lives=2
+2026-11-17T21:48:00.077329+00:00,warn,STATUS 108908 state=Ready pouches=2 peak=1167 mg still=1 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:48:00.213067+00:00,range,RANGE 109019 slot=0 uid=0xd683e32c distance=7389 mm lives=3
+2026-11-17T21:48:00.213638+00:00,range,RANGE 109019 slot=1 uid=0xc87da704 distance=20 mm lives=2
+2026-11-17T21:48:00.437761+00:00,warn,STATUS 109166 state=Ready pouches=2 peak=1156 mg still=4 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:48:00.438992+00:00,range,RANGE 109220 slot=0 uid=0xd683e32c distance=7507 mm lives=3
+2026-11-17T21:48:00.481532+00:00,range,RANGE 109220 slot=1 uid=0xc87da704 distance=13 mm lives=2
+2026-11-17T21:48:00.616857+00:00,range,RANGE 109424 slot=0 uid=0xd683e32c distance=7506 mm lives=3
+2026-11-17T21:48:00.618363+00:00,range,RANGE 109424 slot=1 uid=0xc87da704 distance=120 mm lives=2
+2026-11-17T21:48:00.619270+00:00,warn,STATUS 109435 state=Ready pouches=2 peak=1453 mg still=14 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:48:00.796692+00:00,range,RANGE 109625 slot=0 uid=0xd683e32c distance=7651 mm lives=3
+2026-11-17T21:48:00.797632+00:00,range,RANGE 109625 slot=1 uid=0xc87da704 distance=447 mm lives=2
+2026-11-17T21:48:00.886955+00:00,warn,STATUS 109693 state=Ready pouches=2 peak=1700 mg still=4 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:48:01.021978+00:00,range,RANGE 109826 slot=0 uid=0xd683e32c distance=7768 mm lives=3
+2026-11-17T21:48:01.022714+00:00,range,RANGE 109826 slot=1 uid=0xc87da704 distance=597 mm lives=2
+2026-11-17T21:48:01.112052+00:00,warn,STATUS 109945 state=Ready pouches=2 peak=1461 mg still=4 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:48:01.202437+00:00,range,RANGE 110033 slot=0 uid=0xd683e32c distance=8021 mm lives=3
+2026-11-17T21:48:01.247264+00:00,range,RANGE 110033 slot=1 uid=0xc87da704 distance=654 mm lives=2
+2026-11-17T21:48:01.382318+00:00,warn,STATUS 110203 state=Ready pouches=2 peak=922 mg still=2 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:48:01.427056+00:00,range,RANGE 110235 slot=0 uid=0xd683e32c distance=8276 mm lives=3
+2026-11-17T21:48:01.428015+00:00,range,RANGE 110235 slot=1 uid=0xc87da704 distance=690 mm lives=2
+2026-11-17T21:48:01.652723+00:00,range,RANGE 110448 slot=1 uid=0xc87da704 distance=744 mm lives=2
+2026-11-17T21:48:01.653399+00:00,warn,STATUS 110454 state=Ready pouches=2 peak=849 mg still=34 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:48:01.832596+00:00,range,RANGE 110658 slot=1 uid=0xc87da704 distance=816 mm lives=2
+2026-11-17T21:48:01.876996+00:00,warn,STATUS 110710 state=Ready pouches=2 peak=1084 mg still=21 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:48:02.057575+00:00,range,RANGE 110864 slot=0 uid=0xd683e32c distance=8252 mm lives=3
+2026-11-17T21:48:02.058029+00:00,range,RANGE 110864 slot=1 uid=0xc87da704 distance=805 mm lives=2
+2026-11-17T21:48:02.148039+00:00,warn,STATUS 110966 state=Ready pouches=2 peak=1257 mg still=7 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:48:02.238228+00:00,other,Thrower slot 1 out of range for 1 round(s) + free fall (began 9080 ms ago): thrown
+2026-11-17T21:48:02.238774+00:00,state,State: Ready -> Armed
+2026-11-17T21:48:02.417617+00:00,warn,STATUS 111223 state=Armed pouches=2 peak=2391 mg still=5 ms resets=1 rejected=20 accel_errors=1
+2026-11-17T21:48:02.418109+00:00,other,IMPACT ignored: 2920 mg without free fall just before (#21)
+2026-11-17T21:48:02.642096+00:00,other,IMPACT ignored: 3940 mg without free fall just before (#22)
+2026-11-17T21:48:02.642759+00:00,warn,STATUS 111479 state=Armed pouches=2 peak=11490 mg still=2 ms resets=1 rejected=22 accel_errors=1
+2026-11-17T21:48:02.912577+00:00,warn,STATUS 111738 state=Armed pouches=2 peak=2401 mg still=6 ms resets=1 rejected=22 accel_errors=1
+2026-11-17T21:48:03.182400+00:00,warn,STATUS 111993 state=Armed pouches=2 peak=2363 mg still=5 ms resets=1 rejected=22 accel_errors=1
+2026-11-17T21:48:03.362231+00:00,other,IMPACT ignored: 18450 mg without free fall just before (#23)
+2026-11-17T21:48:03.453307+00:00,warn,STATUS 112250 state=Armed pouches=2 peak=35457 mg still=1 ms resets=1 rejected=23 accel_errors=1
+2026-11-17T21:48:03.677716+00:00,warn,STATUS 112509 state=Armed pouches=2 peak=2269 mg still=28 ms resets=1 rejected=23 accel_errors=1
+2026-11-17T21:48:03.947747+00:00,warn,STATUS 112764 state=Armed pouches=2 peak=30770 mg still=179 ms resets=1 rejected=23 accel_errors=1
+2026-11-17T21:48:04.127275+00:00,other,IMPACT ignored: 3169 mg without free fall just before (#24)
+2026-11-17T21:48:04.217517+00:00,warn,STATUS 113015 state=Armed pouches=2 peak=7503 mg still=0 ms resets=1 rejected=24 accel_errors=1
+2026-11-17T21:48:04.442451+00:00,warn,STATUS 113271 state=Armed pouches=2 peak=1048 mg still=4 ms resets=1 rejected=24 accel_errors=1
+2026-11-17T21:48:04.712305+00:00,warn,STATUS 113522 state=Armed pouches=2 peak=1736 mg still=22 ms resets=1 rejected=24 accel_errors=1
+2026-11-17T21:48:04.937431+00:00,warn,STATUS 113773 state=Armed pouches=2 peak=1053 mg still=0 ms resets=1 rejected=24 accel_errors=1
+2026-11-17T21:48:05.208646+00:00,warn,STATUS 114025 state=Armed pouches=2 peak=1031 mg still=117 ms resets=1 rejected=24 accel_errors=1
+2026-11-17T21:48:05.477190+00:00,warn,STATUS 114277 state=Armed pouches=2 peak=1009 mg still=369 ms resets=1 rejected=24 accel_errors=1
+2026-11-17T21:48:05.701936+00:00,warn,STATUS 114529 state=Armed pouches=2 peak=1008 mg still=621 ms resets=1 rejected=24 accel_errors=1
+2026-11-17T21:48:05.972305+00:00,warn,STATUS 114781 state=Armed pouches=2 peak=997 mg still=873 ms resets=1 rejected=24 accel_errors=1
+2026-11-17T21:48:06.197796+00:00,warn,STATUS 115032 state=Armed pouches=2 peak=1031 mg still=1124 ms resets=1 rejected=24 accel_errors=1
+2026-11-17T21:48:06.467749+00:00,warn,STATUS 115284 state=Armed pouches=2 peak=1032 mg still=1376 ms resets=1 rejected=24 accel_errors=1
+2026-11-17T21:48:06.737017+00:00,warn,STATUS 115536 state=Armed pouches=2 peak=1035 mg still=12 ms resets=1 rejected=24 accel_errors=1
+2026-11-17T21:48:06.962544+00:00,warn,STATUS 115787 state=Armed pouches=2 peak=1010 mg still=0 ms resets=1 rejected=24 accel_errors=1
+2026-11-17T21:48:07.232709+00:00,warn,STATUS 116039 state=Armed pouches=2 peak=1032 mg still=252 ms resets=1 rejected=24 accel_errors=1
+2026-11-17T21:48:07.457556+00:00,warn,STATUS 116291 state=Armed pouches=2 peak=1009 mg still=504 ms resets=1 rejected=24 accel_errors=1
+2026-11-17T21:48:07.592576+00:00,other,IMPACT ignored: 2582 mg without free fall just before (#25)
+2026-11-17T21:48:07.593184+00:00,other,IMPACT ignored: 3155 mg without free fall just before (#26)
+2026-11-17T21:48:07.727380+00:00,warn,STATUS 116543 state=Armed pouches=2 peak=3155 mg still=4 ms resets=1 rejected=26 accel_errors=1
+2026-11-17T21:48:07.997597+00:00,warn,STATUS 116795 state=Armed pouches=2 peak=1734 mg still=6 ms resets=1 rejected=26 accel_errors=1
+2026-11-17T21:48:08.313787+00:00,warn,STATUS 117046 state=Armed pouches=2 peak=1019 mg still=0 ms resets=1 rejected=26 accel_errors=1
+2026-11-17T21:48:08.314241+00:00,other,Armed: no impact for 6000 ms -> Disarmed
+2026-11-17T21:48:08.314335+00:00,state,State: Armed -> Disarmed
+2026-11-17T21:48:08.357527+00:00,range,RANGE 117092 slot=0 uid=0xd683e32c distance=489 mm lives=3
+2026-11-17T21:48:08.358428+00:00,range,RANGE 117092 slot=1 uid=0xc87da704 distance=6786 mm lives=2
+2026-11-17T21:48:08.358678+00:00,other,Pickup by slot 0 (616 mm)
+2026-11-17T21:48:08.358860+00:00,state,State: Disarmed -> Ready
+2026-11-17T21:48:08.491986+00:00,range,RANGE 117293 slot=0 uid=0xd683e32c distance=491 mm lives=3
+2026-11-17T21:48:08.492939+00:00,range,RANGE 117293 slot=1 uid=0xc87da704 distance=6945 mm lives=2
+2026-11-17T21:48:08.494734+00:00,warn,STATUS 117304 state=Ready pouches=2 peak=1073 mg still=14 ms resets=1 rejected=26 accel_errors=1
+2026-11-17T21:48:08.672438+00:00,range,RANGE 117495 slot=0 uid=0xd683e32c distance=607 mm lives=3
+2026-11-17T21:48:08.672999+00:00,range,RANGE 117495 slot=1 uid=0xc87da704 distance=7061 mm lives=2
+2026-11-17T21:48:08.762783+00:00,warn,STATUS 117563 state=Ready pouches=2 peak=1294 mg still=4 ms resets=1 rejected=26 accel_errors=1
+2026-11-17T21:48:08.898093+00:00,range,RANGE 117704 slot=0 uid=0xd683e32c distance=544 mm lives=3
+2026-11-17T21:48:08.898740+00:00,range,RANGE 117704 slot=1 uid=0xc87da704 distance=7125 mm lives=2
+2026-11-17T21:48:08.898905+00:00,other,IMPACT ignored: 2521 mg without free fall just before (#27)
+2026-11-17T21:48:09.034268+00:00,warn,STATUS 117823 state=Ready pouches=2 peak=5644 mg still=3 ms resets=1 rejected=27 accel_errors=1
+2026-11-17T21:48:09.077000+00:00,range,RANGE 117911 slot=0 uid=0xd683e32c distance=368 mm lives=3
+2026-11-17T21:48:09.122351+00:00,range,RANGE 117911 slot=1 uid=0xc87da704 distance=7022 mm lives=2
+2026-11-17T21:48:09.257703+00:00,other,IMPACT ignored: 3420 mg without free fall just before (#28)
+2026-11-17T21:48:09.258100+00:00,warn,STATUS 118077 state=Ready pouches=2 peak=5234 mg still=4 ms resets=1 rejected=28 accel_errors=1
+2026-11-17T21:48:09.302799+00:00,range,RANGE 118120 slot=0 uid=0xd683e32c distance=594 mm lives=3
+2026-11-17T21:48:09.303313+00:00,range,RANGE 118120 slot=1 uid=0xc87da704 distance=7184 mm lives=2
+2026-11-17T21:48:09.527246+00:00,range,RANGE 118331 slot=0 uid=0xd683e32c distance=1759 mm lives=3
+2026-11-17T21:48:09.528307+00:00,range,RANGE 118331 slot=1 uid=0xc87da704 distance=6260 mm lives=2
+2026-11-17T21:48:09.528736+00:00,warn,STATUS 118342 state=Ready pouches=2 peak=23055 mg still=14 ms resets=1 rejected=28 accel_errors=1
+2026-11-17T21:48:09.707554+00:00,range,RANGE 118533 slot=0 uid=0xd683e32c distance=3633 mm lives=3
+2026-11-17T21:48:09.708105+00:00,range,RANGE 118533 slot=1 uid=0xc87da704 distance=5502 mm lives=2
+2026-11-17T21:48:09.797784+00:00,warn,STATUS 118602 state=Ready pouches=2 peak=1848 mg still=4 ms resets=1 rejected=28 accel_errors=1
+2026-11-17T21:48:09.933265+00:00,range,RANGE 118736 slot=0 uid=0xd683e32c distance=5439 mm lives=3
+2026-11-17T21:48:09.933773+00:00,range,RANGE 118736 slot=1 uid=0xc87da704 distance=5018 mm lives=2
+2026-11-17T21:48:10.022401+00:00,warn,STATUS 118856 state=Ready pouches=2 peak=1763 mg still=3 ms resets=1 rejected=28 accel_errors=1
+2026-11-17T21:48:10.112308+00:00,range,RANGE 118943 slot=0 uid=0xd683e32c distance=6912 mm lives=3
+2026-11-17T21:48:10.157282+00:00,range,RANGE 118943 slot=1 uid=0xc87da704 distance=5018 mm lives=2
+2026-11-17T21:48:10.292634+00:00,warn,STATUS 119117 state=Ready pouches=2 peak=1724 mg still=1 ms resets=1 rejected=28 accel_errors=1
+2026-11-17T21:48:10.337615+00:00,range,RANGE 119148 slot=0 uid=0xd683e32c distance=8295 mm lives=3
+2026-11-17T21:48:10.338478+00:00,range,RANGE 119148 slot=1 uid=0xc87da704 distance=5039 mm lives=2
+2026-11-17T21:48:10.562778+00:00,range,RANGE 119355 slot=0 uid=0xd683e32c distance=9277 mm lives=3
+2026-11-17T21:48:10.606762+00:00,range,RANGE 119355 slot=1 uid=0xc87da704 distance=5051 mm lives=2
+2026-11-17T21:48:10.607910+00:00,warn,STATUS 119377 state=Ready pouches=2 peak=1760 mg still=4 ms resets=1 rejected=28 accel_errors=1
+2026-11-17T21:48:10.741887+00:00,range,RANGE 119555 slot=0 uid=0xd683e32c distance=10166 mm lives=3
+2026-11-17T21:48:10.742838+00:00,range,RANGE 119555 slot=1 uid=0xc87da704 distance=5193 mm lives=2
+2026-11-17T21:48:10.832533+00:00,warn,STATUS 119635 state=Ready pouches=2 peak=1724 mg still=3 ms resets=1 rejected=28 accel_errors=1
+2026-11-17T21:48:10.921726+00:00,range,RANGE 119758 slot=0 uid=0xd683e32c distance=11116 mm lives=3
+2026-11-17T21:48:10.966797+00:00,range,RANGE 119758 slot=1 uid=0xc87da704 distance=5459 mm lives=2
+2026-11-17T21:48:11.057157+00:00,warn,STATUS 119894 state=Ready pouches=2 peak=1619 mg still=4 ms resets=1 rejected=28 accel_errors=1
+2026-11-17T21:48:11.147558+00:00,range,RANGE 119958 slot=0 uid=0xd683e32c distance=12002 mm lives=3
+2026-11-17T21:48:11.148185+00:00,range,RANGE 119958 slot=1 uid=0xc87da704 distance=5961 mm lives=2
+2026-11-17T21:48:11.507616+00:00,warn,STATUS 120152 state=Ready pouches=2 peak=1604 mg still=1 ms resets=1 rejected=28 accel_errors=1
+2026-11-17T21:48:11.508115+00:00,range,RANGE 120172 slot=0 uid=0xd683e32c distance=13253 mm lives=3
+2026-11-17T21:48:11.508276+00:00,range,RANGE 120172 slot=1 uid=0xc87da704 distance=6880 mm lives=2
+2026-11-17T21:48:11.509186+00:00,other,IMPACT ignored: 15906 mg without free fall just before (#29)
+2026-11-17T21:48:11.597915+00:00,other,Thrower slot 0 out of range for 1 round(s) + free fall (began 43 ms ago): thrown
+2026-11-17T21:48:11.598776+00:00,state,State: Ready -> Armed
+2026-11-17T21:48:11.599089+00:00,warn,STATUS 120403 state=Armed pouches=2 peak=32729 mg still=12 ms resets=1 rejected=29 accel_errors=1
+2026-11-17T21:48:11.867519+00:00,warn,STATUS 120659 state=Armed pouches=2 peak=383 mg still=40 ms resets=1 rejected=29 accel_errors=1
+2026-11-17T21:48:12.137561+00:00,warn,STATUS 120910 state=Armed pouches=2 peak=520 mg still=29 ms resets=1 rejected=29 accel_errors=1
+2026-11-17T21:48:12.272353+00:00,impact,"IMPACT 121002 ms, 3126 mg"
+2026-11-17T21:48:12.272781+00:00,state,State: Armed -> Classify
+2026-11-17T21:48:12.588033+00:00,range,RANGE 121035 slot=0 uid=0xd683e32c distance=13631 mm lives=3
+2026-11-17T21:48:12.589290+00:00,range,RANGE 121035 slot=1 uid=0xc87da704 distance=6233 mm lives=2
+2026-11-17T21:48:12.589557+00:00,other,Classify: no pouch within 900 mm -> miss
+2026-11-17T21:48:12.589684+00:00,state,State: Classify -> Disarmed
+2026-11-17T21:48:12.591231+00:00,warn,STATUS 121175 state=Disarmed pouches=2 peak=26421 mg still=43 ms resets=1 rejected=29 accel_errors=1
+2026-11-17T21:48:12.591480+00:00,range,RANGE 121245 slot=0 uid=0xd683e32c distance=13747 mm lives=3
+2026-11-17T21:48:12.591581+00:00,range,RANGE 121245 slot=1 uid=0xc87da704 distance=5861 mm lives=2
+2026-11-17T21:48:12.633963+00:00,warn,STATUS 121444 state=Disarmed pouches=2 peak=2549 mg still=3 ms resets=1 rejected=29 accel_errors=1
+2026-11-17T21:48:12.677259+00:00,range,RANGE 121473 slot=0 uid=0xd683e32c distance=13743 mm lives=3
+2026-11-17T21:48:12.678108+00:00,range,RANGE 121473 slot=1 uid=0xc87da704 distance=5541 mm lives=2
+2026-11-17T21:48:12.992833+00:00,range,RANGE 121688 slot=0 uid=0xd683e32c distance=13868 mm lives=3
+2026-11-17T21:48:12.993699+00:00,range,RANGE 121688 slot=1 uid=0xc87da704 distance=4964 mm lives=2
+2026-11-17T21:48:12.993903+00:00,warn,STATUS 121700 state=Disarmed pouches=2 peak=1530 mg still=14 ms resets=1 rejected=29 accel_errors=1
+2026-11-17T21:48:13.082780+00:00,range,RANGE 121892 slot=0 uid=0xd683e32c distance=13875 mm lives=3
+2026-11-17T21:48:13.083437+00:00,range,RANGE 121892 slot=1 uid=0xc87da704 distance=4508 mm lives=2
+2026-11-17T21:48:13.127191+00:00,warn,STATUS 121964 state=Disarmed pouches=2 peak=972 mg still=5 ms resets=1 rejected=29 accel_errors=1
+2026-11-17T21:48:13.307558+00:00,range,RANGE 122095 slot=0 uid=0xd683e32c distance=13904 mm lives=3
+2026-11-17T21:48:13.308059+00:00,range,RANGE 122095 slot=1 uid=0xc87da704 distance=4220 mm lives=2
+2026-11-17T21:48:13.398378+00:00,warn,STATUS 122229 state=Disarmed pouches=2 peak=989 mg still=171 ms resets=1 rejected=29 accel_errors=1
+2026-11-17T21:48:13.533434+00:00,range,RANGE 122299 slot=0 uid=0xd683e32c distance=13984 mm lives=3
+2026-11-17T21:48:13.535343+00:00,range,RANGE 122299 slot=1 uid=0xc87da704 distance=3426 mm lives=2
+2026-11-17T21:48:13.667575+00:00,warn,STATUS 122494 state=Disarmed pouches=2 peak=956 mg still=436 ms resets=1 rejected=29 accel_errors=1
+2026-11-17T21:48:13.712427+00:00,range,RANGE 122523 slot=0 uid=0xd683e32c distance=13972 mm lives=3
+2026-11-17T21:48:13.713185+00:00,range,RANGE 122523 slot=1 uid=0xc87da704 distance=2957 mm lives=2
+2026-11-17T21:48:13.982332+00:00,range,RANGE 122738 slot=0 uid=0xd683e32c distance=14149 mm lives=3
+2026-11-17T21:48:14.072725+00:00,range,RANGE 122738 slot=1 uid=0xc87da704 distance=2481 mm lives=2
+2026-11-17T21:48:14.073243+00:00,warn,STATUS 122749 state=Disarmed pouches=2 peak=935 mg still=25 ms resets=1 rejected=29 accel_errors=1
+2026-11-17T21:48:14.162773+00:00,range,RANGE 122940 slot=0 uid=0xd683e32c distance=14203 mm lives=3
+2026-11-17T21:48:14.163171+00:00,range,RANGE 122940 slot=1 uid=0xc87da704 distance=2000 mm lives=2
+2026-11-17T21:48:14.208244+00:00,warn,STATUS 123012 state=Disarmed pouches=2 peak=939 mg still=288 ms resets=1 rejected=29 accel_errors=1
+2026-11-17T21:48:14.343116+00:00,range,RANGE 123143 slot=0 uid=0xd683e32c distance=14235 mm lives=3
+2026-11-17T21:48:14.387373+00:00,range,RANGE 123143 slot=1 uid=0xc87da704 distance=1516 mm lives=2
+2026-11-17T21:48:14.479031+00:00,warn,STATUS 123276 state=Disarmed pouches=2 peak=944 mg still=552 ms resets=1 rejected=29 accel_errors=1
+2026-11-17T21:48:14.522636+00:00,range,RANGE 123347 slot=0 uid=0xd683e32c distance=14180 mm lives=3
+2026-11-17T21:48:14.523111+00:00,range,RANGE 123347 slot=1 uid=0xc87da704 distance=1186 mm lives=2
+2026-11-17T21:48:14.748015+00:00,other,Pickup by slot 1 (899 mm)
+2026-11-17T21:48:14.748537+00:00,state,State: Disarmed -> Ready
+2026-11-17T21:48:14.748654+00:00,warn,STATUS 123530 state=Ready pouches=2 peak=949 mg still=202 ms resets=1 rejected=29 accel_errors=1
+2026-11-17T21:48:14.749290+00:00,range,RANGE 123550 slot=0 uid=0xd683e32c distance=14333 mm lives=3
+2026-11-17T21:48:14.749557+00:00,range,RANGE 123550 slot=1 uid=0xc87da704 distance=818 mm lives=2
+2026-11-17T21:48:14.927589+00:00,range,RANGE 123758 slot=0 uid=0xd683e32c distance=14443 mm lives=3
+2026-11-17T21:48:14.972734+00:00,range,RANGE 123758 slot=1 uid=0xc87da704 distance=467 mm lives=2
+2026-11-17T21:48:14.973189+00:00,warn,STATUS 123781 state=Ready pouches=2 peak=940 mg still=453 ms resets=1 rejected=29 accel_errors=1
+2026-11-17T21:48:15.017086+00:00,other,IMPACT ignored: 5549 mg without free fall just before (#30)
+2026-11-17T21:48:15.152925+00:00,range,RANGE 123965 slot=0 uid=0xd683e32c distance=14548 mm lives=3
+2026-11-17T21:48:15.153580+00:00,range,RANGE 123965 slot=1 uid=0xc87da704 distance=502 mm lives=2
+2026-11-17T21:48:15.333920+00:00,warn,STATUS 124042 state=Ready pouches=2 peak=14669 mg still=3 ms resets=1 rejected=30 accel_errors=1
+2026-11-17T21:48:15.334933+00:00,range,RANGE 124168 slot=0 uid=0xd683e32c distance=14550 mm lives=3
+2026-11-17T21:48:15.378993+00:00,range,RANGE 124168 slot=1 uid=0xc87da704 distance=372 mm lives=2
+2026-11-17T21:48:15.467675+00:00,warn,STATUS 124292 state=Ready pouches=2 peak=1805 mg still=3 ms resets=1 rejected=30 accel_errors=1
+2026-11-17T21:48:15.558027+00:00,range,RANGE 124369 slot=0 uid=0xd683e32c distance=14646 mm lives=3
+2026-11-17T21:48:16.187490+00:00,range,RANGE 124369 slot=1 uid=0xc87da704 distance=343 mm lives=2
+2026-11-17T21:48:16.188476+00:00,warn,STATUS 124549 state=Ready pouches=2 peak=2277 mg still=7 ms resets=1 rejected=30 accel_errors=1
+2026-11-17T21:48:16.189395+00:00,range,RANGE 124569 slot=0 uid=0xd683e32c distance=14577 mm lives=3
+2026-11-17T21:48:16.189563+00:00,range,RANGE 124569 slot=1 uid=0xc87da704 distance=722 mm lives=2
+2026-11-17T21:48:16.190516+00:00,range,RANGE 124773 slot=0 uid=0xd683e32c distance=14793 mm lives=3
+2026-11-17T21:48:16.190701+00:00,range,RANGE 124773 slot=1 uid=0xc87da704 distance=892 mm lives=2
+2026-11-17T21:48:16.191683+00:00,warn,STATUS 124807 state=Ready pouches=2 peak=2017 mg still=2 ms resets=1 rejected=30 accel_errors=1
+2026-11-17T21:48:16.232936+00:00,range,RANGE 124974 slot=0 uid=0xd683e32c distance=14191 mm lives=3
+2026-11-17T21:48:16.233378+00:00,range,RANGE 124974 slot=1 uid=0xc87da704 distance=973 mm lives=2
+2026-11-17T21:48:16.233474+00:00,warn,STATUS 125065 state=Ready pouches=2 peak=1311 mg still=7 ms resets=1 rejected=30 accel_errors=1
+2026-11-17T21:48:16.368368+00:00,range,RANGE 125176 slot=0 uid=0xd683e32c distance=13857 mm lives=3
+2026-11-17T21:48:16.368834+00:00,range,RANGE 125176 slot=1 uid=0xc87da704 distance=935 mm lives=2
+2026-11-17T21:48:16.637948+00:00,warn,STATUS 125317 state=Ready pouches=2 peak=2203 mg still=6 ms resets=1 rejected=30 accel_errors=1
+2026-11-17T21:48:16.638755+00:00,other,IMPACT ignored: 2614 mg without free fall just before (#31)
+2026-11-17T21:48:16.682919+00:00,range,RANGE 125383 slot=0 uid=0xd683e32c distance=13882 mm lives=3
+2026-11-17T21:48:16.683384+00:00,range,RANGE 125383 slot=1 uid=0xc87da704 distance=775 mm lives=2
+2026-11-17T21:48:16.773046+00:00,warn,STATUS 125576 state=Ready pouches=2 peak=18459 mg still=3 ms resets=1 rejected=31 accel_errors=1
+2026-11-17T21:48:16.773729+00:00,range,RANGE 125596 slot=0 uid=0xd683e32c distance=11725 mm lives=3
+2026-11-17T21:48:16.773915+00:00,range,RANGE 125596 slot=1 uid=0xc87da704 distance=1606 mm lives=2
+2026-11-17T21:48:16.998084+00:00,range,RANGE 125800 slot=0 uid=0xd683e32c distance=9292 mm lives=3
+2026-11-17T21:48:16.998685+00:00,range,RANGE 125800 slot=1 uid=0xc87da704 distance=4083 mm lives=2
+2026-11-17T21:48:17.042288+00:00,warn,STATUS 125834 state=Ready pouches=2 peak=2261 mg still=3 ms resets=1 rejected=31 accel_errors=1
+2026-11-17T21:48:17.222949+00:00,range,RANGE 126001 slot=0 uid=0xd683e32c distance=7003 mm lives=3
+2026-11-17T21:48:17.223416+00:00,range,RANGE 126001 slot=1 uid=0xc87da704 distance=6209 mm lives=2
+2026-11-17T21:48:17.267596+00:00,warn,STATUS 126094 state=Ready pouches=2 peak=2226 mg still=3 ms resets=1 rejected=31 accel_errors=1
+2026-11-17T21:48:17.402755+00:00,range,RANGE 126205 slot=0 uid=0xd683e32c distance=4765 mm lives=3
+2026-11-17T21:48:17.403621+00:00,range,RANGE 126205 slot=1 uid=0xc87da704 distance=8229 mm lives=2
+2026-11-17T21:48:17.538095+00:00,other,IMPACT ignored: 6047 mg without free fall just before (#32)
+2026-11-17T21:48:17.538940+00:00,warn,STATUS 126352 state=Ready pouches=2 peak=31852 mg still=4 ms resets=1 rejected=32 accel_errors=1
+2026-11-17T21:48:17.582698+00:00,range,RANGE 126416 slot=0 uid=0xd683e32c distance=3303 mm lives=3
+2026-11-17T21:48:17.852960+00:00,warn,STATUS 126612 state=Ready pouches=2 peak=12070 mg still=2 ms resets=1 rejected=32 accel_errors=1
+2026-11-17T21:48:17.853446+00:00,range,RANGE 126633 slot=0 uid=0xd683e32c distance=2636 mm lives=3
+2026-11-17T21:48:17.854818+00:00,range,RANGE 126633 slot=1 uid=0xc87da704 distance=10849 mm lives=2
+2026-11-17T21:48:18.033014+00:00,range,RANGE 126842 slot=0 uid=0xd683e32c distance=2063 mm lives=3
+2026-11-17T21:48:18.033649+00:00,range,RANGE 126842 slot=1 uid=0xc87da704 distance=11890 mm lives=2
+2026-11-17T21:48:18.033842+00:00,warn,STATUS 126865 state=Ready pouches=2 peak=8152 mg still=4 ms resets=1 rejected=32 accel_errors=1
+2026-11-17T21:48:18.213081+00:00,range,RANGE 127042 slot=0 uid=0xd683e32c distance=1836 mm lives=3
+2026-11-17T21:48:18.213586+00:00,range,RANGE 127042 slot=1 uid=0xc87da704 distance=12652 mm lives=2
+2026-11-17T21:48:18.304292+00:00,warn,STATUS 127121 state=Ready pouches=2 peak=17001 mg still=2 ms resets=1 rejected=32 accel_errors=1
+2026-11-17T21:48:18.437774+00:00,other,IMPACT ignored: 3434 mg without free fall just before (#33)
+2026-11-17T21:48:18.438638+00:00,range,RANGE 127246 slot=0 uid=0xd683e32c distance=1987 mm lives=3
+2026-11-17T21:48:18.439074+00:00,range,RANGE 127246 slot=1 uid=0xc87da704 distance=13546 mm lives=2
+2026-11-17T21:48:18.573189+00:00,warn,STATUS 127375 state=Ready pouches=2 peak=7535 mg still=6 ms resets=1 rejected=33 accel_errors=1
+2026-11-17T21:48:18.662269+00:00,range,RANGE 127455 slot=0 uid=0xd683e32c distance=2087 mm lives=3
+2026-11-17T21:48:18.663289+00:00,range,RANGE 127455 slot=1 uid=0xc87da704 distance=14165 mm lives=2
+2026-11-17T21:48:18.663487+00:00,other,IMPACT ignored: 2661 mg without free fall just before (#34)
+2026-11-17T21:48:18.797372+00:00,warn,STATUS 127632 state=Ready pouches=2 peak=3803 mg still=2 ms resets=1 rejected=34 accel_errors=1
+2026-11-17T21:48:18.842315+00:00,other,Thrower slot 1 out of range for 1 round(s) + free fall (began 35 ms ago): thrown
+2026-11-17T21:48:18.843105+00:00,state,State: Ready -> Armed
+2026-11-17T21:48:19.157814+00:00,warn,STATUS 127884 state=Armed pouches=2 peak=2009 mg still=4 ms resets=1 rejected=34 accel_errors=1
+2026-11-17T21:48:19.337677+00:00,warn,STATUS 128136 state=Armed pouches=2 peak=1115 mg still=1 ms resets=1 rejected=34 accel_errors=1
+2026-11-17T21:48:19.562792+00:00,warn,STATUS 128391 state=Armed pouches=2 peak=1275 mg still=3 ms resets=1 rejected=34 accel_errors=1
+2026-11-17T21:48:19.833895+00:00,warn,STATUS 128646 state=Armed pouches=2 peak=1110 mg still=4 ms resets=1 rejected=34 accel_errors=1
+2026-11-17T21:48:20.103342+00:00,warn,STATUS 128901 state=Armed pouches=2 peak=1038 mg still=48 ms resets=1 rejected=34 accel_errors=1
+2026-11-17T21:48:20.372740+00:00,warn,STATUS 129155 state=Armed pouches=2 peak=1008 mg still=302 ms resets=1 rejected=34 accel_errors=1
+2026-11-17T21:48:20.642152+00:00,warn,STATUS 129409 state=Armed pouches=2 peak=1021 mg still=556 ms resets=1 rejected=34 accel_errors=1
+2026-11-17T21:48:20.867180+00:00,warn,STATUS 129667 state=Armed pouches=2 peak=1008 mg still=814 ms resets=1 rejected=34 accel_errors=1
+2026-11-17T21:48:21.092530+00:00,warn,STATUS 129921 state=Armed pouches=2 peak=1011 mg still=42 ms resets=1 rejected=34 accel_errors=1
+2026-11-17T21:48:21.407906+00:00,warn,STATUS 130176 state=Armed pouches=2 peak=1032 mg still=297 ms resets=1 rejected=34 accel_errors=1
+2026-11-17T21:48:21.587870+00:00,warn,STATUS 130427 state=Armed pouches=2 peak=1035 mg still=548 ms resets=1 rejected=34 accel_errors=1
+2026-11-17T21:48:21.948152+00:00,other,IMPACT ignored: 2713 mg without free fall just before (#35)
+2026-11-17T21:48:21.948552+00:00,warn,STATUS 130684 state=Armed pouches=2 peak=2780 mg still=0 ms resets=1 rejected=35 accel_errors=1
+2026-11-17T21:48:22.128077+00:00,warn,STATUS 130936 state=Armed pouches=2 peak=2334 mg still=5 ms resets=1 rejected=35 accel_errors=1
+2026-11-17T21:48:22.128584+00:00,other,IMPACT ignored: 2636 mg without free fall just before (#36)
+2026-11-17T21:48:22.443003+00:00,warn,STATUS 131193 state=Armed pouches=2 peak=10204 mg still=1 ms resets=1 rejected=36 accel_errors=1
+2026-11-17T21:48:22.622739+00:00,warn,STATUS 131448 state=Armed pouches=2 peak=1504 mg still=4 ms resets=1 rejected=36 accel_errors=1
+2026-11-17T21:48:22.892775+00:00,warn,STATUS 131705 state=Armed pouches=2 peak=1209 mg still=1 ms resets=1 rejected=36 accel_errors=1
+2026-11-17T21:48:23.163202+00:00,warn,STATUS 131962 state=Armed pouches=2 peak=1211 mg still=45 ms resets=1 rejected=36 accel_errors=1
+2026-11-17T21:48:23.387649+00:00,warn,STATUS 132214 state=Armed pouches=2 peak=1195 mg still=1 ms resets=1 rejected=36 accel_errors=1
+2026-11-17T21:48:23.657813+00:00,warn,STATUS 132468 state=Armed pouches=2 peak=1195 mg still=255 ms resets=1 rejected=36 accel_errors=1
+2026-11-17T21:48:23.883146+00:00,warn,STATUS 132720 state=Armed pouches=2 peak=1297 mg still=5 ms resets=1 rejected=36 accel_errors=1
+2026-11-17T21:48:24.153343+00:00,warn,STATUS 132971 state=Armed pouches=2 peak=1414 mg still=34 ms resets=1 rejected=36 accel_errors=1
+2026-11-17T21:48:24.423150+00:00,warn,STATUS 133223 state=Armed pouches=2 peak=1650 mg still=0 ms resets=1 rejected=36 accel_errors=1
+2026-11-17T21:48:24.423620+00:00,other,IMPACT ignored: 31567 mg without free fall just before (#37)
+2026-11-17T21:48:24.738126+00:00,warn,STATUS 133474 state=Armed pouches=2 peak=31567 mg still=1 ms resets=1 rejected=37 accel_errors=1
+2026-11-17T21:48:24.963170+00:00,other,Armed: no impact for 6000 ms -> Disarmed
+2026-11-17T21:48:24.963751+00:00,state,State: Armed -> Disarmed
+2026-11-17T21:48:25.008196+00:00,range,RANGE 133698 slot=0 uid=0xd683e32c distance=13 mm lives=3
+2026-11-17T21:48:25.008689+00:00,other,Pickup by slot 0 (26 mm)
+2026-11-17T21:48:25.008822+00:00,state,State: Disarmed -> Ready
+2026-11-17T21:48:25.010072+00:00,warn,STATUS 133731 state=Ready pouches=2 peak=2415 mg still=10 ms resets=1 rejected=37 accel_errors=1
+2026-11-17T21:48:25.098348+00:00,range,RANGE 133903 slot=0 uid=0xd683e32c distance=21 mm lives=3
+2026-11-17T21:48:25.278004+00:00,warn,STATUS 133993 state=Ready pouches=2 peak=1229 mg still=34 ms resets=1 rejected=37 accel_errors=1
+2026-11-17T21:48:25.322562+00:00,range,RANGE 134103 slot=0 uid=0xd683e32c distance=78 mm lives=3
+2026-11-17T21:48:25.414038+00:00,warn,STATUS 134253 state=Ready pouches=2 peak=1848 mg still=2 ms resets=1 rejected=37 accel_errors=1
+2026-11-17T21:48:25.503454+00:00,range,RANGE 134314 slot=1 uid=0xc87da704 distance=13516 mm lives=2
+2026-11-17T21:48:25.592817+00:00,other,IMPACT ignored: 2773 mg without free fall just before (#38)
+2026-11-17T21:48:25.727335+00:00,warn,STATUS 134513 state=Ready pouches=2 peak=2773 mg still=3 ms resets=1 rejected=38 accel_errors=1
+2026-11-17T21:48:25.728199+00:00,range,RANGE 134533 slot=1 uid=0xc87da704 distance=13636 mm lives=2
+2026-11-17T21:48:25.907786+00:00,range,RANGE 134745 none answered
+2026-11-17T21:48:25.952983+00:00,warn,STATUS 134770 state=Ready pouches=2 peak=2477 mg still=2 ms resets=1 rejected=38 accel_errors=1
+2026-11-17T21:48:26.133214+00:00,range,RANGE 134949 slot=1 uid=0xc87da704 distance=13404 mm lives=2
+2026-11-17T21:48:26.223021+00:00,warn,STATUS 135023 state=Ready pouches=2 peak=1247 mg still=3 ms resets=1 rejected=38 accel_errors=1
+2026-11-17T21:48:26.357894+00:00,range,RANGE 135161 slot=0 uid=0xd683e32c distance=75 mm lives=3
+2026-11-17T21:48:26.448386+00:00,warn,STATUS 135275 state=Ready pouches=2 peak=2076 mg still=1 ms resets=1 rejected=38 accel_errors=1
+2026-11-17T21:48:26.538546+00:00,range,RANGE 135371 slot=0 uid=0xd683e32c distance=437 mm lives=3
+2026-11-17T21:48:26.764891+00:00,warn,STATUS 135535 state=Ready pouches=2 peak=1978 mg still=3 ms resets=1 rejected=38 accel_errors=1
+2026-11-17T21:48:26.765338+00:00,range,RANGE 135573 slot=0 uid=0xd683e32c distance=554 mm lives=3
+2026-11-17T21:48:26.987737+00:00,other,IMPACT ignored: 2504 mg without free fall just before (#39)
+2026-11-17T21:48:26.988367+00:00,range,RANGE 135786 slot=0 uid=0xd683e32c distance=306 mm lives=3
+2026-11-17T21:48:26.988541+00:00,warn,STATUS 135791 state=Ready pouches=2 peak=3036 mg still=7 ms resets=1 rejected=39 accel_errors=1
+2026-11-17T21:48:27.167847+00:00,range,RANGE 135989 slot=0 uid=0xd683e32c distance=417 mm lives=3
+2026-11-17T21:48:27.169065+00:00,range,RANGE 135989 slot=1 uid=0xc87da704 distance=13502 mm lives=2
+2026-11-17T21:48:27.258065+00:00,other,IMPACT ignored: 3081 mg without free fall just before (#40)
+2026-11-17T21:48:27.258511+00:00,warn,STATUS 136055 state=Ready pouches=2 peak=3851 mg still=9 ms resets=1 rejected=40 accel_errors=1
+2026-11-17T21:48:27.349387+00:00,other,IMPACT ignored: 2535 mg without free fall just before (#41)
+2026-11-17T21:48:27.392744+00:00,range,RANGE 136198 slot=0 uid=0xd683e32c distance=588 mm lives=3
+2026-11-17T21:48:27.393434+00:00,range,RANGE 136198 slot=1 uid=0xc87da704 distance=13383 mm lives=2
+2026-11-17T21:48:27.482992+00:00,warn,STATUS 136307 state=Ready pouches=2 peak=21541 mg still=2 ms resets=1 rejected=41 accel_errors=1
+2026-11-17T21:48:27.572857+00:00,other,Thrower slot 0 out of range for 1 round(s) + free fall (began 41 ms ago): thrown
+2026-11-17T21:48:27.573391+00:00,state,State: Ready -> Armed
+2026-11-17T21:48:27.752956+00:00,warn,STATUS 136562 state=Armed pouches=2 peak=1144 mg still=42 ms resets=1 rejected=41 accel_errors=1
+2026-11-17T21:48:27.978014+00:00,warn,STATUS 136813 state=Armed pouches=2 peak=990 mg still=1 ms resets=1 rejected=41 accel_errors=1
+2026-11-17T21:48:28.248431+00:00,warn,STATUS 137064 state=Armed pouches=2 peak=1285 mg still=1 ms resets=1 rejected=41 accel_errors=1
+2026-11-17T21:48:28.518172+00:00,warn,STATUS 137322 state=Armed pouches=2 peak=1478 mg still=1 ms resets=1 rejected=41 accel_errors=1
+2026-11-17T21:48:28.743171+00:00,warn,STATUS 137573 state=Armed pouches=2 peak=1631 mg still=1 ms resets=1 rejected=41 accel_errors=1
+2026-11-17T21:48:29.012610+00:00,warn,STATUS 137825 state=Armed pouches=2 peak=1715 mg still=1 ms resets=1 rejected=41 accel_errors=1
+2026-11-17T21:48:29.283010+00:00,warn,STATUS 138077 state=Armed pouches=2 peak=1767 mg still=1 ms resets=1 rejected=41 accel_errors=1
+2026-11-17T21:48:29.509026+00:00,warn,STATUS 138328 state=Armed pouches=2 peak=1823 mg still=1 ms resets=1 rejected=41 accel_errors=1
+2026-11-17T21:48:29.733148+00:00,other,IMPACT ignored: 5807 mg without free fall just before (#42)
+2026-11-17T21:48:29.778089+00:00,warn,STATUS 138585 state=Armed pouches=2 peak=24162 mg still=4 ms resets=1 rejected=42 accel_errors=1
+2026-11-17T21:48:30.002797+00:00,warn,STATUS 138836 state=Armed pouches=2 peak=16550 mg still=1 ms resets=1 rejected=42 accel_errors=1
+2026-11-17T21:48:30.092505+00:00,other,IMPACT ignored: 8504 mg without free fall just before (#43)
+2026-11-17T21:48:30.318436+00:00,warn,STATUS 139093 state=Armed pouches=2 peak=8504 mg still=40 ms resets=1 rejected=43 accel_errors=1
+2026-11-17T21:48:30.407799+00:00,impact,"IMPACT 139232 ms, 2912 mg"
+2026-11-17T21:48:30.453279+00:00,state,State: Armed -> Classify
+2026-11-17T21:48:30.455530+00:00,range,RANGE 139259 slot=0 uid=0xd683e32c distance=9246 mm lives=3
+2026-11-17T21:48:30.456087+00:00,range,RANGE 139259 slot=1 uid=0xc87da704 distance=1104 mm lives=2
+2026-11-17T21:48:30.456206+00:00,other,Classify: no pouch within 900 mm -> miss
+2026-11-17T21:48:30.456292+00:00,state,State: Classify -> Disarmed
+2026-11-17T21:48:30.498263+00:00,other,Pickup by slot 1 (747 mm)
+2026-11-17T21:48:30.542127+00:00,state,State: Disarmed -> Ready
+2026-11-17T21:48:30.543263+00:00,warn,STATUS 139345 state=Ready pouches=2 peak=20594 mg still=3 ms resets=1 rejected=43 accel_errors=1
+2026-11-17T21:48:30.677322+00:00,range,RANGE 139459 slot=0 uid=0xd683e32c distance=8835 mm lives=3
+2026-11-17T21:48:30.678243+00:00,range,RANGE 139459 slot=1 uid=0xc87da704 distance=803 mm lives=2
+2026-11-17T21:48:30.767622+00:00,warn,STATUS 139595 state=Ready pouches=2 peak=2239 mg still=2 ms resets=1 rejected=43 accel_errors=1
