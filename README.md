@@ -12,7 +12,7 @@ Additionally, both use WS2812 5050 LED strips, containing 8 individually address
 #### Ball (Throwable)
 See [Ball README](ball/README.md) and [Ball FSM](docs/FSMs.md).
 
-The ball contains a Qorvo DWM3001CDK, along with an 8x1 RGB LED strip, a single button, and a battery pack with an on/off switch. It's primary functions include:
+The ball contains a Qorvo DWM3001CDK, a single button, and a battery pack with an on/off switch. It's primary functions include:
 * Game management/synchronization
 * Detecting when it is thrown (via onboard accelermeter)
 * Detecting and characterizing hits (via accelerometer + UWB ranging)
