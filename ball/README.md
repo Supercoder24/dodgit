@@ -32,9 +32,9 @@ See `docs/FSMs.md`. Summary of what the code does in each state:
 | State     | Ranging | Accel | Exit |
 |-----------|---------|-------|------|
 | Roll Call | no (listens for JOIN) | no | SW0 short press / timeout, once >= 1 pouch registered -> Disarmed |
-| Disarmed  | every loop | no | pouch with lives > 0 within `PICKUP_DISTANCE_MM` for `TRANSITION_CONFIRM_ROUNDS` consecutive rounds -> Ready (remembers it as the thrower) |
-| Ready     | every loop | free fall only | thrower farther than `LEAVE_DISTANCE_MM`, or not heard, for `TRANSITION_CONFIRM_ROUNDS` consecutive rounds **and** free fall (`\|a\| < FREEFALL_MG` for `FREEFALL_MIN_MS`) seen within `FREEFALL_HOLD_MS` -> Armed |
-| Armed     | off (radio idle) | yes | impact >= `IMPACT_MG` -> Classify |
+| Disarmed  | every loop | motion only | pouch with lives > 0 within `PICKUP_DISTANCE_MM` for `TRANSITION_CONFIRM_ROUNDS` consecutive rounds **and** the ball moved within `PICKUP_MOTION_MS` -> Ready (remembers it as the thrower) |
+| Ready     | every loop | free fall, impact, motion | thrower farther than `LEAVE_DISTANCE_MM`, or not heard, for `ARM_CONFIRM_ROUNDS` round(s) **and** free fall (`\|a\| < FREEFALL_MG` for `FREEFALL_MIN_MS`) seen within `FREEFALL_HOLD_MS` -> Armed; impact (after free fall) -> Classify; ball still for `READY_STILL_TIMEOUT_MS` -> Disarmed |
+| Armed     | one round every `ARMED_RECHECK_MS`, otherwise radio idle | yes | impact >= `IMPACT_MG` **preceded by free fall** (`IMPACT_AFTER_FREEFALL_MS`) -> Classify; thrower back within `REARM_DISTANCE_MM` for `REARM_CONFIRM_ROUNDS` re-checks -> Ready; `ARMED_TIMEOUT_MS` without impact -> Disarmed |
 | Classify  | one quick round (up to `CLASSIFY_ATTEMPTS` if nobody answers) | no | no pouch within `HIT_DISTANCE_MM` -> Disarmed; closest is the thrower -> Ready; else -> Inform |
 | Inform    | HIT message + wait for ACK | no | ACK, or `INFORM_TIMEOUT_MS` -> Disarmed |
 | Reset     | RESET broadcast every `RESET_RETRY_MS` | no | after 3 slow blinks -> Disarmed (silent pouches are not waited for) |
@@ -73,14 +73,21 @@ With exactly one pouch registered the thrower is always the closest pouch, so th
 
 Suggested bench run (ball on USB or battery with the monitor running, pouch on battery):
 1. Power the ball, then the pouch: expect `ROLLCALL new pouch ... -> slot 0`. Press SW0 on the ball -> `Disarmed`.
-2. Put the ball within 0.5 m of the pouch -> `Pickup by slot 0` -> `Ready`.
-3. Move the ball more than 1 m away -> `thrown` -> `Armed`.
-4. Bring the ball back within 1 m and tap/bump it (>= 2.5 g) -> `IMPACT`, `Classify: ... HIT on slot 0`, `HIT_ACK`, pouch loses a life, ball is `Disarmed`.
-5. Tap the ball while it is more than 1 m away (Armed) -> `Classify: no pouch within 1000 mm -> miss`.
+2. Pick the ball up within 0.5 m of the pouch (it has to move) -> `Pickup by slot 0` -> `Ready`. Putting it down and leaving it still for 5 s -> `Ready: ball lay still ... -> Disarmed`.
+3. Toss the ball (it must be in free fall) so that it ends up more than 0.7 m from the pouch -> `thrown (free fall began N ms ago)` -> `Armed`. Swinging it away without letting go and bringing it back -> `throw cancelled -> Ready` (or `Armed: no impact for 6000 ms -> Disarmed`).
+4. Toss it so that it lands (>= 2.5 g) within 0.9 m of the pouch -> `IMPACT`, `Classify: ... HIT on slot 0`, `HIT_ACK`, pouch loses a life, ball is `Disarmed`.
+5. Toss it so that it lands more than 0.9 m from the pouch (Armed) -> `Classify: no pouch within 900 mm -> miss`. A tap or bump without free fall is only logged as `IMPACT ignored`.
 6. After 3 hits the pouch has 0 lives and cannot be picked up: hold SW0 for 3 s (Reset) to restore it.
+
+## Accelerometer behavior
+* **Free-fall gate:** a threshold crossing only becomes an `IMPACT` if free fall was seen within `IMPACT_AFTER_FREEFALL_MS` before it. Otherwise the log says `IMPACT ignored: N mg without free fall just before` (launch spike of a throw, bump in the hand). Ignored crossings start no cooldown (`IMPACT_COOLDOWN_MS` only follows an accepted impact), so the spike of a throw cannot hide a hit that follows within a second.
+* **Stall recovery:** after a hard shock the LIS2DH sometimes stops delivering data (the driver reports "no new data" forever, which used to show up as `peak=0`). If no valid sample arrives for `ACCEL_STALL_MS`, the sensor is re-initialized from software (`lis2dh_init_chip()` plus +/-16 g, 400 Hz). The log shows `ACCEL stalled, sensor re-initialized (reset #n ...)`; `resets=` in STATUS counts them. While stalled `peak=-1` (no data, not "0 mg"), and the motion helpers fail safe (the ball is treated as moving, so it cannot be disarmed for lying "still"). If `resets` keeps rising or data does not come back, suspect power (battery/regulator dip on impact) rather than software.
+* **Motion:** the ball counts as moving when |a(t) - a(t-100 ms)| exceeds `STILL_DELTA_MG`. STATUS shows `still=` (ms since the last motion).
+* Peaks above 16 g (the configured range) have been seen (30-40 g); do not trust absolute values that high. Thresholds still work as relative triggers.
 
 ## Tuning
 All thresholds are placeholders in [`../shared/settings.h`](../shared/settings.h). `ANTENNA_DELAY` is not calibrated per board; compare printed distances with a tape measure.
+Most useful to tune from the Bluetooth log: `LEAVE_DISTANCE_MM` / `ARM_CONFIRM_ROUNDS` (the `thrown` line prints how many ms after free fall began the ball armed), `STILL_DELTA_MG` / `READY_STILL_TIMEOUT_MS` (watch `still=` while holding the ball steadily versus lying on a table), `IMPACT_AFTER_FREEFALL_MS` (watch `IMPACT ignored` lines during real throws; a real hit must never be ignored) and `ARMED_TIMEOUT_MS`.
 
 ## Build
 In VS Code with the nRF Connect extension: add `ball` as an application, board `decawave_dwm3001cdk/nrf52833`, then Build and Flash (after changing `prj.conf`, regenerate/pristine-build the configuration). Alternatively `./flash.sh ball` from the repository root (a standalone Zephyr workspace; `--build-only` just compiles, `JLINK_SN=<serial>` selects the board), or `west build -b decawave_dwm3001cdk/nrf52833` from this folder.

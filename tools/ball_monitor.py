@@ -46,6 +46,10 @@ def classify(line):
         return "status"
     if line.startswith("RANGE"):
         return "range"
+    if line.startswith("ACCEL"):
+        return "warn"  # accelerometer stalled and was re-initialized
+    if line.startswith("IMPACT ignored"):
+        return "other"  # threshold crossing without free fall before it
     if line.startswith("IMPACT"):
         return "impact"
     if line.startswith("HIT_UNACKED") or "unavailable" in line or "failed" in line.lower():

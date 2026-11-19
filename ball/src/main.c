@@ -16,6 +16,10 @@
  *   hold (>= 3 s)       : Reset - tell all pouches to restore their lives
  * (SW0 is unrelated to the board's hardware RESET button, which reboots the MCU.)
  *
+ * Ready also ends when the ball lies still for READY_STILL_TIMEOUT_MS (dropped), Armed when the
+ * thrower comes back close (wind-up cancelled) or after ARMED_TIMEOUT_MS, and an impact only counts
+ * if free fall came just before it (see impact.c).
+ *
  * The state number is shown in binary on led2 led1 led0 (led0 = 1s bit):
  *   Roll Call=0, Disarmed=1, Ready=2, Armed=3, Classify=4, Inform=5.
  * Reset blinks led0..led2 together 3 times slowly. In Roll Call led0 also flashes
@@ -235,6 +239,7 @@ static int64_t flash_until_ms;    /* Roll Call: led0 flash end */
 static int64_t last_log_ms;       /* throttle for the range log */
 static uint8_t reset_acked;       /* Reset: slots that acknowledged so far */
 static int64_t reset_next_send_ms;
+static int64_t armed_next_recheck_ms; /* Armed: when the next thrower re-check is due */
 
 static struct pouch_range ranges[MAX_POUCHES];
 
@@ -249,6 +254,7 @@ static void enter_state(enum ball_state next)
   if (next == STATE_READY)
   {
     impact_freefall_clear(); /* only free fall after this point counts as a throw */
+    impact_flush();          /* forget bumps from before */
   }
 
   switch (next)
@@ -258,8 +264,10 @@ static void enter_state(enum ball_state next)
     uwb_ball_rollcall_start();
     break;
   case STATE_ARMED:
-    uwb_ball_idle();       /* Armed: no ranging at all */
-    impact_flush();        /* forget bumps from before the throw */
+    uwb_ball_idle();       /* radio off; run_armed() re-ranges only every ARMED_RECHECK_MS */
+    armed_next_recheck_ms = state_entered_ms + ARMED_RECHECK_MS;
+    /* No flush here: impacts are only queued after free fall, so one that happened between the
+     * release and this transition is a real hit and must not be lost. */
     status_leds_show(next);
     break;
   case STATE_RESET:
@@ -311,6 +319,14 @@ static void log_ranges(int n)
   }
 }
 
+/* With only one pouch registered the thrower is always the closest pouch, so the normal
+ * rule "thrower hit itself -> back to Ready" would make a hit impossible to test.
+ * In that case the thrower may be hit (SELF_HIT_IF_SINGLE_POUCH in settings.h). */
+static bool single_pouch_test(void)
+{
+  return SELF_HIT_IF_SINGLE_POUCH && uwb_ball_pouch_count() == 1;
+}
+
 /* Roll Call (Light Strip: White)
  *   Pouches announce themselves; each new one gets the next free timeslot.
  *   Leave when SW0 is pressed (handled in main) or ROLLCALL_TIMEOUT_MS after the last
@@ -359,8 +375,10 @@ static void run_disarmed(void)
   }
   log_ranges(n);
 
+  /* Close to a pouch is not enough: a ball lying on the floor next to it is not "picked up".
+   * The ball has to be moving (impact_moved_recent is true if the sensor is down). */
   int c = closest(n, true);
-  if (c < 0 || ranges[c].mm > PICKUP_DISTANCE_MM)
+  if (c < 0 || ranges[c].mm > PICKUP_DISTANCE_MM || !impact_moved_recent(PICKUP_MOTION_MS))
   {
     confirm_rounds = 0; /* a single bad round restarts the count */
     pickup_candidate = -1;
@@ -383,9 +401,31 @@ static void run_disarmed(void)
 
 /* Ready (Light Strip: Yellow)
  *   Constantly ranging. The ball counts as thrown only when the thrower is out of range
- *   AND the accelerometer has seen free fall (|a| well below 1 g) recently. */
+ *   AND the accelerometer has seen free fall (|a| well below 1 g) recently.
+ *   Other exits: an impact after free fall (hit before Armed was reached), and lying still
+ *   for READY_STILL_TIMEOUT_MS (dropped / put down). */
 static void run_ready(void)
 {
+  struct impact_event ev;
+  while (impact_get(&ev))
+  {
+    /* Only impacts that follow free fall get here. With a single pouch (bench test) a drop
+     * would be classified as a hit on the thrower, so those are ignored in Ready. */
+    if (!single_pouch_test())
+    {
+      LOG("IMPACT %lld ms, %d mg (still Ready: hit right after release)", (long long)ev.time,
+          ev.mg);
+      enter_state(STATE_CLASSIFY);
+      return;
+    }
+  }
+  if (impact_still_ms() >= READY_STILL_TIMEOUT_MS)
+  {
+    LOG("Ready: ball lay still for %d ms (dropped?) -> Disarmed", READY_STILL_TIMEOUT_MS);
+    enter_state(STATE_DISARMED);
+    return;
+  }
+
   int n = uwb_ball_range_round(ranges, MAX_POUCHES);
   if (n < 0)
   {
@@ -411,21 +451,26 @@ static void run_ready(void)
     confirm_rounds = 0; /* a single in-range round restarts the count */
     return;
   }
-  if (confirm_rounds < TRANSITION_CONFIRM_ROUNDS)
+  if (confirm_rounds < ARM_CONFIRM_ROUNDS)
   {
     confirm_rounds++;
   }
   /* Out of range alone is not enough: the accelerometer must also have seen free fall. */
-  if (confirm_rounds >= TRANSITION_CONFIRM_ROUNDS && impact_freefall_recent(FREEFALL_HOLD_MS))
+  if (confirm_rounds >= ARM_CONFIRM_ROUNDS && impact_freefall_recent(FREEFALL_HOLD_MS))
   {
-    LOG("Thrower slot %d out of range for %d rounds + free fall: thrown", thrower_slot,
-        confirm_rounds);
+    uint32_t ff = impact_freefall_start_ms();
+    LOG("Thrower slot %d out of range for %d round(s) + free fall (began %d ms ago): thrown",
+        thrower_slot, confirm_rounds, ff ? (int)(k_uptime_get_32() - ff) : -1);
     enter_state(STATE_ARMED);
   }
 }
 
 /* Armed (Light Strip: Red)
- *   No ranging. Watch the accelerometer; an impact moves on to Classify. */
+ *   Watch the accelerometer; an impact (only counted after free fall) moves on to Classify.
+ *   Armed must not be a dead end, so also:
+ *   - every ARMED_RECHECK_MS one ranging round: the thrower back within REARM_DISTANCE_MM for
+ *     REARM_CONFIRM_ROUNDS in a row means the throw was cancelled (e.g. wind-up) -> Ready;
+ *   - after ARMED_TIMEOUT_MS without an impact -> Disarmed. */
 static void run_armed(void)
 {
   struct impact_event ev;
@@ -433,15 +478,47 @@ static void run_armed(void)
   {
     LOG("IMPACT %lld ms, %d mg", (long long)ev.time, ev.mg);
     enter_state(STATE_CLASSIFY);
+    return;
   }
-}
 
-/* With only one pouch registered the thrower is always the closest pouch, so the normal
- * rule "thrower hit itself -> back to Ready" would make a hit impossible to test.
- * In that case the thrower may be hit (SELF_HIT_IF_SINGLE_POUCH in settings.h). */
-static bool single_pouch_test(void)
-{
-  return SELF_HIT_IF_SINGLE_POUCH && uwb_ball_pouch_count() == 1;
+  int64_t now = k_uptime_get();
+  if (now - state_entered_ms >= ARMED_TIMEOUT_MS)
+  {
+    LOG("Armed: no impact for %d ms -> Disarmed", ARMED_TIMEOUT_MS);
+    enter_state(STATE_DISARMED);
+    return;
+  }
+  if (now < armed_next_recheck_ms)
+  {
+    return;
+  }
+  armed_next_recheck_ms = now + ARMED_RECHECK_MS;
+
+  int n = uwb_ball_range_round(ranges, MAX_POUCHES);
+  if (n < 0)
+  {
+    return;
+  }
+  int close_mm = -1;
+  for (int i = 0; i < n; i++)
+  {
+    if (ranges[i].slot == thrower_slot && ranges[i].mm <= REARM_DISTANCE_MM)
+    {
+      close_mm = ranges[i].mm;
+    }
+  }
+  if (close_mm < 0)
+  {
+    confirm_rounds = 0;
+    return;
+  }
+  if (++confirm_rounds >= REARM_CONFIRM_ROUNDS)
+  {
+    LOG("Armed: thrower slot %d is back (%d mm), throw cancelled -> Ready", thrower_slot,
+        close_mm);
+    enter_state(STATE_READY);
+    last_thrower_mm = close_mm; /* after enter_state, which clears it */
+  }
 }
 
 /* Classify (Light Strip: Blue)
@@ -538,8 +615,32 @@ static void log_status(void)
     return;
   }
   next_ms = now + STATUS_LOG_PERIOD_MS;
-  LOG("STATUS %lld state=%s pouches=%d peak=%d mg accel_errors=%u", (long long)now,
-     state_name(state), uwb_ball_pouch_count(), impact_take_peak(), impact_errors());
+  /* accel_errors stays the last field: tools/ball_monitor.py colors the line by its value. */
+  LOG("STATUS %lld state=%s pouches=%d peak=%d mg still=%u ms resets=%u rejected=%u accel_errors=%u",
+      (long long)now, state_name(state), uwb_ball_pouch_count(), impact_take_peak(),
+      impact_still_ms(), impact_resets(), impact_rejected(NULL), impact_errors());
+}
+
+/* One line whenever the accelerometer was re-initialized or an impact was ignored
+ * (no free fall just before it), so both can be checked in the log. */
+static void log_accel_events(void)
+{
+  static uint32_t seen_resets, seen_rejected;
+  uint32_t resets = impact_resets();
+  int32_t rejected_mg;
+  uint32_t rejected = impact_rejected(&rejected_mg);
+
+  if (resets != seen_resets)
+  {
+    seen_resets = resets;
+    LOG("ACCEL stalled, sensor re-initialized (reset #%u, %s)", resets,
+        impact_healthy() ? "data is back" : "still no data");
+  }
+  if (rejected != seen_rejected)
+  {
+    seen_rejected = rejected;
+    LOG("IMPACT ignored: %d mg without free fall just before (#%u)", rejected_mg, rejected);
+  }
 }
 
 int main(void)
@@ -613,8 +714,10 @@ int main(void)
     case STATE_RESET: run_reset(); break;
     }
 
+    log_accel_events();
     log_status();
-    k_msleep(LOOP_PERIOD_MS);
+    /* A ranging round in Ready already takes ~20 ms; do not add the full idle sleep there. */
+    k_msleep(state == STATE_READY ? 1 : LOOP_PERIOD_MS);
   }
   return 0;
 }
