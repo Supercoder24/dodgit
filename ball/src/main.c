@@ -245,7 +245,10 @@ static struct pouch_range ranges[MAX_POUCHES];
 
 static void enter_state(enum ball_state next)
 {
-  LOG("State: %s -> %s", state_name(state), state_name(next));
+  /* up= is the ball's uptime in ms, the same clock as STATUS/RANGE/IMPACT/BURST: the laptop's
+   * receive times are bunched by Bluetooth batching and cannot be used to order events. */
+  LOG("State: %s -> %s (up=%lld)", state_name(state), state_name(next),
+      (long long)k_uptime_get());
   state = next;
   state_entered_ms = k_uptime_get();
   confirm_rounds = 0; /* every state starts its own confirmation count */
@@ -413,8 +416,8 @@ static void run_ready(void)
      * would be classified as a hit on the thrower, so those are ignored in Ready. */
     if (!single_pouch_test())
     {
-      LOG("IMPACT %lld ms, %d mg (still Ready: hit right after release)", (long long)ev.time,
-          ev.mg);
+      LOG("IMPACT %lld ms, %d mg, ffage=%d ms min150=%d mg (still Ready: hit right after release)",
+          (long long)ev.time, ev.mg, ev.ff_age_ms, ev.min_prev_mg);
       enter_state(STATE_CLASSIFY);
       return;
     }
@@ -459,8 +462,10 @@ static void run_ready(void)
   if (confirm_rounds >= ARM_CONFIRM_ROUNDS && impact_freefall_recent(FREEFALL_HOLD_MS))
   {
     uint32_t ff = impact_freefall_start_ms();
-    LOG("Thrower slot %d out of range for %d round(s) + free fall (began %d ms ago): thrown",
-        thrower_slot, confirm_rounds, ff ? (int)(k_uptime_get_32() - ff) : -1);
+    LOG("Thrower slot %d out of range for %d round(s) + free fall (first since Ready began %d ms "
+        "ago, latest %d ms ago): thrown",
+        thrower_slot, confirm_rounds, ff ? (int)(k_uptime_get_32() - ff) : -1,
+        impact_freefall_age_ms());
     enter_state(STATE_ARMED);
   }
 }
@@ -476,7 +481,8 @@ static void run_armed(void)
   struct impact_event ev;
   if (impact_get(&ev))
   {
-    LOG("IMPACT %lld ms, %d mg", (long long)ev.time, ev.mg);
+    LOG("IMPACT %lld ms, %d mg, ffage=%d ms min150=%d mg", (long long)ev.time, ev.mg,
+        ev.ff_age_ms, ev.min_prev_mg);
     enter_state(STATE_CLASSIFY);
     return;
   }
@@ -499,6 +505,7 @@ static void run_armed(void)
   {
     return;
   }
+  log_ranges(n); /* so the ball's position during a flight can be read from the log */
   int close_mm = -1;
   for (int i = 0; i < n; i++)
   {
@@ -616,9 +623,11 @@ static void log_status(void)
   }
   next_ms = now + STATUS_LOG_PERIOD_MS;
   /* accel_errors stays the last field: tools/ball_monitor.py colors the line by its value. */
-  LOG("STATUS %lld state=%s pouches=%d peak=%d mg still=%u ms resets=%u rejected=%u accel_errors=%u",
+  LOG("STATUS %lld state=%s pouches=%d peak=%d mg min=%d mg still=%u ms resets=%u rejected=%u "
+      "accel_errors=%u",
       (long long)now, state_name(state), uwb_ball_pouch_count(), impact_take_peak(),
-      impact_still_ms(), impact_resets(), impact_rejected(NULL), impact_errors());
+      impact_take_min(), impact_still_ms(), impact_resets(), impact_rejected(NULL),
+      impact_errors());
 }
 
 /* One line whenever the accelerometer was re-initialized or an impact was ignored
@@ -639,7 +648,21 @@ static void log_accel_events(void)
   if (rejected != seen_rejected)
   {
     seen_rejected = rejected;
-    LOG("IMPACT ignored: %d mg without free fall just before (#%u)", rejected_mg, rejected);
+    int32_t ff_age, min_prev;
+    impact_rejected_detail(&ff_age, &min_prev);
+    LOG("IMPACT ignored: %d mg without free fall just before (#%u), ffage=%d ms min150=%d mg",
+        rejected_mg, rejected, ff_age, min_prev);
+  }
+}
+
+/* Raw accelerometer burst around every threshold crossing (see impact.h). One line per loop
+ * pass, so a burst of ~10 lines is spread out and never stalls ranging. */
+static void log_bursts(void)
+{
+  char line[160];
+  if (impact_burst_line(line, sizeof(line)))
+  {
+    LOG("%s", line);
   }
 }
 
@@ -715,6 +738,7 @@ int main(void)
     }
 
     log_accel_events();
+    log_bursts();
     log_status();
     /* A ranging round in Ready already takes ~20 ms; do not add the full idle sleep there. */
     k_msleep(state == STATE_READY ? 1 : LOOP_PERIOD_MS);

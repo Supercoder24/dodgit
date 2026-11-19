@@ -18,6 +18,7 @@
  *    reset pin).
  */
 #include <math.h>
+#include <stdio.h>
 #include <zephyr/kernel.h>
 #include <zephyr/drivers/sensor.h>
 #include <zephyr/sys/atomic.h>
@@ -48,6 +49,167 @@ static atomic_t rejected_mg;
 static atomic_t freefall_ms;       /* k_uptime_get_32() of the latest free-fall sample, 0 = none */
 static atomic_t freefall_start;    /* k_uptime_get_32() when that free fall began, 0 = none */
 static atomic_t last_motion_ms;    /* k_uptime_get_32() of the latest motion */
+static atomic_t min_mg = ATOMIC_INIT(-1); /* min |a| since impact_take_min(), -1 = no sample */
+static atomic_t rejected_ff_age;   /* diagnostics of the latest rejected crossing */
+static atomic_t rejected_min_prev;
+
+/* ---------------------------------------------------------------------------
+ * Raw burst capture (diagnostics). Around every threshold crossing the |a| samples before and
+ * after it are collected and handed to the main loop, which logs them (impact_burst_line()).
+ * This shows what the sensor really read during a throw, e.g. whether |a| ever fell below
+ * FREEFALL_MG while the ball was flying.
+ * ------------------------------------------------------------------------- */
+#define BURST_MAX (BURST_PRE_SAMPLES + BURST_POST_SAMPLES)
+#define BURST_LINE_SAMPLES 16
+
+enum burst_outcome
+{
+  BURST_ACCEPTED,
+  BURST_REJECTED,
+  BURST_COOLDOWN,
+};
+
+struct burst
+{
+  uint32_t seq;
+  uint32_t first_ms;    /* time of mg[0] */
+  uint32_t trigger_ms;
+  int32_t trigger_mg;
+  int32_t ff_age_ms;
+  int32_t min_prev_mg;
+  uint8_t outcome;
+  uint8_t extra;        /* further crossings inside this window */
+  uint16_t n;           /* samples stored */
+  uint16_t n_pre;       /* samples up to and including the crossing */
+  uint16_t t_off[BURST_MAX]; /* ms since first_ms */
+  int16_t mg[BURST_MAX];
+};
+K_MSGQ_DEFINE(burst_q, sizeof(struct burst), 3, 4);
+
+/* Used by the sample thread only. */
+static struct
+{
+  uint32_t t;
+  int16_t mg;
+} ring[BURST_PRE_SAMPLES];
+static int ring_next, ring_len;
+static struct burst cap;
+static bool cap_active;
+static int cap_post_left;
+static uint32_t burst_seq;
+
+/* Used by impact_burst_line() (the main loop) only. */
+static struct burst out;
+static bool out_valid;
+static int out_pos; /* -1 = header line next, else index of the next sample */
+
+static int ring_at(int age) /* 0 = newest sample */
+{
+  return (ring_next - 1 - age + BURST_PRE_SAMPLES) % BURST_PRE_SAMPLES;
+}
+
+static void ring_push(uint32_t t, int32_t mg)
+{
+  ring[ring_next].t = t;
+  ring[ring_next].mg = (int16_t)MIN(mg, INT16_MAX);
+  ring_next = (ring_next + 1) % BURST_PRE_SAMPLES;
+  if (ring_len < BURST_PRE_SAMPLES)
+  {
+    ring_len++;
+  }
+}
+
+/* Lowest |a| in the IMPACT_AFTER_FREEFALL_MS before the newest sample (which is excluded). */
+static int32_t ring_min_prev(uint32_t now)
+{
+  int32_t m = -1;
+  for (int age = 1; age < ring_len; age++)
+  {
+    int i = ring_at(age);
+    if ((uint32_t)(now - ring[i].t) > IMPACT_AFTER_FREEFALL_MS)
+    {
+      break;
+    }
+    if (m < 0 || ring[i].mg < m)
+    {
+      m = ring[i].mg;
+    }
+  }
+  return m;
+}
+
+static void burst_start(uint32_t now, int32_t mg, enum burst_outcome outcome, int32_t ff_age,
+                        int32_t min_prev)
+{
+  cap.seq = ++burst_seq;
+  cap.trigger_ms = now;
+  cap.trigger_mg = mg;
+  cap.ff_age_ms = ff_age;
+  cap.min_prev_mg = min_prev;
+  cap.outcome = outcome;
+  cap.extra = 0;
+  cap.first_ms = ring[ring_at(ring_len - 1)].t;
+  for (int k = 0; k < ring_len; k++) /* oldest first, the crossing sample last */
+  {
+    int i = ring_at(ring_len - 1 - k);
+    cap.t_off[k] = (uint16_t)(ring[i].t - cap.first_ms);
+    cap.mg[k] = ring[i].mg;
+  }
+  cap.n = ring_len;
+  cap.n_pre = ring_len;
+  cap_post_left = BURST_POST_SAMPLES;
+  cap_active = true;
+}
+
+static void burst_add(uint32_t t, int32_t mg)
+{
+  cap.t_off[cap.n] = (uint16_t)(t - cap.first_ms);
+  cap.mg[cap.n++] = (int16_t)MIN(mg, INT16_MAX);
+  if (--cap_post_left <= 0)
+  {
+    cap_active = false;
+    k_msgq_put(&burst_q, &cap, K_NO_WAIT); /* queue full: dropped, visible as a gap in seq */
+  }
+}
+
+bool impact_burst_line(char *buf, size_t size)
+{
+  static const char *const names[] = {"accepted", "rejected", "cooldown"};
+
+  if (!out_valid)
+  {
+    if (k_msgq_get(&burst_q, &out, K_NO_WAIT))
+    {
+      return false;
+    }
+    out_valid = true;
+    out_pos = -1;
+  }
+  if (out_pos < 0)
+  {
+    snprintf(buf, size,
+             "BURST #%u trigger up=%u mg=%d %s ffage=%d ms min150=%d mg also=%u samples=%u pre=%u",
+             out.seq, out.trigger_ms, out.trigger_mg, names[out.outcome], out.ff_age_ms,
+             out.min_prev_mg, out.extra, out.n, out.n_pre);
+    out_pos = 0;
+    return true;
+  }
+  int first = out_pos;
+  int last = MIN(first + BURST_LINE_SAMPLES, (int)out.n) - 1;
+  size_t len = snprintf(buf, size, "BURST #%u %+d..%+d ms:", out.seq,
+                        (int)(out.first_ms + out.t_off[first] - out.trigger_ms),
+                        (int)(out.first_ms + out.t_off[last] - out.trigger_ms));
+  for (int i = first; i <= last && len < size; i++)
+  {
+    len += snprintf(buf + len, size - len, " %d", out.mg[i]);
+  }
+  out_pos = last + 1;
+  if (out_pos >= (int)out.n)
+  {
+    out_valid = false;
+  }
+  return true;
+}
 
 /* Full scale +/-16 g (impacts are far above the +/-2 g default) and 400 Hz. */
 static int accel_configure(void)
@@ -96,6 +258,11 @@ int32_t impact_take_peak(void)
   return (int32_t)atomic_set(&peak_mg, -1); /* returns the old value */
 }
 
+int32_t impact_take_min(void)
+{
+  return (int32_t)atomic_set(&min_mg, -1); /* returns the old value */
+}
+
 uint32_t impact_errors(void)
 {
   return (uint32_t)atomic_get(&error_count);
@@ -118,6 +285,24 @@ uint32_t impact_rejected(int32_t *last_mg)
     *last_mg = (int32_t)atomic_get(&rejected_mg);
   }
   return (uint32_t)atomic_get(&rejected_count);
+}
+
+void impact_rejected_detail(int32_t *ff_age_ms, int32_t *min_prev_mg)
+{
+  if (ff_age_ms)
+  {
+    *ff_age_ms = (int32_t)atomic_get(&rejected_ff_age);
+  }
+  if (min_prev_mg)
+  {
+    *min_prev_mg = (int32_t)atomic_get(&rejected_min_prev);
+  }
+}
+
+int32_t impact_freefall_age_ms(void)
+{
+  uint32_t t = (uint32_t)atomic_get(&freefall_ms);
+  return t == 0 ? -1 : (int32_t)(k_uptime_get_32() - t);
 }
 
 bool impact_freefall_recent(int hold_ms)
@@ -220,6 +405,7 @@ static void sample_thread(void *a, void *b, void *c)
           cooldown_until = 0;
           freefall_since = 0;
           ref_valid = false;
+          ring_len = 0; /* the burst history spans the stall: start over */
           warm_until_ms = k_uptime_get() + SETTLE_MS;
         }
       }
@@ -229,6 +415,18 @@ static void sample_thread(void *a, void *b, void *c)
     atomic_set(&healthy, 1);
 
     int32_t mg = (int32_t)sqrt(x * x + y * y + z * z);
+
+    /* Diagnostics: lowest |a| per STATUS period, and the raw burst around crossings. */
+    int32_t cur_min = (int32_t)atomic_get(&min_mg);
+    if (cur_min < 0 || mg < cur_min)
+    {
+      atomic_set(&min_mg, mg);
+    }
+    if (cap_active)
+    {
+      burst_add((uint32_t)now, mg);
+    }
+    ring_push((uint32_t)now, mg);
 
     /* Motion: compare with a reference sample that is refreshed every MOTION_WINDOW_MS. */
     if (!ref_valid)
@@ -286,18 +484,40 @@ static void sample_thread(void *a, void *b, void *c)
     if (now >= warm_until_ms && armed_gate && mg >= threshold_mg)
     {
       armed_gate = false; /* this crossing is used up until |a| falls again */
-      if (now >= cooldown_until)
+      bool in_cooldown = now < cooldown_until;
+      bool flying = impact_freefall_recent(IMPACT_AFTER_FREEFALL_MS);
+      int32_t ff_age = impact_freefall_age_ms();
+      int32_t min_prev = ring_min_prev((uint32_t)now);
+
+      if (cap_active)
       {
-        if (impact_freefall_recent(IMPACT_AFTER_FREEFALL_MS))
+        if (cap.extra < UINT8_MAX)
+        {
+          cap.extra++;
+        }
+      }
+      else
+      {
+        burst_start((uint32_t)now, mg,
+                    in_cooldown ? BURST_COOLDOWN : (flying ? BURST_ACCEPTED : BURST_REJECTED),
+                    ff_age, min_prev);
+      }
+
+      if (!in_cooldown)
+      {
+        if (flying)
         {
           cooldown_until = now + cooldown_ms; /* only a real (accepted) impact starts it */
-          struct impact_event ev = {.time = now, .mg = mg};
+          struct impact_event ev = {.time = now, .mg = mg, .ff_age_ms = ff_age,
+                                    .min_prev_mg = min_prev};
           k_msgq_put(&impact_q, &ev, K_NO_WAIT); /* queue full: drop */
         }
         else
         {
           /* Not flying just before: launch spike, or a bump in the hand. */
           atomic_set(&rejected_mg, mg);
+          atomic_set(&rejected_ff_age, ff_age);
+          atomic_set(&rejected_min_prev, min_prev);
           atomic_inc(&rejected_count);
         }
       }

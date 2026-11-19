@@ -1,0 +1,468 @@
+host_utc,category,line
+2026-11-19T21:03:28.751845+00:00,status,STATUS 3865 state=Roll Call pouches=0 peak=1031 mg min=914 mg still=1180 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:29.006784+00:00,status,STATUS 4119 state=Roll Call pouches=0 peak=1033 mg min=891 mg still=1434 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:29.261870+00:00,status,STATUS 4374 state=Roll Call pouches=0 peak=1033 mg min=914 mg still=43 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:29.516789+00:00,status,STATUS 4628 state=Roll Call pouches=0 peak=1032 mg min=915 mg still=20 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:29.788239+00:00,status,STATUS 4883 state=Roll Call pouches=0 peak=1009 mg min=916 mg still=275 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:30.026886+00:00,status,STATUS 5137 state=Roll Call pouches=0 peak=1012 mg min=914 mg still=529 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:30.283437+00:00,status,STATUS 5392 state=Roll Call pouches=0 peak=1037 mg min=920 mg still=88 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:30.521951+00:00,status,STATUS 5646 state=Roll Call pouches=0 peak=1044 mg min=828 mg still=20 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:30.776848+00:00,status,STATUS 5900 state=Roll Call pouches=0 peak=1033 mg min=893 mg still=216 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:31.031923+00:00,status,STATUS 6155 state=Roll Call pouches=0 peak=1037 mg min=892 mg still=21 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:31.288150+00:00,status,STATUS 6409 state=Roll Call pouches=0 peak=1052 mg min=906 mg still=65 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:31.541836+00:00,status,STATUS 6663 state=Roll Call pouches=0 peak=1020 mg min=899 mg still=126 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:31.796936+00:00,status,STATUS 6918 state=Roll Call pouches=0 peak=1022 mg min=920 mg still=381 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:32.051804+00:00,status,STATUS 7172 state=Roll Call pouches=0 peak=1013 mg min=927 mg still=138 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:32.306867+00:00,status,STATUS 7427 state=Roll Call pouches=0 peak=1034 mg min=901 mg still=10 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:32.561865+00:00,status,STATUS 7681 state=Roll Call pouches=0 peak=1008 mg min=915 mg still=264 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:32.816990+00:00,status,STATUS 7936 state=Roll Call pouches=0 peak=1035 mg min=895 mg still=519 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:33.087309+00:00,status,STATUS 8190 state=Roll Call pouches=0 peak=1040 mg min=915 mg still=773 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:33.356924+00:00,status,STATUS 8444 state=Roll Call pouches=0 peak=1038 mg min=930 mg still=121 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:33.582066+00:00,status,STATUS 8699 state=Roll Call pouches=0 peak=1038 mg min=921 mg still=44 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:33.851993+00:00,status,STATUS 8953 state=Roll Call pouches=0 peak=1031 mg min=917 mg still=298 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:34.122017+00:00,status,STATUS 9207 state=Roll Call pouches=0 peak=1033 mg min=914 mg still=21 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:34.346966+00:00,status,STATUS 9461 state=Roll Call pouches=0 peak=1009 mg min=914 mg still=43 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:34.616991+00:00,status,STATUS 9716 state=Roll Call pouches=0 peak=1033 mg min=868 mg still=5 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:34.886940+00:00,status,STATUS 9970 state=Roll Call pouches=0 peak=1031 mg min=914 mg still=10 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:35.111908+00:00,status,STATUS 10224 state=Roll Call pouches=0 peak=1032 mg min=868 mg still=21 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:35.381899+00:00,status,STATUS 10478 state=Roll Call pouches=0 peak=1045 mg min=878 mg still=32 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:35.652017+00:00,status,STATUS 10732 state=Roll Call pouches=0 peak=1094 mg min=782 mg still=15 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:35.876851+00:00,status,STATUS 10986 state=Roll Call pouches=0 peak=1091 mg min=862 mg still=8 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:36.146958+00:00,status,STATUS 11241 state=Roll Call pouches=0 peak=963 mg min=868 mg still=15 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:36.382992+00:00,status,STATUS 11495 state=Roll Call pouches=0 peak=1159 mg min=856 mg still=4 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:36.653977+00:00,status,STATUS 11749 state=Roll Call pouches=0 peak=1103 mg min=841 mg still=4 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:36.924500+00:00,status,STATUS 12003 state=Roll Call pouches=0 peak=1015 mg min=901 mg still=65 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:37.193313+00:00,status,STATUS 12257 state=Roll Call pouches=0 peak=1428 mg min=679 mg still=14 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:37.418251+00:00,status,STATUS 12512 state=Roll Call pouches=0 peak=1240 mg min=680 mg still=3 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:37.643122+00:00,status,STATUS 12766 state=Roll Call pouches=0 peak=1113 mg min=842 mg still=15 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:37.913176+00:00,status,STATUS 13020 state=Roll Call pouches=0 peak=1372 mg min=671 mg still=3 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:38.228187+00:00,status,STATUS 13275 state=Roll Call pouches=0 peak=1062 mg min=696 mg still=15 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:38.408166+00:00,status,STATUS 13529 state=Roll Call pouches=0 peak=1313 mg min=608 mg still=4 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:38.678050+00:00,status,STATUS 13783 state=Roll Call pouches=0 peak=1270 mg min=663 mg still=14 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:39.039726+00:00,status,STATUS 14037 state=Roll Call pouches=0 peak=1327 mg min=853 mg still=3 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:39.173661+00:00,status,STATUS 14292 state=Roll Call pouches=0 peak=1358 mg min=689 mg still=4 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:39.443261+00:00,status,STATUS 14546 state=Roll Call pouches=0 peak=1038 mg min=657 mg still=65 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:39.713300+00:00,status,STATUS 14800 state=Roll Call pouches=0 peak=1296 mg min=616 mg still=4 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:39.983860+00:00,status,STATUS 15054 state=Roll Call pouches=0 peak=1416 mg min=701 mg still=3 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:41.243442+00:00,status,STATUS 15309 state=Roll Call pouches=0 peak=1190 mg min=895 mg still=15 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:41.244500+00:00,status,STATUS 15563 state=Roll Call pouches=0 peak=1526 mg min=641 mg still=4 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:41.423266+00:00,status,STATUS 15817 state=Roll Call pouches=0 peak=1119 mg min=695 mg still=15 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:41.424211+00:00,status,STATUS 16072 state=Roll Call pouches=0 peak=1264 mg min=801 mg still=3 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:41.648381+00:00,status,STATUS 16326 state=Roll Call pouches=0 peak=1062 mg min=715 mg still=43 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:41.649095+00:00,status,STATUS 16580 state=Roll Call pouches=0 peak=1062 mg min=853 mg still=3 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:41.739066+00:00,status,STATUS 16834 state=Roll Call pouches=0 peak=1050 mg min=902 mg still=132 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:41.963266+00:00,status,STATUS 17088 state=Roll Call pouches=0 peak=1017 mg min=932 mg still=386 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:42.278625+00:00,status,STATUS 17343 state=Roll Call pouches=0 peak=1034 mg min=912 mg still=641 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:42.503549+00:00,status,STATUS 17597 state=Roll Call pouches=0 peak=1060 mg min=899 mg still=48 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:42.818926+00:00,status,STATUS 17851 state=Roll Call pouches=0 peak=1034 mg min=922 mg still=302 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:43.043350+00:00,status,STATUS 18106 state=Roll Call pouches=0 peak=1042 mg min=916 mg still=557 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:43.268559+00:00,status,STATUS 18360 state=Roll Call pouches=0 peak=1038 mg min=893 mg still=4 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:43.538749+00:00,status,STATUS 18614 state=Roll Call pouches=0 peak=1034 mg min=887 mg still=4 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:43.764023+00:00,status,STATUS 18868 state=Roll Call pouches=0 peak=1210 mg min=548 mg still=25 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:44.078654+00:00,status,STATUS 19123 state=Roll Call pouches=0 peak=1016 mg min=901 mg still=280 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:44.258535+00:00,status,STATUS 19377 state=Roll Call pouches=0 peak=1058 mg min=885 mg still=4 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:44.573634+00:00,status,STATUS 19631 state=Roll Call pouches=0 peak=1439 mg min=708 mg still=26 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:44.978641+00:00,status,STATUS 19886 state=Roll Call pouches=0 peak=1027 mg min=901 mg still=16 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:45.068637+00:00,status,STATUS 20140 state=Roll Call pouches=0 peak=1048 mg min=917 mg still=71 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:45.384006+00:00,status,STATUS 20394 state=Roll Call pouches=0 peak=1054 mg min=911 mg still=165 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:45.608449+00:00,status,STATUS 20649 state=Roll Call pouches=0 peak=1048 mg min=931 mg still=188 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:45.788494+00:00,status,STATUS 20903 state=Roll Call pouches=0 peak=1052 mg min=887 mg still=21 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:46.058469+00:00,status,STATUS 21157 state=Roll Call pouches=0 peak=1018 mg min=931 mg still=171 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:46.373524+00:00,status,STATUS 21411 state=Roll Call pouches=0 peak=1034 mg min=908 mg still=104 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:46.688709+00:00,status,STATUS 21666 state=Roll Call pouches=0 peak=1025 mg min=911 mg still=21 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:46.868722+00:00,status,STATUS 21920 state=Roll Call pouches=0 peak=1026 mg min=933 mg still=275 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:47.093443+00:00,status,STATUS 22174 state=Roll Call pouches=0 peak=1025 mg min=911 mg still=65 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:47.363413+00:00,status,STATUS 22429 state=Roll Call pouches=0 peak=1049 mg min=903 mg still=10 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:47.588516+00:00,status,STATUS 22683 state=Roll Call pouches=0 peak=1006 mg min=906 mg still=264 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:47.814052+00:00,status,STATUS 22937 state=Roll Call pouches=0 peak=1002 mg min=906 mg still=518 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:48.443462+00:00,status,STATUS 23192 state=Roll Call pouches=0 peak=1041 mg min=890 mg still=43 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:48.444331+00:00,status,STATUS 23446 state=Roll Call pouches=0 peak=1048 mg min=898 mg still=297 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:48.763673+00:00,status,STATUS 23700 state=Roll Call pouches=0 peak=1029 mg min=911 mg still=551 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:48.938408+00:00,status,STATUS 23955 state=Roll Call pouches=0 peak=1048 mg min=887 mg still=27 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:49.253748+00:00,status,STATUS 24209 state=Roll Call pouches=0 peak=1034 mg min=890 mg still=171 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:49.478763+00:00,status,STATUS 24463 state=Roll Call pouches=0 peak=1039 mg min=886 mg still=60 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:49.613815+00:00,status,STATUS 24717 state=Roll Call pouches=0 peak=1006 mg min=895 mg still=182 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:50.378682+00:00,status,STATUS 24972 state=Roll Call pouches=0 peak=1001 mg min=889 mg still=437 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:50.423615+00:00,status,STATUS 25226 state=Roll Call pouches=0 peak=1012 mg min=893 mg still=4 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:50.603631+00:00,status,STATUS 25480 state=Roll Call pouches=0 peak=994 mg min=901 mg still=258 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:50.738644+00:00,status,STATUS 25735 state=Roll Call pouches=0 peak=984 mg min=884 mg still=138 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:50.963778+00:00,status,STATUS 25989 state=Roll Call pouches=0 peak=1006 mg min=897 mg still=392 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:51.143653+00:00,status,STATUS 26243 state=Roll Call pouches=0 peak=991 mg min=897 mg still=59 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:51.413629+00:00,status,STATUS 26498 state=Roll Call pouches=0 peak=1011 mg min=884 mg still=314 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:51.728569+00:00,status,STATUS 26752 state=Roll Call pouches=0 peak=979 mg min=881 mg still=568 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:51.953943+00:00,status,STATUS 27006 state=Roll Call pouches=0 peak=1041 mg min=835 mg still=20 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:57.748012+00:00,status,STATUS 32857 state=Roll Call pouches=0 peak=988 mg min=899 mg still=459 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:57.987705+00:00,status,STATUS 33112 state=Roll Call pouches=0 peak=990 mg min=908 mg still=714 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:58.272722+00:00,status,STATUS 33366 state=Roll Call pouches=0 peak=1017 mg min=893 mg still=82 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:58.527751+00:00,status,STATUS 33620 state=Roll Call pouches=0 peak=1057 mg min=906 mg still=65 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:58.827709+00:00,status,STATUS 33875 state=Roll Call pouches=0 peak=1033 mg min=897 mg still=82 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:59.143744+00:00,status,STATUS 34129 state=Roll Call pouches=0 peak=1001 mg min=907 mg still=336 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:59.263677+00:00,status,STATUS 34383 state=Roll Call pouches=0 peak=1005 mg min=916 mg still=104 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:59.532307+00:00,status,STATUS 34638 state=Roll Call pouches=0 peak=1003 mg min=911 mg still=359 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:03:59.788051+00:00,status,STATUS 34893 state=Roll Call pouches=0 peak=1002 mg min=869 mg still=76 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:00.027808+00:00,status,STATUS 35147 state=Roll Call pouches=0 peak=1011 mg min=897 mg still=171 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:00.492485+00:00,status,STATUS 35401 state=Roll Call pouches=0 peak=1014 mg min=941 mg still=425 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:00.582703+00:00,status,STATUS 35656 state=Roll Call pouches=0 peak=1016 mg min=924 mg still=680 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:01.017862+00:00,status,STATUS 35911 state=Roll Call pouches=0 peak=1005 mg min=908 mg still=227 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:01.047404+00:00,status,STATUS 36165 state=Roll Call pouches=0 peak=1011 mg min=908 mg still=143 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:01.347645+00:00,status,STATUS 36419 state=Roll Call pouches=0 peak=999 mg min=880 mg still=31 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:01.558939+00:00,status,STATUS 36674 state=Roll Call pouches=0 peak=1015 mg min=931 mg still=43 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:01.827919+00:00,status,STATUS 36928 state=Roll Call pouches=0 peak=1004 mg min=886 mg still=82 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:02.067437+00:00,status,STATUS 37183 state=Roll Call pouches=0 peak=1003 mg min=905 mg still=337 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:02.382704+00:00,status,STATUS 37437 state=Roll Call pouches=0 peak=1016 mg min=869 mg still=132 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:02.652688+00:00,status,STATUS 37691 state=Roll Call pouches=0 peak=985 mg min=899 mg still=104 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:02.967582+00:00,status,STATUS 37946 state=Roll Call pouches=0 peak=982 mg min=908 mg still=359 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:03.102705+00:00,status,STATUS 38200 state=Roll Call pouches=0 peak=1004 mg min=861 mg still=77 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:03.642440+00:00,status,STATUS 38454 state=Roll Call pouches=0 peak=1004 mg min=902 mg still=76 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:03.822594+00:00,status,STATUS 38708 state=Roll Call pouches=0 peak=1002 mg min=912 mg still=330 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:04.002498+00:00,status,STATUS 38963 state=Roll Call pouches=0 peak=1012 mg min=868 mg still=4 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:04.272464+00:00,status,STATUS 39217 state=Roll Call pouches=0 peak=1006 mg min=882 mg still=244 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:04.454036+00:00,status,STATUS 39471 state=Roll Call pouches=0 peak=1016 mg min=891 mg still=132 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:04.632498+00:00,status,STATUS 39726 state=Roll Call pouches=0 peak=997 mg min=884 mg still=60 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:04.902641+00:00,status,STATUS 39980 state=Roll Call pouches=0 peak=954 mg min=893 mg still=88 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:05.127627+00:00,status,STATUS 40234 state=Roll Call pouches=0 peak=998 mg min=890 mg still=238 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:05.397789+00:00,status,STATUS 40488 state=Roll Call pouches=0 peak=995 mg min=888 mg still=4 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:05.667581+00:00,status,STATUS 40743 state=Roll Call pouches=0 peak=996 mg min=864 mg still=259 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:06.342507+00:00,status,STATUS 40997 state=Roll Call pouches=0 peak=973 mg min=869 mg still=513 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:13.288148+00:00,status,STATUS 48364 state=Roll Call pouches=2 peak=1019 mg min=929 mg still=953 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:13.499631+00:00,status,STATUS 48618 state=Roll Call pouches=2 peak=1024 mg min=902 mg still=1207 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:13.768228+00:00,status,STATUS 48873 state=Roll Call pouches=2 peak=1038 mg min=902 mg still=1462 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:14.007957+00:00,status,STATUS 49127 state=Roll Call pouches=2 peak=1030 mg min=924 mg still=1716 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:14.278444+00:00,status,STATUS 49382 state=Roll Call pouches=2 peak=1001 mg min=906 mg still=1971 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:14.532780+00:00,status,STATUS 49637 state=Roll Call pouches=2 peak=1024 mg min=884 mg still=88 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:14.877694+00:00,status,STATUS 49891 state=Roll Call pouches=2 peak=999 mg min=920 mg still=342 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:15.072653+00:00,status,STATUS 50145 state=Roll Call pouches=2 peak=996 mg min=906 mg still=596 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:15.282801+00:00,status,STATUS 50400 state=Roll Call pouches=2 peak=996 mg min=924 mg still=851 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:15.552861+00:00,status,STATUS 50654 state=Roll Call pouches=2 peak=1038 mg min=902 mg still=1105 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:15.793099+00:00,status,STATUS 50909 state=Roll Call pouches=2 peak=996 mg min=902 mg still=1360 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:16.062910+00:00,status,STATUS 51163 state=Roll Call pouches=2 peak=1024 mg min=920 mg still=1614 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:16.422688+00:00,status,STATUS 51418 state=Roll Call pouches=2 peak=1019 mg min=918 mg still=1869 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:16.557655+00:00,status,STATUS 51672 state=Roll Call pouches=2 peak=1019 mg min=895 mg still=154 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:16.857745+00:00,status,STATUS 51927 state=Roll Call pouches=2 peak=1019 mg min=906 mg still=409 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:17.322775+00:00,status,STATUS 52181 state=Roll Call pouches=2 peak=1021 mg min=911 mg still=663 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:17.323572+00:00,status,STATUS 52436 state=Roll Call pouches=2 peak=1024 mg min=879 mg still=918 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:17.593228+00:00,status,STATUS 52690 state=Roll Call pouches=2 peak=1015 mg min=920 mg still=1172 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:18.582992+00:00,status,STATUS 52945 state=Roll Call pouches=2 peak=1006 mg min=916 mg still=1427 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:18.627662+00:00,status,STATUS 53199 state=Roll Call pouches=2 peak=1042 mg min=902 mg still=1681 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:18.628652+00:00,status,STATUS 53454 state=Roll Call pouches=2 peak=1001 mg min=906 mg still=1936 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:18.630201+00:00,status,STATUS 53708 state=Roll Call pouches=2 peak=1024 mg min=920 mg still=2190 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:18.987967+00:00,status,STATUS 53962 state=Roll Call pouches=2 peak=1019 mg min=902 mg still=171 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:19.212688+00:00,status,STATUS 54217 state=Roll Call pouches=2 peak=1008 mg min=924 mg still=426 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:19.709232+00:00,status,STATUS 54471 state=Roll Call pouches=2 peak=1017 mg min=924 mg still=680 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:20.293823+00:00,status,STATUS 54726 state=Roll Call pouches=2 peak=1038 mg min=924 mg still=935 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:20.294067+00:00,status,STATUS 54980 state=Roll Call pouches=2 peak=1042 mg min=893 mg still=1189 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:20.338715+00:00,status,STATUS 55235 state=Roll Call pouches=2 peak=1057 mg min=906 mg still=1444 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:20.697826+00:00,status,STATUS 55489 state=Roll Call pouches=2 peak=1042 mg min=924 mg still=1698 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:20.787941+00:00,status,STATUS 55743 state=Roll Call pouches=2 peak=1019 mg min=875 mg still=1952 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:20.878002+00:00,status,STATUS 55998 state=Roll Call pouches=2 peak=1019 mg min=924 mg still=2207 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:21.148274+00:00,status,STATUS 56252 state=Roll Call pouches=2 peak=1019 mg min=902 mg still=2461 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:21.733056+00:00,status,STATUS 56507 state=Roll Call pouches=2 peak=1042 mg min=906 mg still=32 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:21.733865+00:00,status,STATUS 56761 state=Roll Call pouches=2 peak=1046 mg min=902 mg still=286 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:21.957773+00:00,status,STATUS 57015 state=Roll Call pouches=2 peak=996 mg min=906 mg still=540 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:22.363004+00:00,status,STATUS 57270 state=Roll Call pouches=2 peak=1034 mg min=882 mg still=43 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:22.542839+00:00,status,STATUS 57524 state=Roll Call pouches=2 peak=1036 mg min=890 mg still=27 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:22.677760+00:00,status,STATUS 57778 state=Roll Call pouches=2 peak=1015 mg min=902 mg still=281 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:23.037831+00:00,status,STATUS 58032 state=Roll Call pouches=2 peak=1064 mg min=924 mg still=154 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:23.398074+00:00,status,STATUS 58287 state=Roll Call pouches=2 peak=1015 mg min=906 mg still=409 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:23.622847+00:00,status,STATUS 58541 state=Roll Call pouches=2 peak=996 mg min=902 mg still=199 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:23.757747+00:00,status,STATUS 58796 state=Roll Call pouches=2 peak=1057 mg min=892 mg still=216 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:24.207809+00:00,status,STATUS 59050 state=Roll Call pouches=2 peak=1031 mg min=927 mg still=470 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:24.478008+00:00,status,STATUS 59305 state=Roll Call pouches=2 peak=1030 mg min=901 mg still=77 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:24.478837+00:00,status,STATUS 59559 state=Roll Call pouches=2 peak=1037 mg min=916 mg still=16 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:24.703321+00:00,status,STATUS 59813 state=Roll Call pouches=2 peak=1035 mg min=901 mg still=15 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:25.152949+00:00,status,STATUS 60067 state=Roll Call pouches=2 peak=1054 mg min=846 mg still=26 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:25.197912+00:00,status,STATUS 60322 state=Roll Call pouches=2 peak=1099 mg min=864 mg still=4 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:25.468088+00:00,status,STATUS 60576 state=Roll Call pouches=2 peak=1075 mg min=879 mg still=49 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:25.827843+00:00,status,STATUS 60830 state=Roll Call pouches=2 peak=1041 mg min=875 mg still=10 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:29.817858+00:00,status,STATUS 64937 state=Ready pouches=2 peak=1224 mg min=696 mg still=6 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:29.833672+00:00,range,RANGE 64959 slot=0 uid=0xc87da704 distance=144 mm lives=3
+2026-11-19T21:04:29.864038+00:00,range,RANGE 64959 slot=1 uid=0xef10bc7f distance=6296 mm lives=3
+2026-11-19T21:04:30.402830+00:00,range,RANGE 65161 slot=0 uid=0xc87da704 distance=323 mm lives=3
+2026-11-19T21:04:30.477913+00:00,range,RANGE 65161 slot=1 uid=0xef10bc7f distance=6309 mm lives=3
+2026-11-19T21:04:30.613006+00:00,status,STATUS 65195 state=Ready pouches=2 peak=1200 mg min=753 mg still=3 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:30.614186+00:00,range,RANGE 65362 slot=0 uid=0xc87da704 distance=420 mm lives=3
+2026-11-19T21:04:30.614528+00:00,range,RANGE 65362 slot=1 uid=0xef10bc7f distance=6337 mm lives=3
+2026-11-19T21:04:30.643056+00:00,status,STATUS 65452 state=Ready pouches=2 peak=1197 mg min=813 mg still=1 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:30.644009+00:00,range,RANGE 65562 slot=0 uid=0xc87da704 distance=464 mm lives=3
+2026-11-19T21:04:30.645839+00:00,range,RANGE 65562 slot=1 uid=0xef10bc7f distance=6378 mm lives=3
+2026-11-19T21:04:30.646128+00:00,status,STATUS 65704 state=Ready pouches=2 peak=1316 mg min=862 mg still=26 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:30.646226+00:00,range,RANGE 65771 slot=0 uid=0xc87da704 distance=254 mm lives=3
+2026-11-19T21:04:30.658598+00:00,range,RANGE 65771 slot=1 uid=0xef10bc7f distance=6275 mm lives=3
+2026-11-19T21:04:30.838123+00:00,status,STATUS 65962 state=Ready pouches=2 peak=1109 mg min=922 mg still=2 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:30.868048+00:00,range,RANGE 65983 slot=0 uid=0xc87da704 distance=118 mm lives=3
+2026-11-19T21:04:30.868964+00:00,range,RANGE 65983 slot=1 uid=0xef10bc7f distance=6500 mm lives=3
+2026-11-19T21:04:31.093005+00:00,range,RANGE 66193 slot=0 uid=0xc87da704 distance=109 mm lives=3
+2026-11-19T21:04:31.093966+00:00,range,RANGE 66193 slot=1 uid=0xef10bc7f distance=6255 mm lives=3
+2026-11-19T21:04:31.094240+00:00,status,STATUS 66215 state=Ready pouches=2 peak=1078 mg min=837 mg still=4 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:31.288146+00:00,range,RANGE 66401 slot=0 uid=0xc87da704 distance=174 mm lives=3
+2026-11-19T21:04:31.288886+00:00,range,RANGE 66401 slot=1 uid=0xef10bc7f distance=6397 mm lives=3
+2026-11-19T21:04:31.393199+00:00,status,STATUS 66468 state=Ready pouches=2 peak=1099 mg min=871 mg still=3 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:31.482902+00:00,range,RANGE 66602 slot=0 uid=0xc87da704 distance=183 mm lives=3
+2026-11-19T21:04:31.483821+00:00,range,RANGE 66602 slot=1 uid=0xef10bc7f distance=6512 mm lives=3
+2026-11-19T21:04:31.603078+00:00,status,STATUS 66726 state=Ready pouches=2 peak=1102 mg min=724 mg still=4 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:31.694635+00:00,range,RANGE 66802 slot=0 uid=0xc87da704 distance=259 mm lives=3
+2026-11-19T21:04:31.694992+00:00,range,RANGE 66802 slot=1 uid=0xef10bc7f distance=6668 mm lives=3
+2026-11-19T21:04:31.708872+00:00,other,"IMPACT ignored: 3064 mg without free fall just before (#1), ffage=-1 ms min150=847 mg"
+2026-11-19T21:04:31.857976+00:00,status,STATUS 66979 state=Ready pouches=2 peak=3134 mg min=560 mg still=3 ms resets=0 rejected=1 accel_errors=0
+2026-11-19T21:04:31.887824+00:00,range,RANGE 67011 slot=0 uid=0xc87da704 distance=245 mm lives=3
+2026-11-19T21:04:31.903932+00:00,range,RANGE 67011 slot=1 uid=0xef10bc7f distance=6786 mm lives=3
+2026-11-19T21:04:32.007895+00:00,burst,BURST #1 trigger up=66832 mg=3064 rejected ffage=-1 ms min150=847 mg also=0 samples=140 pre=100
+2026-11-19T21:04:32.023741+00:00,burst,BURST #1 -709..-594 ms: 841 890 984 945 924 931 951 934 867 843 887 891 906 947 981 1001
+2026-11-19T21:04:32.038641+00:00,burst,BURST #1 -587..-491 ms: 983 992 1010 995 985 933 901 890 871 901 892 895 909 916 957 984
+2026-11-19T21:04:32.067703+00:00,burst,BURST #1 -485..-374 ms: 945 954 1034 1093 1048 1062 998 912 982 951 930 969 974 1029 1014 1065
+2026-11-19T21:04:32.083720+00:00,burst,BURST #1 -367..-262 ms: 1099 1102 1078 1044 914 923 941 933 986 1008 1007 964 953 952 905 811
+2026-11-19T21:04:32.127765+00:00,range,RANGE 67225 slot=0 uid=0xc87da704 distance=292 mm lives=3
+2026-11-19T21:04:32.128679+00:00,range,RANGE 67225 slot=1 uid=0xef10bc7f distance=6828 mm lives=3
+2026-11-19T21:04:32.143820+00:00,burst,BURST #1 -256..-147 ms: 814 770 749 724 764 783 833 867 1008 987 1007 979 968 952 1046 992
+2026-11-19T21:04:32.158968+00:00,status,STATUS 67245 state=Ready pouches=2 peak=2167 mg min=628 mg still=44 ms resets=0 rejected=1 accel_errors=0
+2026-11-19T21:04:32.174213+00:00,burst,BURST #1 -138..-33 ms: 961 981 1025 1050 1023 1021 1045 1049 1026 1047 1008 1001 1017 910 847 849
+2026-11-19T21:04:32.174428+00:00,burst,BURST #1 -19..+83 ms: 855 848 2281 3064 3134 2103 1363 663 560 617 792 1023 1216 1258 1319 1312
+2026-11-19T21:04:32.188835+00:00,burst,BURST #1 +89..+203 ms: 1218 979 853 853 833 775 762 678 1995 1240 2167 1257 1083 1267 1588 1598
+2026-11-19T21:04:32.218019+00:00,burst,BURST #1 +210..+282 ms: 1549 1236 1023 822 722 692 687 628 628 636 664 717
+2026-11-19T21:04:32.307720+00:00,range,RANGE 67432 slot=0 uid=0xc87da704 distance=280 mm lives=3
+2026-11-19T21:04:32.323681+00:00,range,RANGE 67432 slot=1 uid=0xef10bc7f distance=6853 mm lives=3
+2026-11-19T21:04:32.382865+00:00,status,STATUS 67500 state=Ready pouches=2 peak=1150 mg min=680 mg still=4 ms resets=0 rejected=1 accel_errors=0
+2026-11-19T21:04:32.518206+00:00,range,RANGE 67634 slot=0 uid=0xc87da704 distance=300 mm lives=3
+2026-11-19T21:04:32.519411+00:00,range,RANGE 67634 slot=1 uid=0xef10bc7f distance=6872 mm lives=3
+2026-11-19T21:04:32.637824+00:00,status,STATUS 67757 state=Ready pouches=2 peak=1079 mg min=700 mg still=33 ms resets=0 rejected=1 accel_errors=0
+2026-11-19T21:04:32.712666+00:00,range,RANGE 67834 slot=0 uid=0xc87da704 distance=307 mm lives=3
+2026-11-19T21:04:32.742714+00:00,range,RANGE 67834 slot=1 uid=0xef10bc7f distance=6865 mm lives=3
+2026-11-19T21:04:32.893220+00:00,status,STATUS 68009 state=Ready pouches=2 peak=1106 mg min=810 mg still=66 ms resets=0 rejected=1 accel_errors=0
+2026-11-19T21:04:32.923042+00:00,range,RANGE 68041 slot=0 uid=0xc87da704 distance=173 mm lives=3
+2026-11-19T21:04:32.923925+00:00,range,RANGE 68041 slot=1 uid=0xef10bc7f distance=6768 mm lives=3
+2026-11-19T21:04:33.148218+00:00,range,RANGE 68250 slot=0 uid=0xc87da704 distance=279 mm lives=3
+2026-11-19T21:04:33.149130+00:00,range,RANGE 68250 slot=1 uid=0xef10bc7f distance=6773 mm lives=3
+2026-11-19T21:04:33.150237+00:00,status,STATUS 68261 state=Ready pouches=2 peak=1192 mg min=853 mg still=15 ms resets=0 rejected=1 accel_errors=0
+2026-11-19T21:04:33.327882+00:00,range,RANGE 68452 slot=0 uid=0xc87da704 distance=501 mm lives=3
+2026-11-19T21:04:33.343800+00:00,range,RANGE 68452 slot=1 uid=0xef10bc7f distance=6557 mm lives=3
+2026-11-19T21:04:33.407858+00:00,status,STATUS 68522 state=Ready pouches=2 peak=1549 mg min=940 mg still=3 ms resets=0 rejected=1 accel_errors=0
+2026-11-19T21:04:33.433028+00:00,other,"Thrower slot 0 out of range for 1 round(s) + free fall (first since Ready began 1471 ms ago, latest 1437 ms ago): thrown"
+2026-11-19T21:04:33.433921+00:00,state,State: Ready -> Armed (up=68558)
+2026-11-19T21:04:33.657972+00:00,status,STATUS 68773 state=Armed pouches=2 peak=1344 mg min=710 mg still=5 ms resets=0 rejected=1 accel_errors=0
+2026-11-19T21:04:33.703220+00:00,range,RANGE 68823 slot=0 uid=0xc87da704 distance=922 mm lives=3
+2026-11-19T21:04:33.704087+00:00,range,RANGE 68823 slot=1 uid=0xef10bc7f distance=6923 mm lives=3
+2026-11-19T21:04:33.913097+00:00,status,STATUS 69026 state=Armed pouches=2 peak=1050 mg min=765 mg still=29 ms resets=0 rejected=1 accel_errors=0
+2026-11-19T21:04:33.973045+00:00,range,RANGE 69077 slot=0 uid=0xc87da704 distance=962 mm lives=3
+2026-11-19T21:04:33.973939+00:00,range,RANGE 69077 slot=1 uid=0xef10bc7f distance=6894 mm lives=3
+2026-11-19T21:04:34.153011+00:00,status,STATUS 69280 state=Armed pouches=2 peak=1032 mg min=426 mg still=2 ms resets=0 rejected=1 accel_errors=0
+2026-11-19T21:04:34.243187+00:00,range,RANGE 69330 slot=0 uid=0xc87da704 distance=998 mm lives=3
+2026-11-19T21:04:34.288006+00:00,range,RANGE 69330 slot=1 uid=0xef10bc7f distance=6814 mm lives=3
+2026-11-19T21:04:34.468047+00:00,other,"IMPACT ignored: 2508 mg without free fall just before (#2), ffage=199 ms min150=661 mg"
+2026-11-19T21:04:34.471335+00:00,status,STATUS 69541 state=Armed pouches=2 peak=2762 mg min=435 mg still=10 ms resets=0 rejected=2 accel_errors=0
+2026-11-19T21:04:34.473125+00:00,range,RANGE 69582 slot=0 uid=0xc87da704 distance=925 mm lives=3
+2026-11-19T21:04:34.473388+00:00,range,RANGE 69582 slot=1 uid=0xef10bc7f distance=6595 mm lives=3
+2026-11-19T21:04:34.692882+00:00,burst,BURST #2 trigger up=69525 mg=2508 rejected ffage=199 ms min150=661 mg also=0 samples=140 pre=100
+2026-11-19T21:04:34.694039+00:00,status,STATUS 69793 state=Armed pouches=2 peak=6823 mg min=1139 mg still=11 ms resets=0 rejected=2 accel_errors=0
+2026-11-19T21:04:34.695488+00:00,burst,BURST #2 -590..-506 ms: 959 940 996 1004 980 998 1013 936 956 968 997 977 1000 1050 1001 1000
+2026-11-19T21:04:34.783228+00:00,range,RANGE 69842 slot=0 uid=0xc87da704 distance=1578 mm lives=3
+2026-11-19T21:04:34.873385+00:00,range,RANGE 69842 slot=1 uid=0xef10bc7f distance=4937 mm lives=3
+2026-11-19T21:04:34.874221+00:00,burst,BURST #2 -500..-398 ms: 994 996 1018 988 1009 1003 1012 1032 990 973 957 921 922 1003 954 940
+2026-11-19T21:04:34.918408+00:00,burst,BURST #2 -392..-309 ms: 921 923 918 923 855 828 812 828 807 755 723 727 717 727 691 609
+2026-11-19T21:04:34.919363+00:00,burst,BURST #2 -303..-213 ms: 589 708 633 426 457 439 454 432 467 468 469 496 481 480 455 435
+2026-11-19T21:04:34.919722+00:00,burst,BURST #2 -207..-111 ms: 479 520 746 913 1002 1020 1074 1118 1217 1175 1129 1088 1046 1346 661 784
+2026-11-19T21:04:34.920386+00:00,burst,BURST #2 -106..-22 ms: 1104 1170 1349 1434 1605 1661 1739 1847 1886 1862 1879 1782 1749 1775 1945 2006
+2026-11-19T21:04:34.921986+00:00,burst,BURST #2 -16..+95 ms: 2086 2152 2302 2508 2762 3289 3389 3407 3462 3561 3606 4090 4467 4567 4945 5242
+2026-11-19T21:04:34.922192+00:00,burst,BURST #2 +101..+184 ms: 4677 6307 6351 6613 6823 6619 6218 5740 5414 5308 4942 5132 4020 2532 1480 1293
+2026-11-19T21:04:34.963030+00:00,burst,BURST #2 +190..+251 ms: 1180 1252 1240 1198 1203 1212 1148 1146 1139 1224 1214 1233
+2026-11-19T21:04:34.963974+00:00,status,STATUS 70046 state=Armed pouches=2 peak=1563 mg min=1177 mg still=22 ms resets=0 rejected=2 accel_errors=0
+2026-11-19T21:04:35.008044+00:00,range,RANGE 70097 slot=0 uid=0xc87da704 distance=3043 mm lives=3
+2026-11-19T21:04:35.008912+00:00,range,RANGE 70097 slot=1 uid=0xef10bc7f distance=3465 mm lives=3
+2026-11-19T21:04:35.188550+00:00,status,STATUS 70300 state=Armed pouches=2 peak=1488 mg min=1121 mg still=2 ms resets=0 rejected=2 accel_errors=0
+2026-11-19T21:04:35.233087+00:00,range,RANGE 70350 slot=0 uid=0xc87da704 distance=4394 mm lives=3
+2026-11-19T21:04:35.233942+00:00,range,RANGE 70350 slot=1 uid=0xef10bc7f distance=1844 mm lives=3
+2026-11-19T21:04:35.458042+00:00,status,STATUS 70553 state=Armed pouches=2 peak=1483 mg min=1038 mg still=2 ms resets=0 rejected=2 accel_errors=0
+2026-11-19T21:04:35.503023+00:00,range,RANGE 70604 slot=0 uid=0xc87da704 distance=5939 mm lives=3
+2026-11-19T21:04:35.548074+00:00,range,RANGE 70604 slot=1 uid=0xef10bc7f distance=235 mm lives=3
+2026-11-19T21:04:35.548899+00:00,other,"IMPACT ignored: 23914 mg without free fall just before (#3), ffage=1259 ms min150=1038 mg"
+2026-11-19T21:04:35.683156+00:00,status,STATUS 70804 state=Armed pouches=2 peak=28160 mg min=1157 mg still=69 ms resets=0 rejected=3 accel_errors=0
+2026-11-19T21:04:35.818137+00:00,range,RANGE 70855 slot=0 uid=0xc87da704 distance=5434 mm lives=3
+2026-11-19T21:04:41.653414+00:00,status,STATUS 5390 state=Roll Call pouches=0 peak=983 mg min=760 mg still=24 ms resets=0 rejected=2 accel_errors=0
+2026-11-19T21:04:41.893200+00:00,status,STATUS 5644 state=Roll Call pouches=0 peak=953 mg min=837 mg still=204 ms resets=0 rejected=2 accel_errors=0
+2026-11-19T21:04:42.148493+00:00,status,STATUS 5899 state=Roll Call pouches=0 peak=952 mg min=815 mg still=4 ms resets=0 rejected=2 accel_errors=0
+2026-11-19T21:04:42.403224+00:00,status,STATUS 6153 state=Roll Call pouches=0 peak=763 mg min=20 mg still=32 ms resets=0 rejected=2 accel_errors=0
+2026-11-19T21:04:42.658543+00:00,status,STATUS 6407 state=Roll Call pouches=0 peak=232 mg min=95 mg still=26 ms resets=0 rejected=2 accel_errors=0
+2026-11-19T21:04:42.928182+00:00,status,STATUS 6661 state=Roll Call pouches=0 peak=33331 mg min=33 mg still=76 ms resets=0 rejected=2 accel_errors=0
+2026-11-19T21:04:42.944206+00:00,burst,BURST #4 trigger up=6445 mg=3085 accepted ffage=16 ms min150=119 mg also=0 samples=140 pre=100
+2026-11-19T21:04:42.959202+00:00,burst,BURST #4 -578..-486 ms: 865 885 839 878 820 815 763 758 757 761 739 701 656 626 545 485
+2026-11-19T21:04:42.974072+00:00,burst,BURST #4 -480..-397 ms: 399 348 311 277 257 231 213 164 158 96 96 67 23 48 23 20
+2026-11-19T21:04:42.989032+00:00,burst,BURST #4 -391..-307 ms: 119 66 74 71 74 97 40 63 33 43 144 143 99 48 99 113
+2026-11-19T21:04:43.004159+00:00,burst,BURST #4 -302..-210 ms: 136 79 141 126 95 121 126 119 134 97 120 121 124 120 134 147
+2026-11-19T21:04:43.018941+00:00,burst,BURST #4 -204..-120 ms: 104 138 183 173 151 127 128 116 150 166 134 174 119 183 221 168
+2026-11-19T21:04:43.047986+00:00,burst,BURST #4 -115..-23 ms: 190 176 151 185 202 179 151 177 158 217 217 215 167 232 209 200
+2026-11-19T21:04:43.064184+00:00,burst,BURST #4 -17..+67 ms: 289 954 1726 3085 32497 32767 20035 4918 867 465 150 188 92 87 46 33
+2026-11-19T21:04:43.079268+00:00,burst,BURST #4 +73..+156 ms: 75 87 86 84 59 70 59 57 35 40 64 48 52 53 70 82
+2026-11-19T21:04:43.093946+00:00,burst,BURST #4 +162..+232 ms: 57 75 70 75 70 72 87 57 104 78 59 52
+2026-11-19T21:04:47.654238+00:00,status,STATUS 4113 state=Roll Call pouches=0 peak=985 mg min=894 mg still=459 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:47.924578+00:00,status,STATUS 4368 state=Roll Call pouches=0 peak=1004 mg min=914 mg still=714 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:48.448335+00:00,status,STATUS 4622 state=Roll Call pouches=0 peak=995 mg min=899 mg still=968 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:48.478845+00:00,status,STATUS 4876 state=Roll Call pouches=0 peak=996 mg min=890 mg still=1222 ms resets=0 rejected=0 accel_errors=0
+2026-11-19T21:04:57.013036+00:00,burst,BURST #2 trigger up=4127 mg=2582 rejected ffage=648 ms min150=1211 mg also=0 samples=140 pre=100
+2026-11-19T21:04:57.013878+00:00,status,STATUS 4368 state=Roll Call pouches=0 peak=9896 mg min=1256 mg still=10 ms resets=0 rejected=2 accel_errors=0
+2026-11-19T21:04:57.058052+00:00,burst,BURST #2 -588..-496 ms: 1450 1507 1583 1679 1751 1818 1879 1932 2033 2098 2101 2110 2123 2129 2195 2262
+2026-11-19T21:04:57.088089+00:00,burst,BURST #2 -490..-406 ms: 2317 2250 2305 2287 2228 2187 2120 2047 1940 1869 1748 1722 1656 1645 1600 1629
+2026-11-19T21:04:57.089152+00:00,burst,BURST #2 -392..-308 ms: 1408 1258 1224 1182 1094 1035 1036 1007 954 959 965 993 954 924 956 990
+2026-11-19T21:04:57.118083+00:00,burst,BURST #2 -303..-210 ms: 927 947 910 905 881 844 878 877 858 889 889 889 884 878 894 925
+2026-11-19T21:04:57.208116+00:00,burst,BURST #2 -205..-121 ms: 908 939 1033 1022 1066 1124 1138 1149 1115 1158 1211 1297 1314 1359 1391 1403
+2026-11-19T21:04:57.209199+00:00,burst,BURST #2 -115..-31 ms: 1414 1488 1544 1532 1627 1731 1771 1846 1873 1932 1881 1975 1966 1985 2033 2118
+2026-11-19T21:04:57.210750+00:00,burst,BURST #2 -25..+74 ms: 2171 2280 2458 2582 2789 3168 3313 3377 3545 3758 3941 4504 5159 6278 6731 8280
+2026-11-19T21:04:57.211064+00:00,burst,BURST #2 +80..+163 ms: 9310 9896 9637 9661 9399 8652 8511 8383 6880 5530 3632 1974 1674 1370 1397 1256
+2026-11-19T21:04:57.212332+00:00,burst,BURST #2 +169..+230 ms: 1344 1362 1371 1362 1390 1418 1446 1503 1522 1521 1572 1568
+2026-11-19T21:04:57.268408+00:00,status,STATUS 4626 state=Roll Call pouches=0 peak=1621 mg min=1283 mg still=3 ms resets=0 rejected=2 accel_errors=0
+2026-11-19T21:04:57.523302+00:00,status,STATUS 4880 state=Roll Call pouches=0 peak=1654 mg min=1359 mg still=36 ms resets=0 rejected=2 accel_errors=0
+2026-11-19T21:04:57.763252+00:00,status,STATUS 5135 state=Roll Call pouches=0 peak=1666 mg min=1346 mg still=3 ms resets=0 rejected=2 accel_errors=0
+2026-11-19T21:04:58.033077+00:00,other,"IMPACT ignored: 3072 mg without free fall just before (#3), ffage=1851 ms min150=1335 mg"
+2026-11-19T21:04:58.033936+00:00,status,STATUS 5387 state=Roll Call pouches=0 peak=25424 mg min=1335 mg still=1 ms resets=0 rejected=3 accel_errors=0
+2026-11-19T21:04:58.243252+00:00,burst,BURST #3 trigger up=5330 mg=3072 rejected ffage=1851 ms min150=1335 mg also=0 samples=140 pre=100
+2026-11-19T21:04:58.244208+00:00,burst,BURST #3 -571..-487 ms: 1375 1393 1397 1396 1410 1445 1511 1513 1538 1581 1621 1622 1654 1611 1640 1617
+2026-11-19T21:04:58.273213+00:00,burst,BURST #3 -481..-389 ms: 1624 1616 1627 1608 1608 1595 1630 1560 1595 1571 1544 1562 1529 1522 1494 1510
+2026-11-19T21:04:58.274028+00:00,burst,BURST #3 -383..-300 ms: 1475 1479 1457 1382 1400 1346 1360 1371 1381 1350 1386 1371 1384 1392 1472 1537
+2026-11-19T21:04:58.289173+00:00,status,STATUS 5640 state=Roll Call pouches=0 peak=4823 mg min=4601 mg still=14 ms resets=0 rejected=3 accel_errors=0
+2026-11-19T21:04:58.318156+00:00,burst,BURST #3 -294..-210 ms: 1517 1545 1581 1553 1567 1586 1581 1586 1593 1626 1657 1657 1644 1622 1642 1637
+2026-11-19T21:04:58.319240+00:00,burst,BURST #3 -204..-112 ms: 1648 1666 1633 1628 1570 1534 1485 1513 1522 1496 1461 1469 1416 1388 1385 1335
+2026-11-19T21:04:58.334197+00:00,burst,BURST #3 -107..-23 ms: 1347 1335 1366 1354 1390 1434 1429 1397 1506 1507 1539 1549 1585 1617 1660 1742
+2026-11-19T21:04:58.363043+00:00,burst,BURST #3 -17..+78 ms: 1756 1744 1755 3072 9451 25424 23621 17193 9189 1985 4514 4774 4742 4815 4823 4812
+2026-11-19T21:04:58.379374+00:00,burst,BURST #3 +84..+168 ms: 4809 4789 4799 4727 4762 4769 4757 4761 4726 4746 4725 4739 4707 4718 4696 4732
+2026-11-19T21:04:58.394154+00:00,burst,BURST #3 +174..+235 ms: 4684 4703 4729 4715 4707 4684 4627 4650 4634 4634 4662 4643
+2026-11-19T21:04:58.558630+00:00,status,STATUS 5891 state=Roll Call pouches=0 peak=4603 mg min=4467 mg still=32 ms resets=0 rejected=3 accel_errors=0
+2026-11-19T21:04:58.843338+00:00,status,STATUS 6146 state=Roll Call pouches=0 peak=24674 mg min=703 mg still=82 ms resets=0 rejected=3 accel_errors=0
+2026-11-19T21:04:59.128175+00:00,other,"IMPACT ignored: 4603 mg without free fall just before (#4), ffage=2884 ms min150=412 mg"
+2026-11-19T21:04:59.128886+00:00,status,STATUS 6398 state=Roll Call pouches=0 peak=11703 mg min=412 mg still=3 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:04:59.233777+00:00,burst,BURST #4 trigger up=6363 mg=4603 rejected ffage=2884 ms min150=412 mg also=0 samples=140 pre=100
+2026-11-19T21:04:59.263300+00:00,burst,BURST #4 -572..-488 ms: 4584 4566 4526 4545 4524 4518 4516 4500 4485 4467 4528 4499 4518 4486 4470 4486
+2026-11-19T21:04:59.308347+00:00,burst,BURST #4 -482..-389 ms: 4524 4511 4573 4531 4542 4549 4544 4592 4593 4587 4580 4565 4581 5124 5021 4712
+2026-11-19T21:04:59.338449+00:00,status,STATUS 6651 state=Roll Call pouches=0 peak=1401 mg min=82 mg still=14 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:04:59.339620+00:00,burst,BURST #4 -383..-299 ms: 4408 5044 12028 24674 7490 5056 4023 942 1027 703 764 776 806 838 825 842
+2026-11-19T21:04:59.339828+00:00,burst,BURST #4 -294..-201 ms: 825 832 849 843 855 838 818 842 833 828 883 883 837 867 870 854
+2026-11-19T21:04:59.340876+00:00,burst,BURST #4 -196..-112 ms: 877 866 910 896 862 890 862 866 843 876 880 865 890 909 900 905
+2026-11-19T21:04:59.414120+00:00,burst,BURST #4 -106..-22 ms: 847 866 833 875 866 880 861 851 843 794 827 785 657 497 412 564
+2026-11-19T21:04:59.415036+00:00,burst,BURST #4 -17..+79 ms: 706 1182 1662 4603 11703 9333 2053 568 590 97 134 82 99 154 157 184
+2026-11-19T21:04:59.444296+00:00,burst,BURST #4 +84..+168 ms: 190 225 206 240 240 232 300 273 291 328 440 461 524 578 503 545
+2026-11-19T21:04:59.459110+00:00,burst,BURST #4 +174..+236 ms: 577 702 708 703 697 860 766 850 892 923 917 923
+2026-11-19T21:04:59.533383+00:00,status,STATUS 6903 state=Roll Call pouches=0 peak=1910 mg min=765 mg still=10 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:00.029588+00:00,status,STATUS 7158 state=Roll Call pouches=0 peak=989 mg min=901 mg still=4 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:00.148112+00:00,status,STATUS 7412 state=Roll Call pouches=0 peak=976 mg min=891 mg still=143 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:00.328220+00:00,status,STATUS 7666 state=Roll Call pouches=0 peak=996 mg min=903 mg still=397 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:00.583207+00:00,status,STATUS 7920 state=Roll Call pouches=0 peak=985 mg min=902 mg still=3 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:00.823267+00:00,status,STATUS 8175 state=Roll Call pouches=0 peak=1009 mg min=890 mg still=166 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:01.080123+00:00,status,STATUS 8429 state=Roll Call pouches=0 peak=1006 mg min=883 mg still=420 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:01.333448+00:00,status,STATUS 8683 state=Roll Call pouches=0 peak=995 mg min=856 mg still=674 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:01.648498+00:00,status,STATUS 8938 state=Roll Call pouches=0 peak=997 mg min=900 mg still=929 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:01.918427+00:00,status,STATUS 9192 state=Roll Call pouches=0 peak=972 mg min=872 mg still=1183 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:04.139774+00:00,status,STATUS 11482 state=Roll Call pouches=0 peak=1226 mg min=685 mg still=3 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:04.468464+00:00,status,STATUS 11737 state=Roll Call pouches=0 peak=1010 mg min=810 mg still=3 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:04.633307+00:00,status,STATUS 11991 state=Roll Call pouches=0 peak=1085 mg min=855 mg still=14 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:04.873209+00:00,status,STATUS 12246 state=Roll Call pouches=0 peak=1071 mg min=858 mg still=4 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:05.128363+00:00,status,STATUS 12500 state=Roll Call pouches=0 peak=1071 mg min=889 mg still=20 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:05.398474+00:00,status,STATUS 12754 state=Roll Call pouches=0 peak=1153 mg min=836 mg still=9 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:05.683470+00:00,status,STATUS 13009 state=Roll Call pouches=0 peak=1168 mg min=768 mg still=3 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:05.893281+00:00,status,STATUS 13263 state=Roll Call pouches=0 peak=983 mg min=785 mg still=15 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:06.148557+00:00,status,STATUS 13518 state=Roll Call pouches=0 peak=1073 mg min=882 mg still=116 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:06.403933+00:00,status,STATUS 13772 state=Roll Call pouches=0 peak=1021 mg min=884 mg still=9 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:06.658269+00:00,status,STATUS 14027 state=Roll Call pouches=0 peak=982 mg min=897 mg still=183 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:06.913486+00:00,status,STATUS 14281 state=Roll Call pouches=0 peak=1018 mg min=897 mg still=138 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:07.198591+00:00,status,STATUS 14536 state=Roll Call pouches=0 peak=1027 mg min=814 mg still=14 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:07.483910+00:00,status,STATUS 14790 state=Roll Call pouches=0 peak=1169 mg min=850 mg still=3 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:07.678906+00:00,status,STATUS 15045 state=Roll Call pouches=0 peak=1214 mg min=887 mg still=4 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:07.978507+00:00,status,STATUS 15299 state=Roll Call pouches=0 peak=1441 mg min=586 mg still=4 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:08.204506+00:00,status,STATUS 15553 state=Roll Call pouches=0 peak=1165 mg min=469 mg still=3 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:08.458453+00:00,status,STATUS 15807 state=Roll Call pouches=0 peak=1548 mg min=837 mg still=3 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:09.028248+00:00,status,STATUS 16062 state=Roll Call pouches=0 peak=1172 mg min=559 mg still=14 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:09.118573+00:00,status,STATUS 16316 state=Roll Call pouches=0 peak=1271 mg min=904 mg still=3 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:09.254649+00:00,status,STATUS 16570 state=Roll Call pouches=0 peak=1321 mg min=473 mg still=14 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:09.478753+00:00,status,STATUS 16825 state=Roll Call pouches=0 peak=1260 mg min=723 mg still=4 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:09.748519+00:00,status,STATUS 17079 state=Roll Call pouches=0 peak=1400 mg min=714 mg still=3 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:10.199716+00:00,status,STATUS 17333 state=Roll Call pouches=0 peak=1028 mg min=514 mg still=3 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:10.288357+00:00,status,STATUS 17588 state=Roll Call pouches=0 peak=1440 mg min=812 mg still=15 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:10.693362+00:00,status,STATUS 17842 state=Roll Call pouches=0 peak=1021 mg min=637 mg still=65 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:10.783922+00:00,status,STATUS 18096 state=Roll Call pouches=0 peak=1479 mg min=820 mg still=3 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:11.234638+00:00,status,STATUS 18351 state=Roll Call pouches=0 peak=1243 mg min=555 mg still=4 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:11.503633+00:00,status,STATUS 18605 state=Roll Call pouches=0 peak=1198 mg min=751 mg still=4 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:11.504677+00:00,status,STATUS 18859 state=Roll Call pouches=0 peak=1368 mg min=830 mg still=3 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:12.088219+00:00,status,STATUS 19113 state=Roll Call pouches=0 peak=999 mg min=728 mg still=15 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:12.178548+00:00,status,STATUS 19368 state=Roll Call pouches=0 peak=1347 mg min=881 mg still=4 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:12.763587+00:00,status,STATUS 19622 state=Roll Call pouches=0 peak=1290 mg min=501 mg still=14 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:12.764564+00:00,status,STATUS 19876 state=Roll Call pouches=0 peak=1496 mg min=727 mg still=3 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:12.766062+00:00,status,STATUS 20130 state=Roll Call pouches=0 peak=1469 mg min=574 mg still=3 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:13.033412+00:00,status,STATUS 20384 state=Roll Call pouches=0 peak=1727 mg min=598 mg still=3 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:13.348489+00:00,status,STATUS 20638 state=Roll Call pouches=0 peak=1696 mg min=1002 mg still=3 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:15.329597+00:00,status,STATUS 22678 state=Roll Call pouches=0 peak=2284 mg min=1348 mg still=3 ms resets=0 rejected=4 accel_errors=0
+2026-11-19T21:05:15.390221+00:00,other,"IMPACT ignored: 3754 mg without free fall just before (#5), ffage=1542 ms min150=1348 mg"
+2026-11-19T21:05:15.644902+00:00,status,STATUS 22931 state=Roll Call pouches=0 peak=26622 mg min=1668 mg still=3 ms resets=0 rejected=5 accel_errors=0
+2026-11-19T21:05:15.645191+00:00,burst,BURST #6 trigger up=22722 mg=3754 rejected ffage=1542 ms min150=1348 mg also=0 samples=140 pre=100
+2026-11-19T21:05:15.645799+00:00,burst,BURST #6 -585..-493 ms: 2180 2238 2254 2338 2376 2445 2478 2522 2457 2525 2596 2578 2557 2522 2408 2403
+2026-11-19T21:05:15.645986+00:00,burst,BURST #6 -481..-396 ms: 2294 2239 2224 2230 2275 2205 2165 2043 1987 1975 1890 1959 1951 2017 2133 2284
+2026-11-19T21:05:15.660034+00:00,burst,BURST #6 -391..-306 ms: 2285 2307 2343 2346 2279 2400 2366 2461 2418 2452 2402 2405 2401 2382 2238 2213
+2026-11-19T21:05:15.674834+00:00,burst,BURST #6 -301..-209 ms: 2195 2140 2015 1922 1773 1724 1630 1682 1737 1777 1821 1835 1884 1955 2004 2038
+2026-11-19T21:05:16.155308+00:00,burst,BURST #6 -204..-120 ms: 2070 2233 2193 2204 2284 2253 2237 2174 2088 2054 2016 1992 2017 2006 1976 1962
+2026-11-19T21:05:16.155653+00:00,burst,BURST #6 -114..-22 ms: 1828 1606 1552 1409 1353 1349 1348 1438 1468 1548 1565 1611 1613 1668 1814 1842
+2026-11-19T21:05:16.303627+00:00,burst,BURST #6 -17..+72 ms: 1992 1976 2021 3754 6140 26622 24129 22084 9830 11423 10938 10390 10747 10225 10580 10465
+2026-11-19T21:05:16.453518+00:00,burst,BURST #6 +77..+161 ms: 10475 10540 10564 10584 10651 10593 10581 10527 10500 10503 10422 10395 10372 10385 10339 10401
+2026-11-19T21:05:16.454804+00:00,burst,BURST #6 +167..+236 ms: 10420 10436 10448 10421 10426 10428 10426 10373 10329 10228 10215 10201
+2026-11-19T21:05:16.500459+00:00,status,STATUS 23185 state=Roll Call pouches=0 peak=10329 mg min=9922 mg still=8 ms resets=0 rejected=5 accel_errors=0
+2026-11-19T21:05:16.500734+00:00,status,STATUS 23439 state=Roll Call pouches=0 peak=13460 mg min=2594 mg still=3 ms resets=0 rejected=5 accel_errors=0
+2026-11-19T21:05:16.514840+00:00,status,STATUS 23693 state=Roll Call pouches=0 peak=4899 mg min=3925 mg still=3 ms resets=0 rejected=5 accel_errors=0
+2026-11-19T21:05:16.619118+00:00,status,STATUS 23948 state=Roll Call pouches=0 peak=5233 mg min=1201 mg still=3 ms resets=0 rejected=5 accel_errors=0
+2026-11-19T21:05:16.798969+00:00,other,"IMPACT ignored: 2555 mg without free fall just before (#6), ffage=2833 ms min150=1201 mg"
+2026-11-19T21:05:16.845028+00:00,status,STATUS 24200 state=Roll Call pouches=0 peak=4005 mg min=223 mg still=4 ms resets=0 rejected=6 accel_errors=0
+2026-11-19T21:05:16.947056+00:00,burst,BURST #7 trigger up=24014 mg=2555 rejected ffage=2833 ms min150=1201 mg also=0 samples=140 pre=100
+2026-11-19T21:05:16.947353+00:00,burst,BURST #7 -578..-487 ms: 5372 4899 4763 4554 4343 4249 4246 4243 4230 4262 4223 4218 4251 4218 4225 4234
+2026-11-19T21:05:16.994510+00:00,burst,BURST #7 -481..-397 ms: 4261 4269 4289 4315 4325 4309 4301 4291 4322 4355 4321 4343 4372 4330 4293 4327
+2026-11-19T21:05:17.053254+00:00,burst,BURST #7 -391..-299 ms: 4322 4322 4325 4272 4256 4282 4289 4286 4306 4283 4284 4200 3925 2641 2630 2864
+2026-11-19T21:05:17.069346+00:00,burst,BURST #7 -294..-210 ms: 3530 3834 4415 4637 5214 5205 5196 5208 5233 4999 4601 4470 4232 4098 3844 3752
+2026-11-19T21:05:17.203490+00:00,burst,BURST #7 -205..-120 ms: 3367 3075 2773 2659 2726 2383 1730 1511 1264 1330 1201 1353 1315 1320 1373 1445
+2026-11-19T21:05:17.278388+00:00,burst,BURST #7 -115..-23 ms: 1513 1651 1688 1706 1696 1678 1699 1687 1696 1699 1702 1725 1690 1715 1742 1765
+2026-11-19T21:05:17.280055+00:00,burst,BURST #7 -17..+75 ms: 1865 1962 2260 2555 4005 3718 3545 3316 3043 2731 2384 1968 1987 1553 1523 1330
+2026-11-19T21:05:17.473322+00:00,burst,BURST #7 +80..+164 ms: 1267 1100 979 908 878 679 985 1113 1385 1334 1372 1180 1157 888 549 422
+2026-11-19T21:05:17.474508+00:00,burst,BURST #7 +170..+241 ms: 308 223 348 428 549 605 618 696 708 735 729 720
+2026-11-19T21:05:17.833718+00:00,status,STATUS 24457 state=Roll Call pouches=0 peak=3396 mg min=428 mg still=4 ms resets=0 rejected=6 accel_errors=0
+2026-11-19T21:05:17.923290+00:00,burst,BURST #8 trigger up=24336 mg=2611 accepted ffage=104 ms min150=223 mg also=0 samples=140 pre=100
+2026-11-19T21:05:18.088564+00:00,burst,BURST #8 -616..-532 ms: 3530 3834 4415 4637 5214 5205 5196 5208 5233 4999 4601 4470 4232 4098 3844 3752
+2026-11-19T21:05:18.283519+00:00,burst,BURST #8 -527..-442 ms: 3367 3075 2773 2659 2726 2383 1730 1511 1264 1330 1201 1353 1315 1320 1373 1445
+2026-11-19T21:05:18.433551+00:00,burst,BURST #8 -437..-345 ms: 1513 1651 1688 1706 1696 1678 1699 1687 1696 1699 1702 1725 1690 1715 1742 1765
+2026-11-19T21:05:18.449816+00:00,burst,BURST #8 -339..-247 ms: 1865 1962 2260 2555 4005 3718 3545 3316 3043 2731 2384 1968 1987 1553 1523 1330
+2026-11-19T21:05:18.464293+00:00,status,STATUS 24709 state=Roll Call pouches=0 peak=1018 mg min=430 mg still=14 ms resets=0 rejected=6 accel_errors=0
+2026-11-19T21:05:18.480607+00:00,burst,BURST #8 -242..-158 ms: 1267 1100 979 908 878 679 985 1113 1385 1334 1372 1180 1157 888 549 422
+2026-11-19T21:05:18.480780+00:00,burst,BURST #8 -152..-40 ms: 308 223 348 428 549 605 618 696 708 735 729 720 788 801 842 920
+2026-11-19T21:05:18.481761+00:00,burst,BURST #8 -25..+116 ms: 1242 1514 2291 2611 3336 3396 3373 3201 2229 1779 1446 1244 1099 926 798 703
+2026-11-19T21:05:18.481831+00:00,burst,BURST #8 +131..+215 ms: 568 500 510 506 454 445 430 470 433 432 470 507 564 598 743 928
+2026-11-19T21:05:18.483739+00:00,burst,BURST #8 +221..+282 ms: 961 971 1018 985 853 790 929 862 878 936 879 822
+2026-11-19T21:05:18.483802+00:00,status,STATUS 24965 state=Roll Call pouches=0 peak=1739 mg min=563 mg still=1 ms resets=0 rejected=6 accel_errors=0
+2026-11-19T21:05:18.495248+00:00,status,STATUS 25219 state=Roll Call pouches=0 peak=1099 mg min=824 mg still=3 ms resets=0 rejected=6 accel_errors=0
+2026-11-19T21:05:18.598704+00:00,status,STATUS 25473 state=Roll Call pouches=0 peak=1050 mg min=921 mg still=3 ms resets=0 rejected=6 accel_errors=0
+2026-11-19T21:05:18.614495+00:00,status,STATUS 25727 state=Roll Call pouches=0 peak=1025 mg min=867 mg still=92 ms resets=0 rejected=6 accel_errors=0
+2026-11-19T21:05:18.808856+00:00,status,STATUS 25982 state=Roll Call pouches=0 peak=1028 mg min=932 mg still=49 ms resets=0 rejected=6 accel_errors=0
+2026-11-19T21:05:18.883636+00:00,status,STATUS 26236 state=Roll Call pouches=0 peak=1927 mg min=258 mg still=3 ms resets=0 rejected=6 accel_errors=0
+2026-11-19T21:05:19.168628+00:00,status,STATUS 26491 state=Roll Call pouches=0 peak=1854 mg min=924 mg still=4 ms resets=0 rejected=6 accel_errors=0
+2026-11-19T21:05:19.378929+00:00,status,STATUS 26745 state=Roll Call pouches=0 peak=941 mg min=308 mg still=9 ms resets=0 rejected=6 accel_errors=0
+2026-11-19T21:05:19.648831+00:00,status,STATUS 26999 state=Roll Call pouches=0 peak=3618 mg min=23 mg still=3 ms resets=0 rejected=6 accel_errors=0
+2026-11-19T21:05:20.054877+00:00,burst,BURST #9 trigger up=26883 mg=3618 accepted ffage=27 ms min150=23 mg also=0 samples=140 pre=100
+2026-11-19T21:05:20.055251+00:00,burst,BURST #9 -570..-486 ms: 1668 1662 1673 1704 1673 1632 1612 1574 1587 1530 1486 1382 1398 1370 1369 1357
+2026-11-19T21:05:20.056336+00:00,burst,BURST #9 -480..-396 ms: 1272 1230 1214 1219 1179 1221 1152 1171 1128 1046 977 990 979 970 926 924
+2026-11-19T21:05:20.056571+00:00,burst,BURST #9 -382..-298 ms: 866 854 852 846 840 846 829 874 877 866 820 864 879 941 887 910
+2026-11-19T21:05:20.056657+00:00,burst,BURST #9 -293..-209 ms: 873 839 887 852 768 639 545 501 483 507 528 509 472 451 388 350
+2026-11-19T21:05:20.098493+00:00,burst,BURST #9 -203..-111 ms: 335 308 330 404 372 430 431 472 464 403 352 557 387 274 234 240
+2026-11-19T21:05:20.099639+00:00,burst,BURST #9 -106..-22 ms: 148 146 213 58 23 48 93 49 52 67 169 228 213 232 616 721
+2026-11-19T21:05:20.099797+00:00,burst,BURST #9 -17..+67 ms: 828 754 2238 3618 2822 1524 1161 861 608 520 720 731 646 553 574 579
+2026-11-19T21:05:20.143571+00:00,status,STATUS 27262 state=Roll Call pouches=0 peak=1598 mg min=411 mg still=13 ms resets=0 rejected=6 accel_errors=0
+2026-11-19T21:05:20.144616+00:00,burst,BURST #9 +73..+165 ms: 731 875 987 978 1026 1184 1209 1134 1010 934 942 948 924 917 968 931
+2026-11-19T21:05:20.144829+00:00,burst,BURST #9 +171..+232 ms: 904 877 816 811 837 841 830 808 792 777 836 833
+2026-11-19T21:05:20.188844+00:00,status,STATUS 27521 state=Roll Call pouches=0 peak=1381 mg min=841 mg still=0 ms resets=0 rejected=6 accel_errors=0
+2026-11-19T21:05:20.458392+00:00,status,STATUS 27776 state=Roll Call pouches=0 peak=1125 mg min=534 mg still=3 ms resets=0 rejected=6 accel_errors=0
+2026-11-19T21:05:20.773627+00:00,status,STATUS 28030 state=Roll Call pouches=0 peak=1543 mg min=924 mg still=3 ms resets=0 rejected=6 accel_errors=0
+2026-11-19T21:05:20.953763+00:00,status,STATUS 28285 state=Roll Call pouches=0 peak=1341 mg min=705 mg still=4 ms resets=0 rejected=6 accel_errors=0
+2026-11-19T21:05:27.103930+00:00,status,STATUS 34421 state=Roll Call pouches=0 peak=1257 mg min=575 mg still=3 ms resets=0 rejected=11 accel_errors=0
+2026-11-19T21:05:27.418961+00:00,status,STATUS 34675 state=Roll Call pouches=0 peak=1632 mg min=1028 mg still=3 ms resets=0 rejected=11 accel_errors=0
+2026-11-19T21:05:27.688871+00:00,status,STATUS 34930 state=Roll Call pouches=0 peak=1707 mg min=1218 mg still=4 ms resets=0 rejected=11 accel_errors=0
+2026-11-19T21:05:27.854084+00:00,status,STATUS 35184 state=Roll Call pouches=0 peak=1138 mg min=452 mg still=3 ms resets=0 rejected=11 accel_errors=0
+2026-11-19T21:05:28.499239+00:00,status,STATUS 35439 state=Roll Call pouches=0 peak=753 mg min=409 mg still=4 ms resets=0 rejected=11 accel_errors=0
+2026-11-19T21:05:28.515020+00:00,status,STATUS 35693 state=Roll Call pouches=0 peak=1514 mg min=620 mg still=3 ms resets=0 rejected=11 accel_errors=0
+2026-11-19T21:05:28.575895+00:00,status,STATUS 35947 state=Roll Call pouches=0 peak=1028 mg min=664 mg still=3 ms resets=0 rejected=11 accel_errors=0
+2026-11-19T21:05:28.844367+00:00,status,STATUS 36201 state=Roll Call pouches=0 peak=1046 mg min=838 mg still=3 ms resets=0 rejected=11 accel_errors=0
+2026-11-19T21:05:29.158845+00:00,status,STATUS 36455 state=Roll Call pouches=0 peak=1047 mg min=886 mg still=3 ms resets=0 rejected=11 accel_errors=0
+2026-11-19T21:05:29.399022+00:00,status,STATUS 36710 state=Roll Call pouches=0 peak=1044 mg min=863 mg still=15 ms resets=0 rejected=11 accel_errors=0
+2026-11-19T21:05:29.969134+00:00,status,STATUS 36964 state=Roll Call pouches=0 peak=1083 mg min=778 mg still=3 ms resets=0 rejected=11 accel_errors=0
+2026-11-19T21:05:30.013772+00:00,status,STATUS 37219 state=Roll Call pouches=0 peak=1060 mg min=884 mg still=65 ms resets=0 rejected=11 accel_errors=0
+2026-11-19T21:05:30.164240+00:00,status,STATUS 37473 state=Roll Call pouches=0 peak=1069 mg min=857 mg still=3 ms resets=0 rejected=11 accel_errors=0
+2026-11-19T21:05:30.510036+00:00,status,STATUS 37728 state=Roll Call pouches=0 peak=1313 mg min=799 mg still=27 ms resets=0 rejected=11 accel_errors=0
+2026-11-19T21:05:30.794749+00:00,status,STATUS 37982 state=Roll Call pouches=0 peak=1118 mg min=865 mg still=3 ms resets=0 rejected=11 accel_errors=0
+2026-11-19T21:05:31.333522+00:00,status,STATUS 38236 state=Roll Call pouches=0 peak=1049 mg min=892 mg still=54 ms resets=0 rejected=11 accel_errors=0

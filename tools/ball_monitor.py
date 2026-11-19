@@ -7,9 +7,10 @@ if the link drops. The ball works the same with or without this script running.
 
 Line types printed by the ball (see ball/src/main.c):
   State: A -> B       state machine transitions
-  STATUS ...          every 250 ms: state, pouches registered, accelerometer peak (mg)
-  RANGE ...           one per pouch per ranging round (at most every 200 ms)
+  STATUS ...          every 250 ms: state, pouches registered, accelerometer peak/min (mg)
+  RANGE ...           one per pouch per ranging round (at most every 200 ms; also in Armed)
   IMPACT ...          accelerometer impact >= threshold
+  BURST ...           raw |a| samples (mg) around every threshold crossing, header + data lines
   Classify/HIT/...    what the ball decided about an impact
 """
 import argparse
@@ -30,6 +31,7 @@ COLORS = {
     "warn": "\033[1;31m",    # bold red
     "range": "\033[0m",
     "status": "\033[2m",     # dim
+    "burst": "\033[2m",      # dim
     "other": "\033[0m",
 }
 RESET = "\033[0m"
@@ -46,6 +48,8 @@ def classify(line):
         return "status"
     if line.startswith("RANGE"):
         return "range"
+    if line.startswith("BURST"):
+        return "burst"  # raw |a| samples around a threshold crossing
     if line.startswith("ACCEL"):
         return "warn"  # accelerometer stalled and was re-initialized
     if line.startswith("IMPACT ignored"):

@@ -55,6 +55,13 @@ The state number is shown in binary on led2 led1 led0 (led0 = 1s bit). There is 
 State changes, `ROLLCALL ...` registrations, `RANGE ... slot= uid= distance= mm lives=` (at most every 200 ms),
 `IMPACT`, `Classify: ...`, `HIT_ACK` / `HIT_UNACKED`, and the Reset summary.
 
+Diagnostics for tuning the free-fall gate (all on the ball's uptime clock, `up=` / the first number of `STATUS`, `RANGE`, `IMPACT`; the laptop's receive times are bunched by Bluetooth batching):
+* `State: A -> B (up=ms)`: every transition carries the ball's uptime, so it can be lined up with the other lines.
+* `RANGE` lines are also printed in **Armed** (every `ARMED_RECHECK_MS`), so the ball's distance to each pouch during a flight is visible.
+* `STATUS ... peak=P mg min=M mg ...`: lowest |a| in the last 250 ms. In real flight `min` should drop below `FREEFALL_MG`; if it stays near 1000+ mg while the ball is flying, the sensor never sees free fall (e.g. spin).
+* `IMPACT ...` and `IMPACT ignored ...` end with `ffage=<ms since the latest free-fall sample, -1 = none> min150=<lowest |a| in the 150 ms before the crossing>`. `Thrower ... thrown` prints how long ago the *first* free fall since Ready began and how long ago the *latest* one was.
+* `BURST` lines: raw |a| (mg) around **every** threshold crossing (accepted, rejected or inside the cooldown), 100 samples (~0.5 s) ending with the crossing plus 40 samples (~0.2 s) after it. A header (`BURST #n trigger up=... mg=... accepted|rejected|cooldown ffage=... min150=... also=<further crossings inside the window> samples=... pre=...`) is followed by data lines `BURST #n <t0>..<t1> ms: v v v ...` (16 samples each, times relative to the crossing). Gaps in `#n` mean a burst was dropped (queue full). The data lines are the first thing to look at when a real hit is rejected. `ball_monitor.py` colors them dim; filter with `grep -v BURST` when reading a log.
+
 ## Bluetooth debug log
 `BLE_DEBUG` is defined at the top of `src/main.c`. With it, the ball advertises as **`dodgit-ball`** (Nordic UART Service) and sends every log line to a connected laptop. Delete the `#define` for a build with no Bluetooth (the Bluetooth stack is configured in `prj.conf` but never started). Nothing depends on the link: with nobody connected the ball behaves identically and still prints to the console.
 
