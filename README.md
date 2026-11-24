@@ -62,7 +62,7 @@ Contains the sub-repository zephyr-dw3000-decawave for interfacing with the DW31
 ### `data/`
 Generated `.csv` files from running demos, examples, and tests
 ### `tests/`
-Automated tests for tools, helpers, and shared scripts. `tests/run_tests.sh` runs every host test (pure C: DS-TWR math, table of pouches, pouch FSM, LED patterns, the ball's decision logic, the accelerometer classifier; Python: the log monitor and trace tools) without any board or Zephyr. A host simulation of the real ball and pouch firmware (to run the join / rejoin / reset / throw scenarios without hardware) is planned but not part of the repository yet.
+Automated tests for tools, helpers, and shared scripts. `tests/run_tests.sh` runs every host test (pure C: DS-TWR math, table of pouches, pouch FSM, LED patterns, the ball's decision logic, the accelerometer classifier; Python: the log monitor and trace tools) without any board or Zephyr. `tests/sim/run.sh` runs the real ball and pouch firmware on the host against a simulated radio (join / rejoin / reset / throw scenarios, no hardware): see [tests/sim/README.md](tests/sim/README.md).
 
 ## Gameplay
 1. Turn on the ball and the pouches, in any order.

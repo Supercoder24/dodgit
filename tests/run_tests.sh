@@ -29,3 +29,6 @@ cc -std=c11 -Wall -Wextra -Werror -Iexamples/hit_common tests/hit_logic_test.c -
 "$OUT/hit_logic_test"
 
 python3 -m unittest discover -s tests -p 'test_*.py'
+
+# the host simulation of the real firmware (core scenarios, a few seconds); `tests/sim/run.sh --all` runs everything
+tests/sim/run.sh

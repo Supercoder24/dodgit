@@ -627,11 +627,14 @@ static void reset_broadcast(void)
 
   radio_reset_state();
   frame_header(f, MSG_RESET, BALL_ADDR, BROADCAST_ADDR);
-  if (frame_send(f, DWT_START_TX_IMMEDIATE | DWT_RESPONSE_EXPECTED))
+  if (frame_send(f, DWT_START_TX_IMMEDIATE | DWT_RESPONSE_EXPECTED) || wait_tx())
   {
     radio_reset_state();
     return;
   }
+  /* (wait_tx: the frame has to be fully out before anything can switch the transceiver off. When every
+   * pouch has acknowledged already, the listen loop below does not run at all, and radio_reset_state()
+   * would abort a RESET that is still being transmitted.) */
   int64_t deadline = k_uptime_get() + window_ms(tbl.highest + 1);
   while (k_uptime_get() < deadline && members_acked_mask(&tbl) != members_mask(&tbl))
   {

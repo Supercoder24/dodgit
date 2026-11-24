@@ -16,7 +16,7 @@ Revises [Changes.md](Changes.md) into an implementation plan. READMEs and [FSMs.
 > * Settings renamed: `CLASSIFY_ATTEMPTS` -> `RANGE_ATTEMPTS` (+ new `CLASSIFY_ROUNDS`), `ARMED_RECHECK_MS` -> `THROWN_RECHECK_MS`, `READY_STILL_TIMEOUT_MS` -> `READY_NOT_HELD_MS`, `INFORM_TIMEOUT_MS` -> `HIT_ACK_TIMEOUT_MS`.
 > * The launch spike needs no filter in Thrown: every state except Thrown drains the accelerometer events each pass.
 > * Raw accelerometer capture is started by a short button press outside Roll Call (only in builds with `LOG_ACCEL_RAW`).
-> * The decision logic is extracted into pure C so it can be tested on the host: `shared/members.h`, `shared/pouch_fsm.h`, `shared/led_patterns.h`, `ball/src/ball_logic.h`, `ball/src/accel_class.[ch]` (`tests/run_tests.sh`). A host simulation of the real firmware against a simulated radio (for the multi-board bench scenarios) is still to be done.
+> * The decision logic is extracted into pure C so it can be tested on the host: `shared/members.h`, `shared/pouch_fsm.h`, `shared/led_patterns.h`, `ball/src/ball_logic.h`, `ball/src/accel_class.[ch]` (`tests/run_tests.sh`); `tests/sim/` runs the real firmware against a simulated radio (the multi-board bench scenarios; it found and confirmed the fix of three protocol bugs, see its FINDINGS.md).
 >
 > **Still to do on hardware** (nothing here could be measured without boards): the new labeled accelerometer captures listed in [Accelerometer.md](Accelerometer.md); the LED legibility checks of E5; the short-throw detection window of Risk 6 (`LOG_RANGE` on a real 3 m throw); the Bluetooth log throughput of F1 (all `LOG_*` on, watch `log_dropped=`); tuning of every distance and `ACCEL_*` threshold.
 
