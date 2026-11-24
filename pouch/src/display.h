@@ -1,8 +1,8 @@
 /*
  * dodgit - pouch display layer.
  *
- * The pouch FSM (shared/uwb.c, main.c) only tells this layer WHAT to show (phase, lives, a hit or
- * reset event); the patterns are data in shared/led_patterns.h and the LED GPIOs are driven here.
+ * main.c hands this layer WHAT to show (the phase and lives of the pouch FSM, a hit or reset event);
+ * the patterns are data in shared/led_patterns.h and the LED GPIOs are driven here.
  * When the WS2812 strips replace the plain LEDs only this file's backend has to change.
  */
 #ifndef DODGIT_DISPLAY_H
