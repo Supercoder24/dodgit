@@ -43,8 +43,8 @@ int uwb_ball_slot_lives(int slot);       /* lives the ball has recorded for slot
  * or not the pouch ever acknowledges. Returns the lives remaining, -1 if the slot is empty. */
 int uwb_ball_hit(int slot);
 
-/* Send one REMEMBER (uid, slot, lives) if one is due (not right after a ranging round that heard
- * nobody: the pouches are still waiting for a FINAL then). Call once per main-loop pass, BETWEEN radio
+/* Send one REMEMBER (uid, slot, lives) if one is due (right after a ranging round that heard
+ * nobody it first waits ~12 ms: the pouches are still waiting for a FINAL then). Call once per main-loop pass, BETWEEN radio
  * exchanges (it uses the radio). Each pouch gets one per REMEMBER_PERIOD_MS, as a trickle (one pouch
  * every REMEMBER_PERIOD_MS / pouches). A pouch uses it as proof that the ball still knows it, and a
  * rebooted pouch gets its slot and lives back from it. */

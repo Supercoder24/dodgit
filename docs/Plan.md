@@ -11,7 +11,7 @@ Revises [Changes.md](Changes.md) into an implementation plan. READMEs and [FSMs.
 > * The Reset window is `RESET_WINDOW_MS` (3 s), no longer derived from the LED blink timing; the hold time is `BUTTON_HOLD_MS`.
 > * The pouch hit effect also plays when a REMEMBER reveals a lost HIT (lives dropped while Active).
 > * Missing pouches in a ranging round are treated as missing information, not as evidence (the recorded data shows a pouch within 300 mm is absent from about 8% of the rounds): `Classify()` ranges `CLASSIFY_ROUNDS` times and merges per pouch; a hand-over streak is only broken by evidence (`THROWER_SWITCH_GRACE_MS`); one silent round of the thrower does not start Thrown (`THROWER_SILENT_MS`); a missing pouch does not break the Thrown return streak.
-> * The ball holds a REMEMBER back after a ranging round that heard nobody (the pouches are still waiting for a FINAL then).
+> * The ball waits ~12 ms before sending a REMEMBER right after a ranging round that heard nobody (the pouches are still waiting for a FINAL then).
 > * The optional Thrown shortcut is implemented (`THROWN_REST_MS`: Rest for 1 s -> `Disarm()`).
 > * Settings renamed: `CLASSIFY_ATTEMPTS` -> `RANGE_ATTEMPTS` (+ new `CLASSIFY_ROUNDS`), `ARMED_RECHECK_MS` -> `THROWN_RECHECK_MS`, `READY_STILL_TIMEOUT_MS` -> `READY_NOT_HELD_MS`, `INFORM_TIMEOUT_MS` -> `HIT_ACK_TIMEOUT_MS`.
 > * The launch spike needs no filter in Thrown: every state except Thrown drains the accelerometer events each pass.

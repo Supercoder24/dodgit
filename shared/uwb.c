@@ -306,7 +306,7 @@ static uint32_t delayed_tx_timestamp(uint32_t delayed)
  * ========================================================================= */
 static struct members tbl = {.highest = -1}; /* RAM only: a ball reboot starts a new game */
 static int64_t remember_next_ms;
-static int64_t remember_hold_until_ms; /* no REMEMBER before this (see uwb_ball_range_round) */
+static int64_t remember_hold_until_ms; /* REMEMBER waits until this (see uwb_ball_range_round) */
 
 int uwb_ball_pouch_count(void) { return tbl.count; }
 
@@ -352,9 +352,17 @@ void uwb_ball_remember_tick(void)
 {
   int64_t now = k_uptime_get();
 
-  if (tbl.count == 0 || now < remember_next_ms || now < remember_hold_until_ms)
+  if (tbl.count == 0 || now < remember_next_ms)
   {
     return;
+  }
+  if (now < remember_hold_until_ms)
+  {
+    /* Wait the hold out instead of skipping this REMEMBER: when nobody answers (a lone pouch that just
+     * rebooted and is Listening) EVERY round is unanswered, so a skipped REMEMBER would never be sent.
+     * At most FINAL_WAIT_SLACK_MS + 2 ms, once per REMEMBER. */
+    k_msleep(remember_hold_until_ms - now);
+    now = k_uptime_get();
   }
   remember_next_ms = now + REMEMBER_PERIOD_MS / tbl.count;
   send_remember(members_next_remember(&tbl));
@@ -496,7 +504,7 @@ int uwb_ball_range_round(struct pouch_range *out, int max)
   {
     /* No FINAL goes out, so a pouch that did hear the POLL (but whose RESPONSE we did not hear) is still
      * waiting for it, and ignores every other frame, until its wait ends. A REMEMBER sent right now would
-     * be lost every single time; hold it back until the pouch is listening again. */
+     * be lost every single time: uwb_ball_remember_tick() waits until the pouch is listening again. */
     remember_hold_until_ms = k_uptime_get() + FINAL_WAIT_SLACK_MS + 2;
     return 0;
   }
