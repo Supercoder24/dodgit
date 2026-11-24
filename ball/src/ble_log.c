@@ -23,7 +23,7 @@
 
 struct log_line
 {
-  char data[160];
+  char data[BLE_LOG_LINE_MAX + 2]; /* the text, then the newline and the NUL */
 };
 
 K_MSGQ_DEFINE(log_q, sizeof(struct log_line), 48, 4);
@@ -42,7 +42,7 @@ void dodgit_log(const char *fmt, ...)
   va_list args;
 
   va_start(args, fmt);
-  vsnprintf(line.data, sizeof(line.data) - 1, fmt, args);
+  vsnprintf(line.data, BLE_LOG_LINE_MAX + 1, fmt, args);
   va_end(args);
   size_t n = strlen(line.data);
   line.data[n++] = '\n';

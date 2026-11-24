@@ -16,8 +16,12 @@
 /* Start advertising as "dodgit-ball". Returns 0 or -errno. */
 int ble_log_init(void);
 
-/* dodgit_log(): printf-style; a newline is appended. Lines are truncated at ~159 characters. */
+/* dodgit_log(): printf-style; a newline is appended. A line longer than BLE_LOG_LINE_MAX characters
+ * is cut. The accelerometer lines (ACCEL_LOG_LINE_SIZE in accel_log.h) are designed to fit exactly:
+ * impact.c checks it at build time. */
 #include "log.h"
+
+#define BLE_LOG_LINE_MAX 159
 
 bool ble_log_connected(void);   /* a laptop is subscribed */
 uint32_t ble_log_dropped(void); /* lines lost because of a full queue or a dropped link */
