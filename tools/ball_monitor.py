@@ -5,13 +5,20 @@ The ball advertises as "dodgit-ball". This script scans for it, subscribes to it
 every line (colored by type) and saves them to a CSV in data/. It reconnects automatically
 if the link drops. The ball works the same with or without this script running.
 
-Line types printed by the ball (see ball/src/main.c):
-  State: A -> B       state machine transitions
-  STATUS ...          every 250 ms: state, pouches registered, accelerometer peak/min (mg)
-  RANGE ...           one per pouch per ranging round (at most every 200 ms; also in Armed)
-  IMPACT ...          accelerometer impact >= threshold
-  BURST ...           raw |a| samples (mg) around every threshold crossing, header + data lines
-  Classify/HIT/...    what the ball decided about an impact
+Line types printed by the ball (see ball/src/main.c; which ones appear is chosen at compile time by
+the LOG_* switches in shared/settings.h, see ball/README.md):
+  State: A -> B         state machine transitions (up=<ms> is the ball's own clock)
+  ROLLCALL ...          a new pouch registered / Roll Call timeout
+  MEMBER ...            JOIN answered, pouch deleted by a Reset (pouch phase changes are on the pouch's console)
+  REMEMBER ...          every REMEMBER sent (LOG_REMEMBER, off by default)
+  STATUS ...            every 250 ms: state, pouches, accelerometer peak/min and level, log_dropped
+  RANGE ...             one per pouch per ranging round (LOG_RANGE, off by default)
+  ACCEL level / hit     the accelerometer classifier: Rest / Held / Spinning changes and Hit events
+  ACCEL stalled ...     the accelerometer stopped delivering data and was re-initialized
+  FEAT ...              classifier window features (LOG_ACCEL_FEATURES, off by default)
+  BURST ...             raw |a| samples (mg) around every threshold crossing (LOG_ACCEL_BURST, off by default)
+  RAW ...               raw x/y/z capture dump (LOG_ACCEL_RAW, off by default)
+  Disarm/Classify/Thrown/HIT/...   what the ball decided
 """
 import argparse
 import asyncio
@@ -29,6 +36,8 @@ COLORS = {
     "impact": "\033[1;33m",  # bold yellow
     "hit": "\033[1;32m",     # bold green
     "warn": "\033[1;31m",    # bold red
+    "member": "\033[35m",    # magenta
+    "accel": "\033[36m",     # cyan
     "range": "\033[0m",
     "status": "\033[2m",     # dim
     "burst": "\033[2m",      # dim
@@ -48,17 +57,23 @@ def classify(line):
         return "status"
     if line.startswith("RANGE"):
         return "range"
-    if line.startswith("BURST"):
-        return "burst"  # raw |a| samples around a threshold crossing
-    if line.startswith("ACCEL"):
+    if line.startswith(("BURST", "RAW", "FEAT")):
+        return "burst"  # raw / feature samples: dim
+    if line.startswith("ACCEL stalled"):
         return "warn"  # accelerometer stalled and was re-initialized
-    if line.startswith("IMPACT ignored"):
-        return "other"  # threshold crossing without free fall before it
-    if line.startswith("IMPACT"):
+    if line.startswith("ACCEL hit"):
+        return "impact"  # a Hit event of the classifier (the ball FSM decides whether it counts)
+    if line.startswith("ACCEL"):
+        return "accel"  # level change: Rest / Held / Spinning
+    if line.startswith(("MEMBER", "ROLLCALL")):
+        return "member"
+    if line.startswith("REMEMBER"):
+        return "status"
+    if line.startswith("Thrown: Hit"):
         return "impact"
     if line.startswith("HIT_UNACKED") or "unavailable" in line or "failed" in line.lower():
         return "warn"
-    if line.startswith(("HIT", "Classify")) and "miss" not in line:
+    if line.startswith(("HIT_ACK", "Classify: HIT", "Classify: thrower is the only pouch")):
         return "hit"
     return "other"
 

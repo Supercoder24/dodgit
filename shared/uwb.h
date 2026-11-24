@@ -43,7 +43,8 @@ int uwb_ball_slot_lives(int slot);       /* lives the ball has recorded for slot
  * or not the pouch ever acknowledges. Returns the lives remaining, -1 if the slot is empty. */
 int uwb_ball_hit(int slot);
 
-/* Send one REMEMBER (uid, slot, lives) if one is due. Call once per main-loop pass, BETWEEN radio
+/* Send one REMEMBER (uid, slot, lives) if one is due (not right after a ranging round that heard
+ * nobody: the pouches are still waiting for a FINAL then). Call once per main-loop pass, BETWEEN radio
  * exchanges (it uses the radio). Each pouch gets one per REMEMBER_PERIOD_MS, as a trickle (one pouch
  * every REMEMBER_PERIOD_MS / pouches). A pouch uses it as proof that the ball still knows it, and a
  * rebooted pouch gets its slot and lives back from it. */
@@ -72,14 +73,15 @@ struct reset_summary
 /* Everybody's lives back to LIVES_MAX in the ball's table, nobody has acknowledged yet. */
 void uwb_ball_reset_start(void);
 /* Broadcast RESET every RESET_RETRY_MS until every pouch in the table has acknowledged it (a pouch
- * that joins counts as acknowledged), and keep listening for JOIN messages from pouches without a
- * slot: each is registered and told its slot (REMEMBER) at once. */
+ * that joins counts as acknowledged), then every RESET_KEEPALIVE_MS for the rest of the window (a late
+ * pouch needs to hear just one), and keep listening for JOIN messages from pouches without a slot: each
+ * is registered and told its slot (REMEMBER) at once. */
 void uwb_ball_reset_step(void);
 /* Close the window: delete every pouch that neither acknowledged nor joined (safe, because
  * everybody's lives were just reset, so nobody loses progress by being forgotten). */
 struct reset_summary uwb_ball_reset_finish(void);
 
-/* Switch the radio off (Armed state). */
+/* Switch the radio off (Thrown state: the ball ranges only every THROWN_RECHECK_MS). */
 void uwb_ball_idle(void);
 
 /* ---------------------------------------------------------------------------

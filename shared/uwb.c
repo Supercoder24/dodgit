@@ -67,6 +67,7 @@
 
 #define UUS_TO_DTU 65536ULL /* 1 UUS (~1.026 us) = 65536 device time units (~15.65 ps) */
 #define SW_TIMEOUT_MS 25    /* software guard around single TX waits */
+#define FINAL_WAIT_SLACK_MS 10 /* a pouch waits for FINAL this long beyond the response window of its POLL */
 
 /* Payload size in bytes for each message type, or -1 if unknown. */
 static int payload_size(uint8_t type)
@@ -113,8 +114,8 @@ static void radio_reset_state(void)
   rx_on = false;
 }
 
-/* Make sure the receiver is listening. Frames are received one at a time; callers
- * clear rx_on after handling a frame so the next call re-arms it. */
+/* Make sure the receiver is listening. Frames are received one at a time: frame_poll() clears rx_on
+ * once a frame (or an error) was taken, so the next call re-arms it. */
 static void rx_ensure(void)
 {
   if (!rx_on)
@@ -305,6 +306,7 @@ static uint32_t delayed_tx_timestamp(uint32_t delayed)
  * ========================================================================= */
 static struct members tbl = {.highest = -1}; /* RAM only: a ball reboot starts a new game */
 static int64_t remember_next_ms;
+static int64_t remember_hold_until_ms; /* no REMEMBER before this (see uwb_ball_range_round) */
 
 int uwb_ball_pouch_count(void) { return tbl.count; }
 
@@ -350,7 +352,7 @@ void uwb_ball_remember_tick(void)
 {
   int64_t now = k_uptime_get();
 
-  if (tbl.count == 0 || now < remember_next_ms)
+  if (tbl.count == 0 || now < remember_next_ms || now < remember_hold_until_ms)
   {
     return;
   }
@@ -454,8 +456,7 @@ static uint8_t collect(uint8_t type, uint8_t want, int64_t window,
         got |= 1U << slot;
       }
     }
-    dwt_rxenable(DWT_START_RX_IMMEDIATE); /* single-shot RX: listen for the next slot */
-    rx_on = true;
+    rx_ensure(); /* single-shot RX: listen for the next slot */
   }
   radio_reset_state();
   return got;
@@ -493,6 +494,10 @@ int uwb_ball_range_round(struct pouch_range *out, int max)
   uint8_t heard = collect(MSG_RESPONSE, registered, window_ms(n), on_response);
   if (!heard)
   {
+    /* No FINAL goes out, so a pouch that did hear the POLL (but whose RESPONSE we did not hear) is still
+     * waiting for it, and ignores every other frame, until its wait ends. A REMEMBER sent right now would
+     * be lost every single time; hold it back until the pouch is listening again. */
+    remember_hold_until_ms = k_uptime_get() + FINAL_WAIT_SLACK_MS + 2;
     return 0;
   }
 
@@ -571,8 +576,7 @@ int uwb_ball_send_hit(int slot)
       radio_reset_state();
       return 0;
     }
-    dwt_rxenable(DWT_START_RX_IMMEDIATE);
-    rx_on = true;
+    rx_ensure();
   }
   radio_reset_state();
   return -ETIMEDOUT;
@@ -633,8 +637,7 @@ static void reset_broadcast(void)
     {
       reset_handle_frame(f);
     }
-    dwt_rxenable(DWT_START_RX_IMMEDIATE); /* single-shot RX: listen for the next frame */
-    rx_on = true;
+    rx_ensure(); /* single-shot RX: listen for the next frame */
   }
   radio_reset_state();
 }
@@ -653,14 +656,19 @@ void uwb_ball_reset_step(void)
   int64_t now = k_uptime_get();
   uint8_t f[MAX_FRAME];
 
-  if (now >= reset_next_send_ms && members_acked_mask(&tbl) != members_mask(&tbl))
+  if (now >= reset_next_send_ms)
   {
-    reset_next_send_ms = now + RESET_RETRY_MS;
+    /* Until everybody in the table has acknowledged: every RESET_RETRY_MS. Afterwards (or with an empty
+     * table) still, every RESET_KEEPALIVE_MS: a late pouch (Listening) reacts to a RESET only, so one
+     * lost broadcast would leave it out of the game until the next Reset. Known pouches just
+     * acknowledge again. */
+    bool all_acked = members_acked_mask(&tbl) == members_mask(&tbl);
+
+    reset_next_send_ms = now + (all_acked ? RESET_KEEPALIVE_MS : RESET_RETRY_MS);
     reset_broadcast();
     return;
   }
-  /* Nothing to send (everybody acknowledged, or the table is empty): the receiver stays armed
-   * and JOINs are still accepted. */
+  /* Between broadcasts the receiver stays armed and JOINs are accepted. */
   rx_ensure();
   if (frame_poll(f) == 0)
   {
@@ -792,7 +800,7 @@ static void pouch_handle_poll(const uint8_t *poll)
   }
 
   /* Wait for FINAL. The radio is idle until the delayed TX happens, then listens. */
-  int64_t deadline = k_uptime_get() + window_ms(n_slots) + 10;
+  int64_t deadline = k_uptime_get() + window_ms(n_slots) + FINAL_WAIT_SLACK_MS;
   while (k_uptime_get() < deadline)
   {
     int rc = frame_poll(f);
@@ -815,8 +823,7 @@ static void pouch_handle_poll(const uint8_t *poll)
       }
       break;
     }
-    dwt_rxenable(DWT_START_RX_IMMEDIATE); /* unrelated frame: keep listening */
-    rx_on = true;
+    rx_ensure(); /* unrelated frame: keep listening */
   }
   radio_reset_state();
 }

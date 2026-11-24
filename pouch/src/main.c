@@ -6,12 +6,15 @@
  *     PASS: led0 (green) blinks 3 times, then the pouch starts Joining.
  *     FAIL: led1 + led2 (red) blink together, slowly, forever.
  *
- * The pouch FSM lives in shared/uwb.c (see shared/README.md and docs/FSMs.md). The ball owns the
- * lives and the timeslots; the pouch only displays them and answers the ball's messages:
+ * The pouch FSM rules are in shared/pouch_fsm.h; shared/uwb.c is the radio glue around them (see
+ * shared/README.md and docs/FSMs.md). The ball owns the lives and the timeslots; the pouch only displays
+ * them and answers the ball's messages:
  *
- *   JOINING    sends JOIN (its 32-bit hardware ID) at random intervals until the ball answers with REMEMBER
- *   LISTENING  the ball is already ranging: silent, until a REMEMBER with our ID arrives (we rebooted
- *              mid-game: same slot and lives as before) or a RESET (the ball accepts new pouches)
+ *   JOINING    sends JOIN (its 32-bit hardware ID) at random intervals until the ball answers with
+ *              REMEMBER; hearing the ball's POLL first means the game is already running -> LISTENING
+ *   LISTENING  silent, until a REMEMBER with our ID arrives (we rebooted mid-game: same slot and lives
+ *              as before) or a RESET (the ball accepts new pouches); no POLL for LOST_TIMEOUT_MS = the
+ *              ball rebooted -> JOINING
  *   JOINED     slot and lives known, waiting for the ball's first POLL / HIT / RESET
  *   ACTIVE     answering POLLs, HITs and RESETs; a REMEMBER keeps slot and lives in sync
  * No REMEMBER for LOST_TIMEOUT_MS sends a Joined / Active pouch back to Joining. Nothing is terminal:
@@ -41,6 +44,8 @@ void dodgit_log(const char *fmt, ...)
   va_end(args);
   printk("\n");
 }
+
+#define RESET_REPEAT_IGNORE_MS 1500 /* RESETs closer together than this belong to one Reset */
 
 static const char *phase_name(enum pouch_phase phase)
 {
@@ -75,6 +80,7 @@ int main(void)
   uwb_pouch_start();
 
   enum pouch_phase last_phase = uwb_pouch_phase();
+  int64_t last_reset_ms = -RESET_REPEAT_IGNORE_MS;
   LOG_CAT(LOG_MEMBERSHIP, "MEMBER phase %s: sending JOIN until the ball answers", phase_name(last_phase));
 
   while (1)
@@ -102,8 +108,14 @@ int main(void)
       LOG_CAT(LOG_STATE, "HIT, lives = %u", lives);
       break;
     case EV_RESET:
-      display_reset(now);
-      LOG_CAT(LOG_STATE, "RESET, lives = %u", lives);
+      /* During a Reset the ball repeats RESET (and every pouch acknowledges each one): show and log the
+       * first, not every repeat. */
+      if (now - last_reset_ms >= RESET_REPEAT_IGNORE_MS)
+      {
+        display_reset(now);
+        LOG_CAT(LOG_STATE, "RESET, lives = %u", lives);
+      }
+      last_reset_ms = now;
       break;
     case EV_REMEMBER:
       LOG_CAT(LOG_REMEMBER, "REMEMBER slot %d, lives %u", uwb_pouch_slot(), lives);

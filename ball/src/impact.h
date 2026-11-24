@@ -1,90 +1,87 @@
-/* dodgit - ball accelerometer impact detector (background thread). */
+/*
+ * dodgit - ball accelerometer service.
+ *
+ * A background thread reads the on-board LIS2DH12 every ACCEL_SAMPLE_PERIOD_MS, computes |a| in
+ * milli-g and feeds it to the classifier (accel_class.h, docs/Accelerometer.md). The ball's state
+ * machine (main.c) reads two things from here:
+ *   - the LEVEL: Rest / Held / Spinning (or Unknown while the sensor is stalled), plus how long it has
+ *     been that way;
+ *   - EVENTS: every Hit (a sharp spike >= IMPACT_MG, one per physical impact) and every sensor stall
+ *     (the LIS2DH often stops delivering data after a hard shock, which is itself a sign of one).
+ *     The service reports them ALL, in every state; the state machine decides what they mean (only
+ *     Thrown acts on them) and must drain the queue in the other states, or old events would pile up.
+ *
+ * Stall recovery: if the reads keep failing for ACCEL_STALL_MS (an all-zero reading counts as failed)
+ * the thread re-initializes the sensor from software (the LIS2DH has no reset pin), resets the
+ * classifier and goes on; a pause of the thread itself is not a failed read. Every stall episode
+ * gets a re-init, and one more every ACCEL_RECOVER_RETRY_MS while there is still no data.
+ *
+ * Log lines (impact_log_line) exist only for the categories enabled in shared/settings.h
+ * (LOG_ACCEL_*); a disabled category costs no code and no RAM.
+ */
 #ifndef DODGIT_IMPACT_H
 #define DODGIT_IMPACT_H
 
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
+#include "accel_class.h"
+#include "accel_log.h" /* ACCEL_LOG_LINE_SIZE */
 
-struct impact_event {
-    int64_t time;       /* k_uptime_get() when the impact was seen (ms) */
-    int32_t mg;         /* magnitude, milli-g */
-    int32_t ff_age_ms;  /* diagnostics: ms since the latest free-fall sample, -1 if none */
-    int32_t min_prev_mg;/* diagnostics: lowest |a| in the IMPACT_AFTER_FREEFALL_MS before it, -1 if no sample */
+struct impact_event
+{
+  int64_t time;  /* k_uptime_get() when it happened (ms) */
+  int32_t mg;    /* Hit: magnitude of the spike, milli-g (the sensor saturates at about 41400, see
+                  * accel_class.h); stall: 0 */
+  bool stall;    /* false = Hit, true = the sensor stopped delivering data (and is being re-initialized) */
 };
 
-/* Configure the accelerometer (+/-16 g, 400 Hz) and start detecting. Returns 0 or -errno.
- * Impacts are ignored for the first 500 ms (sensor settling). */
-int impact_init(int32_t threshold_mg, int cooldown_ms);
+/* Configure the accelerometer (+/-16 g range, 400 Hz) and start the thread. Returns 0 or -errno. */
+int impact_init(void);
 
-/* Pop the oldest queued impact. Returns false if there is none.
- * Only impacts preceded by free fall (IMPACT_AFTER_FREEFALL_MS) are queued: the ball was
- * flying. Threshold crossings without free fall (launch spike, bumps in the hand) are only
- * counted, see impact_rejected(). */
+/* The classifier's current level (ACCEL_UNKNOWN while the sensor is stalled or just re-initialized)
+ * and how long (ms) it has been that level. Each call is one atomic load. Two calls are a consistent
+ * pair only if the level cannot change in between: call them back to back from the main loop, which
+ * has the higher priority than the sampling thread and does not sleep between them. */
+enum accel_level impact_level(void);
+uint32_t impact_level_ms(void);
+
+/* Pop the oldest queued event. Returns false if there is none. The queue is small (4): drain it on every
+ * main-loop pass. If it ever overflows the OLDEST events are dropped, so the newest always get through. */
 bool impact_get(struct impact_event *event);
 
-/* Largest |a| (milli-g) seen since the previous call, then starts over. ~1000 when the ball
- * sits still: a quick check that the accelerometer is alive. -1 if there was no sample at all
- * (sensor stalled). */
-int32_t impact_take_peak(void);
+/* Diagnostics for the STATUS line. */
+int32_t impact_take_peak(void); /* largest |a| (mg) since the previous call, -1 if there was no sample */
+int32_t impact_take_min(void);  /* lowest |a| (mg) since the previous call, -1 if there was no sample */
+uint32_t impact_errors(void);   /* failed sensor reads and failed re-initializations since boot */
+uint32_t impact_resets(void);   /* times the sensor was re-initialized after a stall */
 
-/* Lowest |a| (milli-g) seen since the previous call, then starts over; -1 if there was no sample.
- * Diagnostics for the free-fall gate: during a real flight this should drop below FREEFALL_MG. */
-int32_t impact_take_min(void);
+/* Next pending text line (no newline, at most size-1 characters; size >= ACCEL_LOG_LINE_SIZE = 160, which
+ * is what the ball's log can carry) of the enabled LOG_ACCEL_* categories, or false if there is none. Call
+ * it from ONE thread (the main loop), once per pass: long outputs (BURST windows, RAW dumps) are spread
+ * over many calls, so one pass prints one line instead of a whole window (the console takes about 9 ms
+ * for a 100 character line, and the sampling thread cannot run meanwhile), and a RAW dump is paced to
+ * what the Bluetooth link can take. The exact formats are in accel_log.h. Line families:
+ *   ACCEL level <A> -> <B> up=<ms> after=<ms in A>      LOG_ACCEL_CLASS  (level change)
+ *   ACCEL hit up=<ms> mg=<n> level=<L>                  LOG_ACCEL_CLASS  (a Hit event was queued)
+ *   ACCEL stalled up=<ms>, sensor re-initialized (reset #<n>, ...)   ALWAYS (a warning, whatever the
+ *       flags; up= is the time of the re-init, the line itself comes up to ACCEL_RECOVER_RETRY_MS later;
+ *       a sensor that does not come back gets the line for its first re-inits and then for every 20th)
+ *   FEAT up=<ms> level=<L> shape=<S> mean=<mg> trend=<mg> masd=<mg> samples=<n>   LOG_ACCEL_FEATURES
+ *   BURST #<n> trigger ... / BURST #<n> <t0>..<t1> ms: v v v ...                 LOG_ACCEL_BURST (header + data)
+ *   RAW #<n> begin ... / RAW #<n> <t_offset>: x,y,z ... / RAW #<n> end           LOG_ACCEL_RAW
+ * tools/ball_monitor.py colors lines by these prefixes. */
+bool impact_log_line(char *buf, size_t size);
 
-/* Number of failed sensor reads since boot. */
-uint32_t impact_errors(void);
-
-/* Number of times the sensor stopped delivering data and was re-initialized. */
-uint32_t impact_resets(void);
-
-/* False while the sensor is stalled (no data) and being re-initialized. The motion helpers
- * below fail safe in that case. */
-bool impact_healthy(void);
-
-/* Number of threshold crossings ignored because no free fall preceded them. If last_mg is
- * not NULL it receives the magnitude of the latest one. */
-uint32_t impact_rejected(int32_t *last_mg);
-
-/* Diagnostics of the latest rejected crossing (same snapshot as impact_rejected()): ms since the
- * latest free-fall sample (-1 = none since the last clear) and the lowest |a| in the
- * IMPACT_AFTER_FREEFALL_MS before the crossing (-1 = no sample). Either pointer may be NULL. */
-void impact_rejected_detail(int32_t *ff_age_ms, int32_t *min_prev_mg);
-
-/* ms since the latest free-fall sample, -1 if none since the last impact_freefall_clear(). */
-int32_t impact_freefall_age_ms(void);
-
-/* Raw accelerometer burst around every threshold crossing (accepted, rejected or inside the
- * cooldown): the BURST_PRE_SAMPLES |a| samples before it, the crossing itself and
- * BURST_POST_SAMPLES after it (~5 ms apart). Finished bursts are queued (a few at most; if the
- * queue is full the burst is dropped, which shows as a gap in the burst numbers).
- *
- * impact_burst_line() formats the next text line of the oldest queued burst into buf (no
- * newline): first a header line, then data lines of 16 samples each. Returns false when nothing
- * is queued. Call it from ONE thread only (the main loop), one line per pass, so printing a
- * burst never stalls ranging. */
-#define BURST_PRE_SAMPLES 100
-#define BURST_POST_SAMPLES 40
-bool impact_burst_line(char *buf, size_t size);
-
-/* True if free fall (|a| < FREEFALL_MG for >= FREEFALL_MIN_MS) ended or is ongoing within the
- * last hold_ms milliseconds. */
-bool impact_freefall_recent(int hold_ms);
-
-/* k_uptime_get_32() when the current free fall began, 0 if none since the last clear. */
-uint32_t impact_freefall_start_ms(void);
-
-/* Forget any detected free fall (call when entering Ready). */
-void impact_freefall_clear(void);
-
-/* Milliseconds since the ball last moved (|a(t) - a(t-100 ms)| > STILL_DELTA_MG). 0 while
- * the sensor is unhealthy, so a dead sensor never makes the ball look idle. */
-uint32_t impact_still_ms(void);
-
-/* True if the ball moved within the last ms milliseconds; always true while unhealthy. */
-bool impact_moved_recent(int ms);
-
-/* Drop all queued impacts. */
-void impact_flush(void);
+/* LOG_ACCEL_RAW only (no-op otherwise): snapshot the last ACCEL_RAW_CAPTURE_MS or more (the ring holds
+ * ACCEL_RAW_CAPTURE_MS / ACCEL_SAMPLE_PERIOD_MS samples: about 12 s at the real sample spacing) of raw
+ * x/y/z samples, kept in a RAM ring at the sample rate, and dump them through impact_log_line()
+ * afterwards, paced to the link. The ball calls it on a short button press outside Roll Call, so a
+ * labeled capture is: do the movement, press the button. A capture requested while a dump is running is
+ * ignored. The ring is not recorded during a dump and starts empty after it, so a capture soon after a
+ * dump is short. While a dump runs the main loop spends about a quarter of its time on the console and
+ * the sampling thread cannot run then (holes of 10-15 ms in the sample stream): levels and Hits during
+ * a dump are not representative. */
+void impact_raw_capture(void);
 
 #endif

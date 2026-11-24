@@ -23,6 +23,9 @@ enum join_result
   JOIN_FULL,   /* table full: ignored */
 };
 
+/* Slot sets travel as one byte (bit n = slot n: the FINAL mask, the ack / used masks below). */
+_Static_assert(MAX_POUCHES <= 8, "slot masks are uint8_t: at most 8 pouches");
+
 struct members
 {
   uint32_t uid[MAX_POUCHES];

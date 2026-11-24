@@ -123,7 +123,7 @@ static const struct led_pattern PAT_BALL_UNHELD = {LED_GREEN, 1, 0};
 static const struct led_pattern PAT_BALL_READY = {LED_RED, 1, 0};
 static const struct led_pattern PAT_BALL_THROWN = {LED_RED, LED_FAST_MS, LED_FAST_MS};
 static const struct led_pattern PAT_BALL_HIT = {LED_RED | LED_BLUE, 1, 0};
-static const struct led_pattern PAT_BALL_RESET = {LED_ALL, LED_SLOW_MS, LED_SLOW_MS}; /* x RESET_BLINKS */
+static const struct led_pattern PAT_BALL_RESET = {LED_ALL, LED_SLOW_MS, LED_SLOW_MS}; /* for RESET_WINDOW_MS */
 /* Roll Call flashes: a new pouch registered (green), or a short press was ignored because nobody has
  * registered yet (red). A flash REPLACES the steady blue for LED_BALL_FLASH_MS (one color at a time). */
 #define LED_BALL_FLASH_MS 150

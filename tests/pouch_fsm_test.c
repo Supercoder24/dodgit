@@ -74,7 +74,7 @@ static void test_remember_is_authoritative(void)
   assert(pouch_fsm_on_remember(&f, 4000, 0, LIVES_MAX + 1) == EV_NONE && f.lives == LIVES_MAX);
   assert(f.last_remember_ms == 3000);
 
-  /* a Joined pouch gets no hit effect from a lower value (a reboot is not a hit) */
+  /* a pouch that is still Joining gets no hit effect from a lower value (a reboot is not a hit) */
   struct pouch_fsm g;
   pouch_fsm_init(&g, 0, 0);
   assert(pouch_fsm_on_remember(&g, 5, 0, 1) == EV_REMEMBER);

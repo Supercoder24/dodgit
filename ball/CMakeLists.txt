@@ -12,4 +12,4 @@ zephyr_include_directories(${ZEPHYR_BINARY_DIR}/include/generated/zephyr)
 project(ball)
 
 target_include_directories(app PRIVATE ../shared)
-target_sources(app PRIVATE src/main.c src/ble_log.c src/impact.c ../shared/uwb.c)
+target_sources(app PRIVATE src/main.c src/hw.c src/ble_log.c src/impact.c src/accel_class.c src/accel_log.c ../shared/uwb.c)
