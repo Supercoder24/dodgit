@@ -2,16 +2,21 @@
  * dodgit - UWB protocol implementation (DW3110 transceiver, Zephyr, decadriver).
  *
  * Message types (header byte 9) and their payloads:
- *   JOIN      pouch -> ball       u32 uid
- *   ASSIGN    ball  -> pouch      u32 uid, u8 slot
+ *   JOIN      pouch -> ball       u32 uid                       (from address 0xFFFE: no slot yet)
+ *   REMEMBER  ball  -> broadcast  u32 uid, u8 slot, u8 lives    (about the pouch with that uid)
  *   POLL      ball  -> broadcast  u8 n_slots
- *   RESPONSE  pouch -> ball       u8 lives                      (in pouch's timeslot)
+ *   RESPONSE  pouch -> ball       -                             (in pouch's timeslot)
  *   FINAL     ball  -> broadcast  u8 mask of slots that answered
  *   REPORT    pouch -> ball       u32 poll_rx, resp_tx, final_rx (in pouch's timeslot)
- *   HIT       ball  -> pouch      u16 hit_seq
- *   HIT_ACK   pouch -> ball       u16 hit_seq                   (in pouch's timeslot)
+ *   HIT       ball  -> pouch      u8 lives remaining
+ *   HIT_ACK   pouch -> ball       u8 lives                      (echo; in pouch's timeslot)
  *   RESET     ball  -> broadcast  -
  *   RESET_ACK pouch -> ball       -                             (in pouch's timeslot)
+ *
+ * The BALL owns the lives: it keeps a table of (uid, slot, lives) and tells each pouch its slot and
+ * lives with REMEMBER (the answer to a JOIN, and again every REMEMBER_PERIOD_MS). A pouch that
+ * reboots gets its old slot and lives back from the next REMEMBER; a pouch that hears no REMEMBER for
+ * LOST_TIMEOUT_MS assumes the ball forgot it and joins again.
  *
  * Ranging is double-sided two-way ranging (DS-TWR): POLL / RESPONSE / FINAL /
  * REPORT, with the ball calculating the distance (see twr.h). Replies are sent
@@ -32,6 +37,7 @@
 #include "dw3000/dw3000_deca_regs.h"
 #include "uwb.h"
 #include "twr.h"
+#include "log.h"
 
 /* ---------------------------------------------------------------------------
  * Addresses and frame format (simplified IEEE 802.15.4 data frame)
@@ -49,7 +55,7 @@
 #define MAX_FRAME 32
 
 #define MSG_JOIN 0x20
-#define MSG_ASSIGN 0x21
+#define MSG_REMEMBER 0x21
 #define MSG_POLL 0x31
 #define MSG_RESPONSE 0x32
 #define MSG_FINAL 0x33
@@ -68,13 +74,13 @@ static int payload_size(uint8_t type)
   switch (type)
   {
   case MSG_JOIN: return 4;
-  case MSG_ASSIGN: return 5;
+  case MSG_REMEMBER: return 6;
   case MSG_POLL: return 1;
-  case MSG_RESPONSE: return 1;
+  case MSG_RESPONSE: return 0;
   case MSG_FINAL: return 1;
   case MSG_REPORT: return 12;
-  case MSG_HIT: return 2;
-  case MSG_HIT_ACK: return 2;
+  case MSG_HIT: return 1;
+  case MSG_HIT_ACK: return 1;
   case MSG_RESET: return 0;
   case MSG_RESET_ACK: return 0;
   }
@@ -297,34 +303,80 @@ static uint32_t delayed_tx_timestamp(uint32_t delayed)
 /* ===========================================================================
  * Ball side
  * ========================================================================= */
-static uint32_t table_uid[MAX_POUCHES];
-static bool table_used[MAX_POUCHES];
-static int table_count;
-static int highest_slot = -1;
+static struct members tbl = {.highest = -1}; /* RAM only: a ball reboot starts a new game */
+static int64_t remember_next_ms;
 
-int uwb_ball_pouch_count(void) { return table_count; }
+int uwb_ball_pouch_count(void) { return tbl.count; }
 
-uint8_t uwb_ball_slot_mask(void)
-{
-  uint8_t mask = 0;
-  for (int i = 0; i < MAX_POUCHES; i++)
-  {
-    if (table_used[i])
-    {
-      mask |= 1U << i;
-    }
-  }
-  return mask;
-}
+uint8_t uwb_ball_slot_mask(void) { return members_mask(&tbl); }
 
 uint32_t uwb_ball_slot_uid(int slot)
 {
-  return (slot >= 0 && slot < MAX_POUCHES && table_used[slot]) ? table_uid[slot] : 0;
+  return (slot >= 0 && slot < MAX_POUCHES && tbl.used[slot]) ? tbl.uid[slot] : 0;
 }
+
+int uwb_ball_slot_lives(int slot)
+{
+  return (slot >= 0 && slot < MAX_POUCHES && tbl.used[slot]) ? tbl.lives[slot] : -1;
+}
+
+int uwb_ball_hit(int slot) { return members_hit(&tbl, slot); }
 
 void uwb_ball_idle(void)
 {
   radio_reset_state();
+}
+
+/* Broadcast what the ball knows about the pouch in `slot`: its ID, slot and lives. The ID is in the
+ * payload because a pouch that just rebooted has no slot address yet. Leaves the radio off. */
+static void send_remember(int slot)
+{
+  uint8_t f[MAX_FRAME];
+
+  radio_reset_state();
+  frame_header(f, MSG_REMEMBER, BALL_ADDR, BROADCAST_ADDR);
+  sys_put_le32(tbl.uid[slot], f + HEADER_LEN);
+  f[HEADER_LEN + 4] = slot;
+  f[HEADER_LEN + 5] = tbl.lives[slot];
+  if (frame_send(f, DWT_START_TX_IMMEDIATE) == 0)
+  {
+    wait_tx();
+  }
+  LOG_CAT(LOG_REMEMBER, "REMEMBER sent uid=0x%08x slot=%d lives=%u", tbl.uid[slot], slot,
+          tbl.lives[slot]);
+}
+
+void uwb_ball_remember_tick(void)
+{
+  int64_t now = k_uptime_get();
+
+  if (tbl.count == 0 || now < remember_next_ms)
+  {
+    return;
+  }
+  remember_next_ms = now + REMEMBER_PERIOD_MS / tbl.count;
+  send_remember(members_next_remember(&tbl));
+}
+
+/* A JOIN frame arrived: register the pouch (a known ID keeps its slot and lives) and answer with
+ * REMEMBER, which is also what tells a late or rebooted pouch its slot. */
+static enum join_result handle_join(const uint8_t *f, int *slot, uint32_t *uid)
+{
+  uint32_t id = sys_get_le32(f + HEADER_LEN);
+  int s;
+  enum join_result result = members_join(&tbl, id, &s);
+
+  *slot = s;
+  *uid = id;
+  if (result == JOIN_FULL)
+  {
+    LOG_CAT(LOG_MEMBERSHIP, "MEMBER join uid=0x%08x ignored: all %d timeslots taken", id, MAX_POUCHES);
+    return result; /* ninth pouch: no reply */
+  }
+  send_remember(s); /* answer first, log afterwards: the console is slow */
+  LOG_CAT(LOG_MEMBERSHIP, "MEMBER join uid=0x%08x -> slot %d (%s)", id, s,
+          result == JOIN_NEW ? "new" : "known");
+  return result;
 }
 
 void uwb_ball_rollcall_start(void)
@@ -333,7 +385,7 @@ void uwb_ball_rollcall_start(void)
   rx_ensure();
 }
 
-enum rollcall_result uwb_ball_rollcall_step(int *slot, uint32_t *uid)
+enum join_result uwb_ball_rollcall_step(int *slot, uint32_t *uid)
 {
   uint8_t f[MAX_FRAME];
 
@@ -341,75 +393,26 @@ enum rollcall_result uwb_ball_rollcall_step(int *slot, uint32_t *uid)
   int rc = frame_poll(f);
   if (rc == -EAGAIN)
   {
-    return RC_NONE;
+    return JOIN_NONE;
   }
   if (rc || frame_type(f) != MSG_JOIN || frame_dst(f) != BALL_ADDR ||
       frame_src(f) != UNASSIGNED_ADDR)
   {
-    return RC_NONE;
+    return JOIN_NONE;
   }
-
-  uint32_t id = sys_get_le32(f + HEADER_LEN);
-  enum rollcall_result result = RC_FULL;
-  int s = -1;
-
-  for (int i = 0; i < MAX_POUCHES; i++) /* already registered? same slot again */
-  {
-    if (table_used[i] && table_uid[i] == id)
-    {
-      s = i;
-      result = RC_REPEAT;
-      break;
-    }
-  }
-  if (s < 0) /* first come, first served: lowest free slot */
-  {
-    for (int i = 0; i < MAX_POUCHES; i++)
-    {
-      if (!table_used[i])
-      {
-        table_used[i] = true;
-        table_uid[i] = id;
-        table_count++;
-        if (i > highest_slot)
-        {
-          highest_slot = i;
-        }
-        s = i;
-        result = RC_NEW;
-        break;
-      }
-    }
-  }
-  *slot = s;
-  *uid = id;
-  if (s < 0)
-  {
-    return RC_FULL; /* ninth pouch: ignored, no reply */
-  }
-
-  frame_header(f, MSG_ASSIGN, BALL_ADDR, UNASSIGNED_ADDR);
-  sys_put_le32(id, f + HEADER_LEN);
-  f[HEADER_LEN + 4] = s;
-  radio_reset_state();
-  if (frame_send(f, DWT_START_TX_IMMEDIATE) == 0)
-  {
-    wait_tx();
-  }
-  return result;
+  return handle_join(f, slot, uid);
 }
 
 /* Per-round data collected from the replies. */
 static uint64_t resp_rx_ts[MAX_POUCHES]; /* ball: RX time of each RESPONSE */
-static uint8_t resp_lives[MAX_POUCHES];
 static uint32_t rep_poll_rx[MAX_POUCHES]; /* from each pouch's REPORT */
 static uint32_t rep_resp_tx[MAX_POUCHES];
 static uint32_t rep_final_rx[MAX_POUCHES];
 
 static void on_response(int slot, uint64_t rx_ts, const uint8_t *f)
 {
+  (void)f;
   resp_rx_ts[slot] = rx_ts;
-  resp_lives[slot] = f[HEADER_LEN];
 }
 
 static void on_report(int slot, uint64_t rx_ts, const uint8_t *f)
@@ -458,8 +461,8 @@ static uint8_t collect(uint8_t type, uint8_t want, int64_t window,
 int uwb_ball_range_round(struct pouch_range *out, int max)
 {
   uint8_t f[MAX_FRAME];
-  int n = highest_slot + 1; /* only listen through the highest slot that is in use */
-  uint8_t registered = uwb_ball_slot_mask();
+  int n = tbl.highest + 1; /* only listen through the highest slot that is in use */
+  uint8_t registered = members_mask(&tbl);
 
   if (n <= 0)
   {
@@ -522,21 +525,26 @@ int uwb_ball_range_round(struct pouch_range *out, int max)
       mm -= RANGE_OFFSET_MM;
       if (mm >= 0)
       {
-        out[count++] = (struct pouch_range){s, table_uid[s], mm, resp_lives[s]};
+        out[count++] = (struct pouch_range){s, tbl.uid[s], mm, tbl.lives[s]};
       }
     }
   }
   return count;
 }
 
-int uwb_ball_send_hit(int slot, uint16_t hit_seq)
+int uwb_ball_send_hit(int slot)
 {
   uint8_t f[MAX_FRAME];
+  int lives = uwb_ball_slot_lives(slot);
   uint16_t pouch = POUCH_ADDR_BASE + slot;
 
+  if (lives < 0)
+  {
+    return -EINVAL;
+  }
   radio_reset_state();
   frame_header(f, MSG_HIT, BALL_ADDR, pouch);
-  sys_put_le16(hit_seq, f + HEADER_LEN);
+  f[HEADER_LEN] = lives;
   int rc = frame_send(f, DWT_START_TX_IMMEDIATE | DWT_RESPONSE_EXPECTED);
   if (rc)
   {
@@ -555,7 +563,7 @@ int uwb_ball_send_hit(int slot, uint16_t hit_seq)
       continue;
     }
     if (rc == 0 && frame_type(f) == MSG_HIT_ACK && frame_src(f) == pouch &&
-        frame_dst(f) == BALL_ADDR && sys_get_le16(f + HEADER_LEN) == hit_seq)
+        frame_dst(f) == BALL_ADDR && f[HEADER_LEN] == lives)
     {
       radio_reset_state();
       return 0;
@@ -575,8 +583,9 @@ static void on_ignore(int slot, uint64_t rx_ts, const uint8_t *f)
 uint8_t uwb_ball_send_reset(void)
 {
   uint8_t f[MAX_FRAME];
-  int n = highest_slot + 1;
+  int n = tbl.highest + 1;
 
+  members_new_round(&tbl);
   if (n <= 0)
   {
     return 0;
@@ -588,7 +597,7 @@ uint8_t uwb_ball_send_reset(void)
     radio_reset_state();
     return 0;
   }
-  return collect(MSG_RESET_ACK, uwb_ball_slot_mask(), window_ms(n), on_ignore);
+  return collect(MSG_RESET_ACK, members_mask(&tbl), window_ms(n), on_ignore);
 }
 
 /* ===========================================================================
@@ -597,7 +606,10 @@ uint8_t uwb_ball_send_reset(void)
 static uint32_t my_uid;
 static enum pouch_phase phase = POUCH_JOINING;
 static int my_slot = -1;
-static int64_t next_join_ms;
+static uint8_t my_lives = LIVES_MAX;
+static int64_t next_join_ms;      /* Joining: when to send the next JOIN */
+static int64_t last_remember_ms;  /* Joined/Active: time of the last REMEMBER with our ID (the heartbeat) */
+static int64_t last_poll_ms;      /* Listening: time of the last POLL */
 static bool uid_ready;
 
 /* 32-bit ID folded from the 64-bit factory-programmed nRF52 DEVICEID (FNV-1a hash of
@@ -627,10 +639,28 @@ uint32_t uwb_pouch_uid(void)
 
 enum pouch_phase uwb_pouch_phase(void) { return phase; }
 int uwb_pouch_slot(void) { return my_slot; }
+uint8_t uwb_pouch_lives(void) { return my_lives; }
 
 static uint16_t my_addr(void)
 {
   return my_slot >= 0 ? POUCH_ADDR_BASE + my_slot : UNASSIGNED_ADDR;
+}
+
+/* Joining, first JOIN after `delay_ms`. Used at power-up, after a RESET (Listening) and after the
+ * ball stopped talking to us. The slot is forgotten: it may belong to somebody else by now. */
+static void enter_joining(int64_t now, int64_t min_delay_ms, int64_t max_delay_ms)
+{
+  phase = POUCH_JOINING;
+  my_slot = -1;
+  radio_reset_state();
+  next_join_ms = now + min_delay_ms + sys_rand32_get() % (max_delay_ms - min_delay_ms + 1);
+}
+
+void uwb_pouch_start(void)
+{
+  /* A random delay before the very first JOIN too, so a pouch that was just switched on in the middle
+   * of a game hears the ball ranging (-> Listening) instead of adding noise to its exchanges. */
+  enter_joining(k_uptime_get(), JOIN_RETRY_MIN_MS, JOIN_RETRY_MAX_MS);
 }
 
 static void pouch_send_join(void)
@@ -640,7 +670,7 @@ static void pouch_send_join(void)
   radio_reset_state();
   frame_header(f, MSG_JOIN, UNASSIGNED_ADDR, BALL_ADDR);
   sys_put_le32(uwb_pouch_uid(), f + HEADER_LEN);
-  /* Response expected: the radio stays in RX afterwards to hear the ASSIGN. */
+  /* Response expected: the radio stays in RX afterwards to hear the REMEMBER. */
   if (frame_send(f, DWT_START_TX_IMMEDIATE | DWT_RESPONSE_EXPECTED))
   {
     radio_reset_state();
@@ -665,7 +695,7 @@ static void pouch_reply_in_slot(uint8_t *f, uint64_t trigger_rx)
 }
 
 /* A POLL arrived: run the pouch's half of one ranging exchange. */
-static void pouch_handle_poll(const uint8_t *poll, uint8_t lives)
+static void pouch_handle_poll(const uint8_t *poll)
 {
   uint8_t f[MAX_FRAME];
   uint64_t poll_rx = rx_timestamp();
@@ -675,7 +705,6 @@ static void pouch_handle_poll(const uint8_t *poll, uint8_t lives)
   uint32_t delayed = slot_tx_time(poll_rx, my_slot);
   uint32_t resp_tx = delayed_tx_timestamp(delayed);
   frame_header(f, MSG_RESPONSE, my_addr(), BALL_ADDR);
-  f[HEADER_LEN] = lives;
   dwt_setdelayedtrxtime(delayed);
   if (frame_send(f, DWT_START_TX_DELAYED | DWT_RESPONSE_EXPECTED))
   {
@@ -713,7 +742,30 @@ static void pouch_handle_poll(const uint8_t *poll, uint8_t lives)
   radio_reset_state();
 }
 
-static void pouch_dispatch(uint8_t *f, uint8_t lives, struct pouch_event *ev)
+/* REMEMBER about us: the ball is authoritative, so its slot and lives overwrite ours in ANY phase.
+ * That is how a rebooted pouch gets its old place back, a lost ASSIGN / HIT / RESET is repaired, and
+ * a pouch deleted by the ball finds out (it stops hearing these). */
+static void pouch_on_remember(const uint8_t *f, int64_t now, struct pouch_event *ev)
+{
+  uint8_t slot = f[HEADER_LEN + 4];
+  uint8_t lives = f[HEADER_LEN + 5];
+
+  if (sys_get_le32(f + HEADER_LEN) != uwb_pouch_uid() || slot >= MAX_POUCHES || lives > LIVES_MAX)
+  {
+    return;
+  }
+  last_remember_ms = now;
+  /* A HIT that never reached us shows up as fewer lives than we thought we had. */
+  ev->type = (phase == POUCH_ACTIVE && lives < my_lives) ? EV_HIT : EV_REMEMBER;
+  my_slot = slot;
+  my_lives = lives;
+  if (phase == POUCH_JOINING || phase == POUCH_LISTENING)
+  {
+    phase = POUCH_JOINED;
+  }
+}
+
+static void pouch_dispatch(uint8_t *f, int64_t now, struct pouch_event *ev)
 {
   if (frame_src(f) != BALL_ADDR)
   {
@@ -723,13 +775,8 @@ static void pouch_dispatch(uint8_t *f, uint8_t lives, struct pouch_event *ev)
 
   switch (frame_type(f))
   {
-  case MSG_ASSIGN:
-    if (phase == POUCH_JOINING && sys_get_le32(f + HEADER_LEN) == uwb_pouch_uid() &&
-        f[HEADER_LEN + 4] < MAX_POUCHES)
-    {
-      my_slot = f[HEADER_LEN + 4];
-      phase = POUCH_JOINED;
-    }
+  case MSG_REMEMBER:
+    pouch_on_remember(f, now, ev);
     break;
 
   case MSG_POLL:
@@ -739,55 +786,82 @@ static void pouch_dispatch(uint8_t *f, uint8_t lives, struct pouch_event *ev)
     }
     if (phase == POUCH_JOINING)
     {
-      /* The ball is already ranging, so roll call is over and we have no timeslot. */
-      phase = POUCH_JOIN_FAILED;
+      /* The ball is already ranging, so it is not in Roll Call and will not answer a JOIN. Stay
+       * silent and wait for a REMEMBER with our ID (we rebooted) or a RESET (someone is added). */
+      phase = POUCH_LISTENING;
+      last_poll_ms = now;
       radio_reset_state();
+    }
+    else if (phase == POUCH_LISTENING)
+    {
+      last_poll_ms = now;
     }
     else
     {
       phase = POUCH_ACTIVE;
-      pouch_handle_poll(f, lives);
+      pouch_handle_poll(f);
     }
     break;
 
   case MSG_HIT:
-    if (phase != POUCH_JOINING && dst == my_addr())
+    if ((phase == POUCH_JOINED || phase == POUCH_ACTIVE) && dst == my_addr())
     {
       phase = POUCH_ACTIVE;
       uint64_t hit_rx = rx_timestamp();
-      uint16_t seq = sys_get_le16(f + HEADER_LEN);
+      uint8_t lives = f[HEADER_LEN];
       frame_header(f, MSG_HIT_ACK, my_addr(), BALL_ADDR);
-      sys_put_le16(seq, f + HEADER_LEN);
+      f[HEADER_LEN] = lives; /* echo */
       pouch_reply_in_slot(f, hit_rx);
-      ev->type = EV_HIT;
-      ev->hit_seq = seq;
+      /* HIT carries the absolute value, so a retry sets the same number again: only a decrease
+       * is a (new) hit. */
+      if (lives < my_lives)
+      {
+        ev->type = EV_HIT;
+      }
+      my_lives = lives <= LIVES_MAX ? lives : LIVES_MAX;
     }
     break;
 
   case MSG_RESET:
-    if (phase != POUCH_JOINING && dst == BROADCAST_ADDR)
+    if (dst != BROADCAST_ADDR)
+    {
+      break;
+    }
+    if (phase == POUCH_JOINED || phase == POUCH_ACTIVE)
     {
       phase = POUCH_ACTIVE;
       uint64_t reset_rx = rx_timestamp();
       frame_header(f, MSG_RESET_ACK, my_addr(), BALL_ADDR);
       pouch_reply_in_slot(f, reset_rx);
+      my_lives = LIVES_MAX;
       ev->type = EV_RESET;
+    }
+    else if (phase == POUCH_LISTENING)
+    {
+      /* The ball is in its Reset state, which accepts new pouches: join, after a random delay so
+       * several late pouches do not collide. */
+      enter_joining(now, 0, REJOIN_DELAY_MAX_MS);
     }
     break;
   }
 }
 
-void uwb_pouch_step(uint8_t lives, struct pouch_event *ev)
+void uwb_pouch_step(struct pouch_event *ev)
 {
   uint8_t f[MAX_FRAME];
+  int64_t now = k_uptime_get();
 
   ev->type = EV_NONE;
-  if (phase == POUCH_JOIN_FAILED)
+
+  /* Loss detection. Joined/Active: the heartbeat is a REMEMBER with our ID (any frame from the ball
+   * would not do: a pouch the ball deleted still hears its POLLs). Listening: the ball ranges
+   * constantly during a game, so no POLL means it rebooted and is in Roll Call again. */
+  if (((phase == POUCH_JOINED || phase == POUCH_ACTIVE) && now - last_remember_ms >= LOST_TIMEOUT_MS) ||
+      (phase == POUCH_LISTENING && now - last_poll_ms >= LOST_TIMEOUT_MS))
   {
-    k_msleep(5);
-    return;
+    enter_joining(now, JOIN_RETRY_MIN_MS, JOIN_RETRY_MAX_MS);
   }
-  if (phase == POUCH_JOINING && k_uptime_get() >= next_join_ms)
+  if (phase == POUCH_JOINING && now >= next_join_ms)
   {
     pouch_send_join();
   }
@@ -801,7 +875,7 @@ void uwb_pouch_step(uint8_t lives, struct pouch_event *ev)
   }
   if (rc == 0)
   {
-    pouch_dispatch(f, lives, ev);
+    pouch_dispatch(f, now, ev);
   }
   /* The single-shot RX is over; rx_ensure() re-arms it on the next step. */
 }

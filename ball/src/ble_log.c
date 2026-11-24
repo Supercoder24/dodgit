@@ -5,7 +5,7 @@
  * exactly like examples/accel_ble. (NOT the Zephyr-upstream NUS used by accel_ble_nus.)
  * Connection / advertising / notification handling follows accel_ble/src/main.c.
  *
- * Flow: ble_log() formats a line, prints it with printk and, if notifications are enabled,
+ * Flow: dodgit_log() formats a line, prints it with printk and, if notifications are enabled,
  * puts it in a queue. A low-priority thread sends queued lines to the laptop, split into
  * pieces that fit the negotiated MTU (bt_nus_get_mtu). Connection and advertising are
  * handled by callbacks, so the main thread never waits for Bluetooth.
@@ -36,7 +36,7 @@ static atomic_t ready;
 uint32_t ble_log_dropped(void) { return (uint32_t)atomic_get(&dropped); }
 bool ble_log_connected(void) { return atomic_get(&subscribed) != 0; }
 
-void ble_log(const char *fmt, ...)
+void dodgit_log(const char *fmt, ...)
 {
   struct log_line line;
   va_list args;

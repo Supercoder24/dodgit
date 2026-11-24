@@ -44,8 +44,8 @@
 
 #include <zephyr/kernel.h>
 #include <zephyr/drivers/gpio.h>
-#include <zephyr/random/random.h>
 #include "settings.h"
+#include "log.h"
 #include "uwb.h"
 #include "impact.h"
 #ifdef BLE_DEBUG
@@ -61,15 +61,9 @@
 #define RESET_BLINK_OFF_MS 500
 
 #define REGISTRATION_FLASH_MS 150
-#define RANGE_LOG_PERIOD_MS 200
-#define STATUS_LOG_PERIOD_MS 250
 
-/* LOG(...) = printf-style log line (newline added): console always, Bluetooth too with BLE_DEBUG. */
-#ifdef BLE_DEBUG
-#define LOG(...) ble_log(__VA_ARGS__)
-#else
-#define LOG(fmt, ...) printk(fmt "\n", ##__VA_ARGS__)
-#endif
+/* Log lines: LOG_CAT(<category flag from settings.h>, ...) (shared/log.h). dodgit_log() prints on the
+ * console and, with BLE_DEBUG and a laptop connected, sends the line over Bluetooth too. */
 
 /* ---------------------------------------------------------------------------
  * LEDs and button (aliases from the decawave_dwm3001cdk board DTS)
@@ -230,7 +224,7 @@ static int64_t state_entered_ms;
 /* Data carried between states */
 static int thrower_slot = -1;     /* pouch that was holding the ball (set on Disarmed -> Ready) */
 static int hit_slot = -1;         /* pouch that was hit (set in Classify, used in Inform) */
-static uint16_t hit_seq;          /* number of the current hit; the pouch ignores repeats */
+static uint16_t hit_count;        /* hits since boot (log only) */
 static int confirm_rounds;        /* Disarmed/Ready: consecutive rounds the transition condition held */
 static int last_thrower_mm;       /* Ready: last valid range to the thrower (0 = assume touching) */
 static int pickup_candidate = -1; /* Disarmed: slot being confirmed as the picker-up */
@@ -247,8 +241,8 @@ static void enter_state(enum ball_state next)
 {
   /* up= is the ball's uptime in ms, the same clock as STATUS/RANGE/IMPACT/BURST: the laptop's
    * receive times are bunched by Bluetooth batching and cannot be used to order events. */
-  LOG("State: %s -> %s (up=%lld)", state_name(state), state_name(next),
-      (long long)k_uptime_get());
+  LOG_CAT(LOG_STATE, "State: %s -> %s (up=%lld)", state_name(state), state_name(next),
+          (long long)k_uptime_get());
   state = next;
   state_entered_ms = k_uptime_get();
   confirm_rounds = 0; /* every state starts its own confirmation count */
@@ -313,12 +307,12 @@ static void log_ranges(int n)
   last_log_ms = now;
   if (n == 0)
   {
-    LOG("RANGE %lld none answered", (long long)now);
+    LOG_CAT(LOG_RANGE, "RANGE %lld none answered", (long long)now);
   }
   for (int i = 0; i < n; i++)
   {
-    LOG("RANGE %lld slot=%u uid=0x%08x distance=%d mm lives=%u", (long long)now,
-           ranges[i].slot, ranges[i].uid, ranges[i].mm, ranges[i].lives);
+    LOG_CAT(LOG_RANGE, "RANGE %lld slot=%u uid=0x%08x distance=%d mm lives=%u", (long long)now,
+            ranges[i].slot, ranges[i].uid, ranges[i].mm, ranges[i].lives);
   }
 }
 
@@ -342,26 +336,22 @@ static void run_roll_call(void)
 
   switch (uwb_ball_rollcall_step(&slot, &uid))
   {
-  case RC_NEW:
-    LOG("ROLLCALL new pouch uid=0x%08x -> slot %d (%d registered)", uid, slot,
-           uwb_ball_pouch_count());
+  case JOIN_NEW:
+    LOG_CAT(LOG_STATE, "ROLLCALL new pouch uid=0x%08x -> slot %d (%d registered)", uid, slot,
+            uwb_ball_pouch_count());
     last_checkin_ms = now; /* only NEW pouches restart the timeout */
     flash_until_ms = now + REGISTRATION_FLASH_MS;
     break;
-  case RC_REPEAT:
-    LOG("ROLLCALL uid=0x%08x asked again, same slot %d", uid, slot);
-    break;
-  case RC_FULL:
-    LOG("ROLLCALL uid=0x%08x ignored: all %d timeslots taken", uid, MAX_POUCHES);
-    break;
-  case RC_NONE:
+  case JOIN_REPEAT: /* the pouch asked again: it got the same slot (logged as MEMBER join) */
+  case JOIN_FULL:   /* ninth pouch: ignored, does not restart the timeout */
+  case JOIN_NONE:
     break;
   }
   led_set(0, now < flash_until_ms);
 
   if (uwb_ball_pouch_count() > 0 && now - last_checkin_ms >= ROLLCALL_TIMEOUT_MS)
   {
-    LOG("ROLLCALL timeout, %d pouch(es) registered", uwb_ball_pouch_count());
+    LOG_CAT(LOG_STATE, "ROLLCALL timeout, %d pouch(es) registered", uwb_ball_pouch_count());
     enter_state(STATE_DISARMED);
   }
 }
@@ -396,7 +386,7 @@ static void run_disarmed(void)
   {
     thrower_slot = pickup_candidate;
     confirm_rounds = 0;
-    LOG("Pickup by slot %d (%d mm)", thrower_slot, ranges[c].mm);
+    LOG_CAT(LOG_STATE, "Pickup by slot %d (%d mm)", thrower_slot, ranges[c].mm);
     enter_state(STATE_READY);
     last_thrower_mm = ranges[c].mm; /* after enter_state, which clears it */
   }
@@ -416,15 +406,15 @@ static void run_ready(void)
      * would be classified as a hit on the thrower, so those are ignored in Ready. */
     if (!single_pouch_test())
     {
-      LOG("IMPACT %lld ms, %d mg, ffage=%d ms min150=%d mg (still Ready: hit right after release)",
-          (long long)ev.time, ev.mg, ev.ff_age_ms, ev.min_prev_mg);
+      LOG_CAT(LOG_STATE, "IMPACT %lld ms, %d mg, ffage=%d ms min150=%d mg (still Ready: hit right after release)",
+              (long long)ev.time, ev.mg, ev.ff_age_ms, ev.min_prev_mg);
       enter_state(STATE_CLASSIFY);
       return;
     }
   }
   if (impact_still_ms() >= READY_STILL_TIMEOUT_MS)
   {
-    LOG("Ready: ball lay still for %d ms (dropped?) -> Disarmed", READY_STILL_TIMEOUT_MS);
+    LOG_CAT(LOG_STATE, "Ready: ball lay still for %d ms (dropped?) -> Disarmed", READY_STILL_TIMEOUT_MS);
     enter_state(STATE_DISARMED);
     return;
   }
@@ -462,10 +452,10 @@ static void run_ready(void)
   if (confirm_rounds >= ARM_CONFIRM_ROUNDS && impact_freefall_recent(FREEFALL_HOLD_MS))
   {
     uint32_t ff = impact_freefall_start_ms();
-    LOG("Thrower slot %d out of range for %d round(s) + free fall (first since Ready began %d ms "
-        "ago, latest %d ms ago): thrown",
-        thrower_slot, confirm_rounds, ff ? (int)(k_uptime_get_32() - ff) : -1,
-        impact_freefall_age_ms());
+    LOG_CAT(LOG_STATE, "Thrower slot %d out of range for %d round(s) + free fall (first since Ready began %d ms "
+            "ago, latest %d ms ago): thrown",
+            thrower_slot, confirm_rounds, ff ? (int)(k_uptime_get_32() - ff) : -1,
+            impact_freefall_age_ms());
     enter_state(STATE_ARMED);
   }
 }
@@ -481,8 +471,8 @@ static void run_armed(void)
   struct impact_event ev;
   if (impact_get(&ev))
   {
-    LOG("IMPACT %lld ms, %d mg, ffage=%d ms min150=%d mg", (long long)ev.time, ev.mg,
-        ev.ff_age_ms, ev.min_prev_mg);
+    LOG_CAT(LOG_STATE, "IMPACT %lld ms, %d mg, ffage=%d ms min150=%d mg", (long long)ev.time, ev.mg,
+            ev.ff_age_ms, ev.min_prev_mg);
     enter_state(STATE_CLASSIFY);
     return;
   }
@@ -490,7 +480,7 @@ static void run_armed(void)
   int64_t now = k_uptime_get();
   if (now - state_entered_ms >= ARMED_TIMEOUT_MS)
   {
-    LOG("Armed: no impact for %d ms -> Disarmed", ARMED_TIMEOUT_MS);
+    LOG_CAT(LOG_STATE, "Armed: no impact for %d ms -> Disarmed", ARMED_TIMEOUT_MS);
     enter_state(STATE_DISARMED);
     return;
   }
@@ -521,8 +511,8 @@ static void run_armed(void)
   }
   if (++confirm_rounds >= REARM_CONFIRM_ROUNDS)
   {
-    LOG("Armed: thrower slot %d is back (%d mm), throw cancelled -> Ready", thrower_slot,
-        close_mm);
+    LOG_CAT(LOG_STATE, "Armed: thrower slot %d is back (%d mm), throw cancelled -> Ready", thrower_slot,
+            close_mm);
     enter_state(STATE_READY);
     last_thrower_mm = close_mm; /* after enter_state, which clears it */
   }
@@ -544,12 +534,12 @@ static void run_classify(void)
   int c = n > 0 ? closest(n, false) : -1;
   if (c < 0 || ranges[c].mm > HIT_DISTANCE_MM)
   {
-    LOG("Classify: no pouch within %d mm -> miss", HIT_DISTANCE_MM);
+    LOG_CAT(LOG_STATE, "Classify: no pouch within %d mm -> miss", HIT_DISTANCE_MM);
     enter_state(STATE_DISARMED);
   }
   else if (ranges[c].slot == thrower_slot && !single_pouch_test())
   {
-    LOG("Classify: closest is the thrower (slot %d) -> back to Ready", thrower_slot);
+    LOG_CAT(LOG_STATE, "Classify: closest is the thrower (slot %d) -> back to Ready", thrower_slot);
     confirm_rounds = 0;
     enter_state(STATE_READY);
   }
@@ -557,11 +547,14 @@ static void run_classify(void)
   {
     if (ranges[c].slot == thrower_slot)
     {
-      LOG("Classify: thrower is the only pouch -> treating it as hit (single-pouch test)");
+      LOG_CAT(LOG_STATE, "Classify: thrower is the only pouch -> treating it as hit (single-pouch test)");
     }
     hit_slot = ranges[c].slot;
-    hit_seq++;
-    LOG("Classify: HIT on slot %d (%d mm), hit #%u", hit_slot, ranges[c].mm, hit_seq);
+    hit_count++;
+    /* The ball owns the lives: count the hit now, whether or not the pouch ever acknowledges. */
+    int lives_left = uwb_ball_hit(hit_slot);
+    LOG_CAT(LOG_STATE, "Classify: HIT on slot %d (%d mm), hit #%u, lives left %d", hit_slot,
+            ranges[c].mm, hit_count, lives_left);
     enter_state(STATE_INFORM);
   }
 }
@@ -571,14 +564,15 @@ static void run_classify(void)
  *   INFORM_TIMEOUT_MS so a switched-off pouch cannot lock the ball. */
 static void run_inform(void)
 {
-  if (uwb_ball_send_hit(hit_slot, hit_seq) == 0)
+  if (uwb_ball_send_hit(hit_slot) == 0)
   {
-    LOG("HIT_ACK slot %d hit #%u", hit_slot, hit_seq);
+    LOG_CAT(LOG_STATE, "HIT_ACK slot %d hit #%u", hit_slot, hit_count);
     enter_state(STATE_DISARMED);
   }
   else if (k_uptime_get() - state_entered_ms >= INFORM_TIMEOUT_MS)
   {
-    LOG("HIT_UNACKED slot %d hit #%u", hit_slot, hit_seq);
+    /* The ball's table already has the new lives: the pouch learns them from the next REMEMBER. */
+    LOG_CAT(LOG_STATE, "HIT_UNACKED slot %d hit #%u", hit_slot, hit_count);
     enter_state(STATE_DISARMED);
   }
 }
@@ -595,8 +589,8 @@ static void run_reset(void)
 
   if (elapsed >= RESET_BLINKS * period)
   {
-    LOG("Reset: %d of %d pouch(es) acknowledged", __builtin_popcount(reset_acked),
-           uwb_ball_pouch_count());
+    LOG_CAT(LOG_STATE, "Reset: %d of %d pouch(es) acknowledged", __builtin_popcount(reset_acked),
+            uwb_ball_pouch_count());
     enter_state(STATE_DISARMED);
     return;
   }
@@ -607,6 +601,15 @@ static void run_reset(void)
     reset_acked |= uwb_ball_send_reset();
     reset_next_send_ms = now + RESET_RETRY_MS;
   }
+}
+
+static uint32_t log_dropped(void)
+{
+#ifdef BLE_DEBUG
+  return ble_log_dropped();
+#else
+  return 0;
+#endif
 }
 
 /* One status line every STATUS_LOG_PERIOD_MS in every state: lets you check the
@@ -622,12 +625,14 @@ static void log_status(void)
     return;
   }
   next_ms = now + STATUS_LOG_PERIOD_MS;
-  /* accel_errors stays the last field: tools/ball_monitor.py colors the line by its value. */
-  LOG("STATUS %lld state=%s pouches=%d peak=%d mg min=%d mg still=%u ms resets=%u rejected=%u "
-      "accel_errors=%u",
-      (long long)now, state_name(state), uwb_ball_pouch_count(), impact_take_peak(),
-      impact_take_min(), impact_still_ms(), impact_resets(), impact_rejected(NULL),
-      impact_errors());
+  /* log_dropped = lines the Bluetooth log lost (full queue / link): gaps in the log are explained.
+   * accel_errors stays the last field: tools/ball_monitor.py colors the line by its value. */
+  LOG_CAT(LOG_STATUS,
+          "STATUS %lld state=%s pouches=%d peak=%d mg min=%d mg still=%u ms resets=%u rejected=%u "
+          "log_dropped=%u accel_errors=%u",
+          (long long)now, state_name(state), uwb_ball_pouch_count(), impact_take_peak(),
+          impact_take_min(), impact_still_ms(), impact_resets(), impact_rejected(NULL),
+          log_dropped(), impact_errors());
 }
 
 /* One line whenever the accelerometer was re-initialized or an impact was ignored
@@ -642,16 +647,16 @@ static void log_accel_events(void)
   if (resets != seen_resets)
   {
     seen_resets = resets;
-    LOG("ACCEL stalled, sensor re-initialized (reset #%u, %s)", resets,
-        impact_healthy() ? "data is back" : "still no data");
+    LOG_CAT(LOG_ACCEL_CLASS, "ACCEL stalled, sensor re-initialized (reset #%u, %s)", resets,
+            impact_healthy() ? "data is back" : "still no data");
   }
   if (rejected != seen_rejected)
   {
     seen_rejected = rejected;
     int32_t ff_age, min_prev;
     impact_rejected_detail(&ff_age, &min_prev);
-    LOG("IMPACT ignored: %d mg without free fall just before (#%u), ffage=%d ms min150=%d mg",
-        rejected_mg, rejected, ff_age, min_prev);
+    LOG_CAT(LOG_ACCEL_CLASS, "IMPACT ignored: %d mg without free fall just before (#%u), ffage=%d ms min150=%d mg",
+            rejected_mg, rejected, ff_age, min_prev);
   }
 }
 
@@ -662,7 +667,7 @@ static void log_bursts(void)
   char line[160];
   if (impact_burst_line(line, sizeof(line)))
   {
-    LOG("%s", line);
+    LOG_CAT(LOG_ACCEL_BURST, "%s", line);
   }
 }
 
@@ -698,10 +703,9 @@ int main(void)
   }
   self_test_pass_blink();
 
-  hit_seq = sys_rand32_get() & 0xFFFF; /* random start so a rebooted ball's hit numbers differ */
   state = STATE_ROLL_CALL;
-  LOG("Roll Call: waiting for pouches (SW0 short press or %d s after the last one starts the game)",
-         ROLLCALL_TIMEOUT_MS / 1000);
+  LOG_CAT(LOG_STATE, "Roll Call: waiting for pouches (SW0 short press or %d s after the last one starts the game)",
+          ROLLCALL_TIMEOUT_MS / 1000);
   enter_state(STATE_ROLL_CALL);
 
   while (1)
@@ -710,19 +714,19 @@ int main(void)
 
     if (ev == BTN_HOLD && state != STATE_ROLL_CALL)
     {
-      LOG("Button: hold");
+      LOG_CAT(LOG_STATE, "Button: hold");
       enter_state(STATE_RESET);
     }
     else if (ev == BTN_SHORT && state == STATE_ROLL_CALL)
     {
       if (uwb_ball_pouch_count() > 0)
       {
-        LOG("Button: short press, ending Roll Call");
+        LOG_CAT(LOG_STATE, "Button: short press, ending Roll Call");
         enter_state(STATE_DISARMED);
       }
       else
       {
-        LOG("Button: short press ignored, no pouch has registered yet");
+        LOG_CAT(LOG_STATE, "Button: short press ignored, no pouch has registered yet");
       }
     }
 
@@ -737,6 +741,7 @@ int main(void)
     case STATE_RESET: run_reset(); break;
     }
 
+    uwb_ball_remember_tick(); /* between exchanges, in every state: keeps the pouches' slot and lives in sync */
     log_accel_events();
     log_bursts();
     log_status();

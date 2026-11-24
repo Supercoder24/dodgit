@@ -43,10 +43,17 @@
 #define ACCEL_RECOVER_RETRY_MS 250 /* while stalled, try the re-init at most this often */
 #define ACCEL_SAMPLE_PERIOD_MS 5 /* 200 Hz polling of the sensor (sensor itself runs at 400 Hz) */
 
-/* ---- Roll call ------------------------------------------------------------ */
+/* ---- Roll call and membership ---------------------------------------------- */
 #define ROLLCALL_TIMEOUT_MS 15000 /* leave Roll Call this long after the last NEW pouch registered */
-#define JOIN_RETRY_MIN_MS 100     /* pouch re-sends JOIN after a random delay in this range */
+#define JOIN_RETRY_MIN_MS 100     /* pouch re-sends JOIN after a random delay in this range
+                                   * (also the delay before its very first JOIN after power-up) */
 #define JOIN_RETRY_MAX_MS 300
+#define REMEMBER_PERIOD_MS 1000   /* ball: every pouch gets one REMEMBER per this long (sent as a
+                                   * trickle, one pouch every REMEMBER_PERIOD_MS / pouches) */
+#define LOST_TIMEOUT_MS 5000      /* pouch: no REMEMBER addressed to it for this long (Listening: no POLL
+                                   * for this long) = the ball is gone or forgot us -> back to Joining */
+#define REJOIN_DELAY_MAX_MS 1000  /* pouch: after hearing RESET, wait a random 0..this before sending
+                                   * JOIN, so several late pouches do not collide */
 
 /* ---- Ball state machine -------------------------------------------------- */
 #define CLASSIFY_ATTEMPTS 3      /* ranging rounds tried in Classify if nobody answers */
@@ -58,6 +65,34 @@
 #define REARM_DISTANCE_MM 700    /* Armed -> Ready: thrower within this for REARM_CONFIRM_ROUNDS re-checks
                                   * in a row means the throw was cancelled (wind-up, ball still held) */
 #define REARM_CONFIRM_ROUNDS 2
+
+/* ---- Ball state machine v2 (Unheld / Ready / Thrown / Hit) ----------------- */
+#define THROW_RANGE_MM (2 * PICKUP_DISTANCE_MM) /* Ready -> Thrown: the THROWER is farther than this (and
+                                                 * the ball is Spinning). Derived from the pickup range: a
+                                                 * throw must travel at least this far before it lands. */
+#define THROW_TIMEOUT_MS 3500    /* Thrown -> Disarm(): no hit for this long */
+#define THROWN_RETURN_MS 1000    /* Thrown -> Ready: the closest alive pouch stayed within THROW_RANGE_MM this
+                                  * long without a hit (throw cancelled, or the ball ended up near someone) */
+#define READY_ORPHAN_MS 1000     /* Ready -> Unheld: no alive pouch within THROW_RANGE_MM for this long */
+#define READY_NOT_HELD_MS 5000   /* Ready -> Unheld: accelerometer not Held for this long */
+#define THROWER_SWITCH_MS 1000   /* Ready: another alive pouch must be closer than the thrower this long
+                                  * (without a break) to become the new thrower */
+
+/* ---- Logging (compile-time switches; 1 = on, 0 = compiled out) -------------- *
+ * A disabled category costs nothing: no formatting, no console print, no Bluetooth queue slot.
+ * Every line goes to the console and, on the ball, to Bluetooth (see ball/README.md). The pouch has
+ * no Bluetooth: its flags only gate console output, and it only logs events (never periodically). */
+#define LOG_STATE 1          /* State changes, Roll Call registrations, Reset summary, Classify, HIT lines */
+#define LOG_STATUS 1         /* the STATUS line, STATUS_LOG_PERIOD_MS apart */
+#define LOG_RANGE 0          /* RANGE lines: up to 5 rounds/s x one line per pouch */
+#define LOG_MEMBERSHIP 1     /* JOIN, slot assigned, pouch deleted, pouch phase changes (events only) */
+#define LOG_REMEMBER 0       /* every REMEMBER sent / received (up to 8/s on the ball) */
+#define LOG_ACCEL_CLASS 1    /* classifier level changes and Hit events (on change only) */
+#define LOG_ACCEL_BURST 0    /* raw |a| windows around every threshold crossing (~11 lines each) */
+#define LOG_ACCEL_FEATURES 0 /* the classifier's window features, for threshold tuning */
+#define LOG_ACCEL_RAW 0      /* raw x/y/z capture into RAM, dumped after a button press */
+#define STATUS_LOG_PERIOD_MS 250
+#define RANGE_LOG_PERIOD_MS 200
 
 /* ---- UWB timing (UUS: 1 UUS = ~1.026 us = 65536 device time units) ---------- */
 #define SLOT_BASE_UUS 2000       /* trigger frame received -> start of timeslot 0 */
