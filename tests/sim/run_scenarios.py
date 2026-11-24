@@ -41,6 +41,11 @@ CORE = [
     "flow_short_throw_ignored",       # no point-blank throws
     "flow_hit_bounce_one_life",       # hit then bounce = one life
     "classify_pouch_silent_in_one_round",
+    "flow_launch_spike_is_not_a_hit", # the launch spike is drained in Ready, not classified
+    "flow_close_players_do_not_swap_thrower",
+    "reset_from_ready",               # a Reset in the middle of the game: lives restored, nobody deleted
+    "reset_from_thrown",
+    "reset_from_hit",
 ]
 
 

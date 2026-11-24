@@ -14,4 +14,4 @@ Fixes 1-3 are confirmed by their scenarios (`late_pouch_*`, `pouch_cycle_single_
 * `soak_4_pouches_10pct_loss` never finished: its driver looped `while w.now < t_end`, but the simulator's clock is whole picoseconds, so `now` stopped a hair below `t_end` and the loop spun forever (no product problem). Now compares with a tolerance.
 
 ## Open
-None known. Status of the last full run: 66 of 66 scenarios pass (about 20 s). The simulator's fidelity limits are in [README.md](README.md); a pass here does not replace the hardware checks listed in docs/Plan.md.
+None known. Status of the last full run: 71 of 71 scenarios pass (about 20 s). The simulator's fidelity limits are in [README.md](README.md); a pass here does not replace the hardware checks listed in docs/Plan.md.

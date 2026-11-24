@@ -2,12 +2,12 @@
 
 Runs the **unmodified firmware** (`shared/uwb.c`, `shared/pouch_fsm.h`, `ball/src/main.c`, `ball/src/ball_logic.h`, `pouch/src/main.c`, `pouch/src/display.c`, ...) on your computer, against a simulated DW3110 radio, so the join / rejoin / reset / throw scenarios of [docs/Plan.md](../../docs/Plan.md) can be exercised without boards. Needs only `cc` and `python3` (no Zephyr, no board).
 
-> **Status:** all 66 scenarios pass (about 20 s for `--all`). The scenarios and the simulator were written by an agent and have not been reviewed line by line, so treat a failure as "look at it" first: it may be a product bug (see [FINDINGS.md](FINDINGS.md), which lists the ones it already found) or a mistake in the simulator or in the scenario.
+> **Status:** all 71 scenarios pass (about 20 s for `--all`). The scenarios and the simulator were written by an agent and have not been reviewed line by line, so treat a failure as "look at it" first: it may be a product bug (see [FINDINGS.md](FINDINGS.md), which lists the ones it already found) or a mistake in the simulator or in the scenario.
 
 ## Running it
 ```bash
-tests/sim/run.sh                  # build + the CORE scenarios (16)
-tests/sim/run.sh --all            # every scenario (66; includes the 5 virtual-minute soak test, ~20 s)
+tests/sim/run.sh                  # build + the CORE scenarios (21)
+tests/sim/run.sh --all            # every scenario (71; includes the 5 virtual-minute soak test, ~20 s)
 tests/sim/run.sh late_pouch       # scenarios whose name contains the argument (searches all of them)
 tests/sim/run.sh --list           # list them, core ones marked with *
 tests/sim/run.sh --build-only     # just build
@@ -45,6 +45,7 @@ Every scenario runs in its own Python process, so a crash or hang of one cannot 
 | `s8_game_flow` | pickup, throw, hit, miss, out-of-lives, hand-over, Thrown timeouts / return, stall, bounce |
 | `s9_soak` | 4 pouches, 10% frame loss, 5 virtual minutes: no stuck state, invariants hold |
 | `s10_robust_decisions` | decisions survive missing rounds (Classify merging, hand-over under loss, silent thrower, REMEMBER timing) |
+| `s11_gap_scenarios` | found by mutation testing: the launch spike is not a hit, close players do not swap the thrower, a Reset from Ready / Thrown / Hit |
 
 ## Adding a scenario
 Create or extend a file in `scenarios/`, decorate a function `f(w)` with `@scenario("name")` (optionally `seed=`, `timeout=`, `known_bug=n`), build the situation with the `World` API, and assert with `w.check(...)` / `w.check_eq(...)`. `known_bug=n` marks a scenario that fails because of a product bug listed in [FINDINGS.md](FINDINGS.md); it stays failing (do not weaken the assertion) and is printed as `KNOWN BUG #n`. Add the name to `CORE` only if it is quick and covers something no other core scenario does.
