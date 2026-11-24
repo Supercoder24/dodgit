@@ -118,7 +118,7 @@ Events only, each gated by a flag in the "Logging" section of `../shared/setting
 ## Known limitations
 * **JOIN collisions:** two pouches switched on at the same moment may transmit JOIN simultaneously and miss each other. Each repeats after a new random delay, so repeated collisions are unlikely, but not impossible. The ball only listens for JOINs in Roll Call and during a Reset; a JOIN sent at any other time is simply not answered.
 * **Same ID:** two pouches with the same hardware ID would share one slot (see [Hardware ID](#hardware-id)).
-* **Listening waits silently** until a Reset (or until it hears no POLL for `LOST_TIMEOUT_MS`, e.g. after a ball reboot, and joins again). The blue flash every 2 s is the only sign. If it misses the RESET (the ball stops re-sending it once every pouch in its table has acknowledged), hold the ball button again.
+* **Listening waits silently** until a Reset (or until it hears no POLL for `LOST_TIMEOUT_MS`, e.g. after a ball reboot, and joins again). The blue flash every 2 s is the only sign. If it still misses every RESET (the ball repeats it for the whole Reset window), hold the ball button again.
 * **A ninth pouch:** all `MAX_POUCHES` (8) slots taken: the ball ignores its JOIN, so it stays Joining (then Listening).
 * **A pouch that misses a Reset** (out of range, say) is deleted by the ball. It notices after `LOST_TIMEOUT_MS`, drops to Joining, then Listening, and rejoins with the next Reset.
 * **A ball reboot starts a new game:** its table is RAM only. The pouches notice after `LOST_TIMEOUT_MS` and join again with full lives, possibly in different slots.

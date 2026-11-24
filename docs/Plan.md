@@ -1,6 +1,24 @@
 # Plan: rejoinable game + simplified ball FSM (v2)
 
-Revises [Changes.md](Changes.md) into an implementation plan. **No code has been changed.** READMEs and [FSMs.md](FSMs.md) are updated alongside each implementation step (see [Steps](#implementation-steps)).
+Revises [Changes.md](Changes.md) into an implementation plan. READMEs and [FSMs.md](FSMs.md) are updated alongside each implementation step (see [Steps](#implementation-steps)).
+
+> **Status: implemented** (steps 1-5; see the git log, one commit per step). This document is kept as the design record; [FSMs.md](FSMs.md) and the READMEs describe what the code does now. Differences from the plan, found while implementing it and checking it against the recorded data (no hardware was available, so everything below that needs a board is still to be measured, see the last list):
+>
+> **Added or changed**
+> * Listening also falls back to Joining when it hears no POLL for `LOST_TIMEOUT_MS` (a ball that rebooted into Roll Call would otherwise never see this pouch).
+> * "Someone joined" (Reset -> Roll Call) counts **new** pouches only; a known pouch that rejoins does not send the ball to Roll Call.
+> * RESET is not only sent until every pouch has acknowledged: it is repeated every `RESET_KEEPALIVE_MS` for the rest of the window, because a late (Listening) pouch reacts to RESET only and one lost broadcast left it out of the game. The pouch shows / logs the reset effect once per Reset.
+> * The Reset window is `RESET_WINDOW_MS` (3 s), no longer derived from the LED blink timing; the hold time is `BUTTON_HOLD_MS`.
+> * The pouch hit effect also plays when a REMEMBER reveals a lost HIT (lives dropped while Active).
+> * Missing pouches in a ranging round are treated as missing information, not as evidence (the recorded data shows a pouch within 300 mm is absent from about 8% of the rounds): `Classify()` ranges `CLASSIFY_ROUNDS` times and merges per pouch; a hand-over streak is only broken by evidence (`THROWER_SWITCH_GRACE_MS`); one silent round of the thrower does not start Thrown (`THROWER_SILENT_MS`); a missing pouch does not break the Thrown return streak.
+> * The ball holds a REMEMBER back after a ranging round that heard nobody (the pouches are still waiting for a FINAL then).
+> * The optional Thrown shortcut is implemented (`THROWN_REST_MS`: Rest for 1 s -> `Disarm()`).
+> * Settings renamed: `CLASSIFY_ATTEMPTS` -> `RANGE_ATTEMPTS` (+ new `CLASSIFY_ROUNDS`), `ARMED_RECHECK_MS` -> `THROWN_RECHECK_MS`, `READY_STILL_TIMEOUT_MS` -> `READY_NOT_HELD_MS`, `INFORM_TIMEOUT_MS` -> `HIT_ACK_TIMEOUT_MS`.
+> * The launch spike needs no filter in Thrown: every state except Thrown drains the accelerometer events each pass.
+> * Raw accelerometer capture is started by a short button press outside Roll Call (only in builds with `LOG_ACCEL_RAW`).
+> * The decision logic is extracted into pure C so it can be tested on the host: `shared/members.h`, `shared/pouch_fsm.h`, `shared/led_patterns.h`, `ball/src/ball_logic.h`, `ball/src/accel_class.[ch]` (`tests/run_tests.sh`); `tests/sim/` runs the real firmware against a simulated radio.
+>
+> **Still to do on hardware** (nothing here could be measured without boards): the new labeled accelerometer captures listed in [Accelerometer.md](Accelerometer.md); the LED legibility checks of E5; the short-throw detection window of Risk 6 (`LOG_RANGE` on a real 3 m throw); the Bluetooth log throughput of F1 (all `LOG_*` on, watch `log_dropped=`); tuning of every distance and `ACCEL_*` threshold.
 
 Items marked **[Added]** are not in Changes.md: they close gaps found while checking it against the current code (`ball/src/main.c`, `pouch/src/main.c`, `shared/uwb.c`) and the recorded data in `data/`. Items marked **[Revised]** change something Changes.md said. Everything else is Changes.md as written. All of these are listed in [Decisions](#decisions-to-confirm) so you can veto them.
 

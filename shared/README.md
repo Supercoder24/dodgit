@@ -37,7 +37,7 @@ Radio: channel 5, 128-symbol preamble, 6.8 Mbps, no STS / PDoA (`radio_config` i
 | REPORT | `0x34` | pouch -> ball | 3 x u32 timestamps | in the pouch's timeslot after FINAL |
 | HIT | `0x35` | ball -> pouch | u8 lives remaining | after a hit, repeated until acknowledged |
 | HIT_ACK | `0x36` | pouch -> ball | u8 lives (echo of the HIT) | in the pouch's timeslot after HIT |
-| RESET | `0x37` | ball -> broadcast | none | Reset state, every `RESET_RETRY_MS` (200 ms) until every pouch has acknowledged |
+| RESET | `0x37` | ball -> broadcast | none | Reset state: every `RESET_RETRY_MS` (200 ms) until every pouch has acknowledged, then every `RESET_KEEPALIVE_MS` (500 ms) until the window ends |
 | RESET_ACK | `0x38` | pouch -> ball | none | in the pouch's timeslot after RESET |
 
 A pouch only accepts frames whose source is the ball: POLL and RESET as broadcasts, HIT addressed to its own timeslot address, REMEMBER with its own ID in the payload (the destination is not checked), FINAL only while it waits for it after answering a POLL (the destination is not checked either). The ball only accepts RESPONSE, REPORT and ACKs from pouches in its table (or, for a JOIN, from `0xFFFE`).
@@ -72,7 +72,7 @@ Only pouches in the Joined or Active phase answer a POLL (see the FSM below).
 
 * It is a trickle, not a burst of up to 8 frames: each REMEMBER is one short frame sent between two radio exchanges (the ball waits until it is out), so a ranging round starts at most one frame later.
 * It is a broadcast addressed by ID in the payload, because a rebooted pouch has no timeslot address yet.
-* **A short miss is harmless.** While a pouch waits for FINAL (up to the response window plus 10 ms, e.g. after a round in which the ball heard nobody and so sent no FINAL) or sends a reply, it ignores other frames, so a REMEMBER sent then is lost. The next one for that pouch comes `REMEMBER_PERIOD_MS` later, and it takes several misses in a row to reach `LOST_TIMEOUT_MS` (5000 ms).
+* **A short miss is harmless.** While a pouch sends a reply or waits for FINAL it ignores other frames, so a REMEMBER sent then is lost. The next one for that pouch comes `REMEMBER_PERIOD_MS` later, and it takes several misses in a row to reach `LOST_TIMEOUT_MS` (5000 ms). The one predictable case, a round in which the ball heard nobody and therefore sent no FINAL (a pouch that heard the POLL then waits `FINAL_WAIT_SLACK_MS` = 10 ms longer), is avoided: the ball holds the REMEMBER back until that wait is over.
 
 ## What a pouch does with REMEMBER
 Any REMEMBER with the pouch's own ID **overwrites its slot and lives, in any phase** (the ball is authoritative; one with a slot >= `MAX_POUCHES` or lives > `LIVES_MAX` is ignored). A pouch in Joining or Listening becomes Joined. This repairs three things:
@@ -119,17 +119,17 @@ The heartbeat is a REMEMBER with the pouch's **own** ID (not "any frame from the
 `uwb_pouch_step()` reports what happened (hit, reset, REMEMBER, or nothing) in its `struct pouch_event` out-parameter. The pouch's main loop drives the display and does the logging after the reply has been sent, so a slow console can never make a reply miss its timeslot; `uwb_pouch_step()` itself never logs.
 
 ## Hit
-`uwb_ball_hit(slot)` takes one life off the ball's table at once (not below 0), whether or not the pouch ever answers. `uwb_ball_send_hit(slot)` then sends the table's value as HIT to the pouch's address; the pouch acknowledges in its timeslot by echoing it, and the ball only accepts an ACK with the same value. The ball's caller retries until it succeeds or `INFORM_TIMEOUT_MS` (1000 ms) passes.
+`uwb_ball_hit(slot)` takes one life off the ball's table at once (not below 0), whether or not the pouch ever answers. `uwb_ball_send_hit(slot)` then sends the table's value as HIT to the pouch's address; the pouch acknowledges in its timeslot by echoing it, and the ball only accepts an ACK with the same value. The ball's caller retries until it succeeds or `HIT_ACK_TIMEOUT_MS` (1000 ms) passes.
 
 * HIT carries the **absolute** lives, not "minus one", so a retry sets the same number again and is harmless; the pouch only plays its hit effect when the value is lower than what it had.
 * If the pouch never hears it, nothing is lost: the table is already right, and the next REMEMBER corrects the pouch within `REMEMBER_PERIOD_MS`.
 
 ## Reset: the join window
-A Reset is also how a pouch that was switched on late joins. `uwb_ball_reset_start()`, then `uwb_ball_reset_step()` on every main-loop pass for the whole Reset (the ball's main loop decides how long: 3 s, see [ball/README.md](../ball/README.md)), then `uwb_ball_reset_finish()`.
+A Reset is also how a pouch that was switched on late joins. `uwb_ball_reset_start()`, then `uwb_ball_reset_step()` on every main-loop pass for the whole Reset (the ball's main loop decides how long: `RESET_WINDOW_MS`, 3 s, see [ball/README.md](../ball/README.md)), then `uwb_ball_reset_finish()`.
 
 1. **Start:** every pouch's lives in the table := `LIVES_MAX`, nobody has acknowledged yet.
-2. **RESET** is broadcast at once and again every `RESET_RETRY_MS` (200 ms) until every pouch in the table has acknowledged. Each pouch acknowledges in its own timeslot; the ACK window is sized from the highest slot at the time of that RESET, because a pouch that joins during the Reset may raise it.
-3. **JOIN is accepted for the whole window**, also after every pouch has acknowledged and also with an empty table (no RESET is sent then, the receiver just stays armed). The ball registers the pouch (lowest free slot, or its old slot if it is known) and answers at once with a REMEMBER holding `LIVES_MAX`.
+2. **RESET** is broadcast at once and again every `RESET_RETRY_MS` (200 ms) until every pouch in the table has acknowledged, then every `RESET_KEEPALIVE_MS` (500 ms) for the rest of the window (also with an empty table). A late pouch in Listening reacts to a RESET only, so a single lost broadcast would leave it out of the game; repeating it costs nothing, because known pouches just acknowledge again. Each pouch acknowledges in its own timeslot; the ACK window is sized from the highest slot at the time of that RESET, because a pouch that joins during the Reset may raise it.
+3. **JOIN is accepted for the whole window**, also after every pouch has acknowledged and also with an empty table (the receiver stays armed between the broadcasts). The ball registers the pouch (lowest free slot, or its old slot if it is known) and answers at once with a REMEMBER holding `LIVES_MAX`.
 4. **A JOIN counts as an acknowledgement.** It proves the pouch is alive and has the new lives, so a pouch that joins in the last 200 ms, before it could acknowledge a RESET, is not deleted.
 5. **Finish:** every pouch that neither acknowledged nor joined is **deleted**: its slot is free for reuse (the next newcomer gets the lowest free slot) and the highest used slot is recomputed, so ranging rounds get shorter. This is safe because everybody's lives were just reset, so nobody loses progress by being forgotten. `uwb_ball_reset_finish()` returns how many **new** pouches joined (a pouch that was already in the table and sends JOIN again is answered and counted as acknowledged, but not as joined), how many were deleted and how many remain.
 6. **The ball chooses the next state** from that summary: Roll Call if nobody is left or a new pouch joined (so several late players have time to join), otherwise back to the game.
