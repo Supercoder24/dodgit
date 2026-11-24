@@ -2,10 +2,9 @@
  * dodgit - Ball firmware (DWM3001CDK)
  *
  * Startup ("Off" state in docs/FSMs.md):
- *   1. led3 (blue) is turned ON and stays on: it marks this board as the ball.
- *   2. Self-test: DW3110 UWB radio probe + accelerometer init.
- *      PASS: led0 (green) blinks 3 times, then the state machine starts in Roll Call.
- *      FAIL: led1 + led2 (red) blink forever (reason printed on the console).
+ *   Self-test: DW3110 UWB radio probe + accelerometer init.
+ *     PASS: led0 (green) blinks 3 times, then the state machine starts in Roll Call.
+ *     FAIL: led1 + led2 (red) blink forever (reason printed on the console).
  *
  * State machine (docs/FSMs.md "Ball Main FSM"):
  *   Roll Call -> Disarmed -> Ready -> Armed -> Classify -> (Ready | Disarmed | Inform)
@@ -20,11 +19,12 @@
  * thrower comes back close (wind-up cancelled) or after ARMED_TIMEOUT_MS, and an impact only counts
  * if free fall came just before it (see impact.c).
  *
- * The state number is shown in binary on led2 led1 led0 (led0 = 1s bit):
- *   Roll Call=0, Disarmed=1, Ready=2, Armed=3, Classify=4, Inform=5.
- * Reset blinks led0..led2 together 3 times slowly. In Roll Call led0 also flashes
- * once for every newly registered pouch.
- * There are no LED strips yet; the strip color of every state is noted in the comments.
+ * Reset (button held >= 3 s) is also the join window: for its whole length the ball listens for
+ * JOINs (a pouch switched on late joins without turning anything else off), and pouches that never
+ * answer it are deleted. If anybody joined, or nobody is left, it continues in Roll Call.
+ *
+ * What the LEDs show is data in shared/led_patterns.h (one color at a time, steady vs. blinking);
+ * the pattern of each state is chosen in leds_update() below.
  *
  * Everything the ball does is also printed on the console (J-Link USB serial, 115200 baud).
  * With BLE_DEBUG (below) the same log is also sent over Bluetooth: tools/ball_monitor.py.
@@ -46,6 +46,7 @@
 #include <zephyr/drivers/gpio.h>
 #include "settings.h"
 #include "log.h"
+#include "led_patterns.h"
 #include "uwb.h"
 #include "impact.h"
 #ifdef BLE_DEBUG
@@ -56,11 +57,7 @@
 #define HOLD_TIME_MS 3000
 #define DEBOUNCE_SAMPLES 3 /* 3 consecutive loop passes with the same level */
 
-#define RESET_BLINKS 3
-#define RESET_BLINK_ON_MS 500
-#define RESET_BLINK_OFF_MS 500
-
-#define REGISTRATION_FLASH_MS 150
+#define RESET_BLINKS 3 /* the Reset state lasts RESET_BLINKS x (PAT_BALL_RESET on + off) = 3 s */
 
 /* Log lines: LOG_CAT(<category flag from settings.h>, ...) (shared/log.h). dodgit_log() prints on the
  * console and, with BLE_DEBUG and a laptop connected, sends the line over Bluetooth too. */
@@ -69,24 +66,26 @@
  * LEDs and button (aliases from the decawave_dwm3001cdk board DTS)
  * ------------------------------------------------------------------------- */
 static const struct gpio_dt_spec leds[] = {
-    GPIO_DT_SPEC_GET(DT_ALIAS(led0), gpios), /* D9  green - 1s bit */
-    GPIO_DT_SPEC_GET(DT_ALIAS(led1), gpios), /* D12 red   - 2s bit */
-    GPIO_DT_SPEC_GET(DT_ALIAS(led2), gpios), /* D11 red   - 4s bit */
-    GPIO_DT_SPEC_GET(DT_ALIAS(led3), gpios), /* D10 blue  - identity */
+    GPIO_DT_SPEC_GET(DT_ALIAS(led0), gpios), /* D9  green */
+    GPIO_DT_SPEC_GET(DT_ALIAS(led1), gpios), /* D12 red   */
+    GPIO_DT_SPEC_GET(DT_ALIAS(led2), gpios), /* D11 red   */
+    GPIO_DT_SPEC_GET(DT_ALIAS(led3), gpios), /* D10 blue  */
 };
 static const struct gpio_dt_spec button = GPIO_DT_SPEC_GET(DT_ALIAS(sw0), gpios);
 
-static void led_set(int i, bool on)
-{
-  gpio_pin_set_dt(&leds[i], on);
-}
+static uint8_t leds_shown = LED_NONE;
 
-/* Show the low 3 bits of value on led2 led1 led0. */
-static void status_leds_show(uint8_t value)
+/* Light exactly the LEDs in mask (bit i = leds[i]); only touches the GPIOs when it changes. */
+static void leds_show(uint8_t mask)
 {
-  for (int i = 0; i < 3; i++)
+  if (mask == leds_shown)
   {
-    led_set(i, (value >> i) & 1);
+    return;
+  }
+  leds_shown = mask;
+  for (int i = 0; i < ARRAY_SIZE(leds); i++)
+  {
+    gpio_pin_set_dt(&leds[i], (mask >> i) & 1);
   }
 }
 
@@ -168,9 +167,9 @@ static void self_test_pass_blink(void)
 {
   for (int i = 0; i < 3; i++)
   {
-    led_set(0, true);
+    leds_show(LED_GREEN);
     k_msleep(100);
-    led_set(0, false);
+    leds_show(LED_NONE);
     k_msleep(150);
   }
 }
@@ -180,11 +179,9 @@ static void self_test_fail_halt(const char *what, int rc)
   printk("Halting: %s failed (%d)\n", what, rc);
   while (1)
   {
-    led_set(1, true);
-    led_set(2, true);
+    leds_show(LED_RED);
     k_msleep(250);
-    led_set(1, false);
-    led_set(2, false);
+    leds_show(LED_NONE);
     k_msleep(250);
   }
 }
@@ -200,7 +197,7 @@ enum ball_state
   STATE_ARMED = 3,
   STATE_CLASSIFY = 4,
   STATE_INFORM = 5,
-  STATE_RESET = 6, /* not shown in binary; has its own blink pattern */
+  STATE_RESET = 6,
 };
 
 static const char *state_name(enum ball_state s)
@@ -228,11 +225,10 @@ static uint16_t hit_count;        /* hits since boot (log only) */
 static int confirm_rounds;        /* Disarmed/Ready: consecutive rounds the transition condition held */
 static int last_thrower_mm;       /* Ready: last valid range to the thrower (0 = assume touching) */
 static int pickup_candidate = -1; /* Disarmed: slot being confirmed as the picker-up */
-static int64_t last_checkin_ms;   /* Roll Call: when the last NEW pouch registered */
-static int64_t flash_until_ms;    /* Roll Call: led0 flash end */
+static int64_t last_checkin_ms;   /* Roll Call: when the last NEW pouch registered (or Roll Call began) */
+static int64_t flash_until_ms;    /* Roll Call: end of the green / red flash */
+static uint8_t flash_mask;        /* Roll Call: LED of that flash */
 static int64_t last_log_ms;       /* throttle for the range log */
-static uint8_t reset_acked;       /* Reset: slots that acknowledged so far */
-static int64_t reset_next_send_ms;
 static int64_t armed_next_recheck_ms; /* Armed: when the next thrower re-check is due */
 
 static struct pouch_range ranges[MAX_POUCHES];
@@ -257,7 +253,8 @@ static void enter_state(enum ball_state next)
   switch (next)
   {
   case STATE_ROLL_CALL:
-    status_leds_show(0);
+    last_checkin_ms = state_entered_ms; /* re-entered after a Reset: the timeout starts over */
+    flash_until_ms = 0;
     uwb_ball_rollcall_start();
     break;
   case STATE_ARMED:
@@ -265,17 +262,43 @@ static void enter_state(enum ball_state next)
     armed_next_recheck_ms = state_entered_ms + ARMED_RECHECK_MS;
     /* No flush here: impacts are only queued after free fall, so one that happened between the
      * release and this transition is a real hit and must not be lost. */
-    status_leds_show(next);
     break;
   case STATE_RESET:
-    reset_acked = 0;
-    reset_next_send_ms = 0;
-    status_leds_show(0x7); /* first blink starts immediately */
+    uwb_ball_reset_start();
     break;
   default:
-    status_leds_show(next);
     break;
   }
+}
+
+/* The LEDs of the current state (docs/FSMs.md); called once per loop pass. */
+static void leds_update(int64_t now)
+{
+  const struct led_pattern *p;
+  int64_t t = now; /* free-running pattern */
+
+  switch (state)
+  {
+  case STATE_ROLL_CALL:
+    if (now < flash_until_ms)
+    {
+      leds_show(flash_mask); /* a flash REPLACES the steady blue: one color at a time */
+      return;
+    }
+    p = &PAT_BALL_ROLL_CALL;
+    break;
+  case STATE_DISARMED: p = &PAT_BALL_UNHELD; break;
+  case STATE_READY: p = &PAT_BALL_READY; break;
+  case STATE_ARMED:
+  case STATE_CLASSIFY: p = &PAT_BALL_THROWN; break;
+  case STATE_INFORM: p = &PAT_BALL_HIT; break;
+  case STATE_RESET:
+    p = &PAT_BALL_RESET;
+    t = now - state_entered_ms; /* the first blink starts immediately */
+    break;
+  default: p = &PAT_BALL_UNHELD; break;
+  }
+  leds_show(led_pattern_mask(p, t));
 }
 
 /* Index of the closest pouch in ranges[0..n), or -1. With need_lives, skip dead pouches. */
@@ -340,14 +363,14 @@ static void run_roll_call(void)
     LOG_CAT(LOG_STATE, "ROLLCALL new pouch uid=0x%08x -> slot %d (%d registered)", uid, slot,
             uwb_ball_pouch_count());
     last_checkin_ms = now; /* only NEW pouches restart the timeout */
-    flash_until_ms = now + REGISTRATION_FLASH_MS;
+    flash_mask = LED_BALL_FLASH_NEW_POUCH;
+    flash_until_ms = now + LED_BALL_FLASH_MS;
     break;
   case JOIN_REPEAT: /* the pouch asked again: it got the same slot (logged as MEMBER join) */
   case JOIN_FULL:   /* ninth pouch: ignored, does not restart the timeout */
   case JOIN_NONE:
     break;
   }
-  led_set(0, now < flash_until_ms);
 
   if (uwb_ball_pouch_count() > 0 && now - last_checkin_ms >= ROLLCALL_TIMEOUT_MS)
   {
@@ -577,30 +600,27 @@ static void run_inform(void)
   }
 }
 
-/* Reset (Light Strip: Cyan, blinks 3 times slowly)
- *   Broadcast RESET every RESET_RETRY_MS while blinking, collecting acknowledgments
- *   (each pouch answers in its own timeslot). After the blinks go to Disarmed. We do not
- *   wait beyond the blinks for pouches that stay silent (e.g. switched off). */
+/* Reset (all four LEDs blink together 3 times, slowly)
+ *   The join window. For the whole 3 seconds, not only until every pouch has acknowledged: the ball
+ *   broadcasts RESET until each pouch in its table has answered (in its own timeslot) and keeps
+ *   listening for JOINs from pouches without a slot. Afterwards pouches that never answered are
+ *   deleted (everybody's lives were just reset, so nobody loses progress by being forgotten).
+ *   Next: Roll Call if the table is empty or somebody new joined (gives several late players time to
+ *   join; a short press or the timeout ends it), else straight back into the game. */
 static void run_reset(void)
 {
-  int64_t now = k_uptime_get();
-  int64_t elapsed = now - state_entered_ms;
-  int64_t period = RESET_BLINK_ON_MS + RESET_BLINK_OFF_MS;
+  int64_t elapsed = k_uptime_get() - state_entered_ms;
+  int64_t period = PAT_BALL_RESET.on_ms + PAT_BALL_RESET.off_ms;
 
-  if (elapsed >= RESET_BLINKS * period)
+  if (elapsed < RESET_BLINKS * period)
   {
-    LOG_CAT(LOG_STATE, "Reset: %d of %d pouch(es) acknowledged", __builtin_popcount(reset_acked),
-            uwb_ball_pouch_count());
-    enter_state(STATE_DISARMED);
+    uwb_ball_reset_step();
     return;
   }
-  status_leds_show(elapsed % period < RESET_BLINK_ON_MS ? 0x7 : 0x0);
-
-  if (now >= reset_next_send_ms && reset_acked != uwb_ball_slot_mask())
-  {
-    reset_acked |= uwb_ball_send_reset();
-    reset_next_send_ms = now + RESET_RETRY_MS;
-  }
+  struct reset_summary sum = uwb_ball_reset_finish();
+  LOG_CAT(LOG_STATE, "Reset: %d joined, %d deleted (no answer), %d pouch(es) in the game", sum.joined,
+          sum.deleted, sum.remaining);
+  enter_state(sum.remaining == 0 || sum.joined > 0 ? STATE_ROLL_CALL : STATE_DISARMED);
 }
 
 static uint32_t log_dropped(void)
@@ -680,9 +700,6 @@ int main(void)
     return 0;
   }
 
-  /* Identity: blue LED steady on for the ball, from power-up onwards. */
-  led_set(3, true);
-
 #ifdef BLE_DEBUG
   int ble_rc = ble_log_init(); /* failure is not fatal: the ball just logs to the console */
   if (ble_rc)
@@ -727,6 +744,8 @@ int main(void)
       else
       {
         LOG_CAT(LOG_STATE, "Button: short press ignored, no pouch has registered yet");
+        flash_mask = LED_BALL_FLASH_IGNORED;
+        flash_until_ms = k_uptime_get() + LED_BALL_FLASH_MS;
       }
     }
 
@@ -742,6 +761,7 @@ int main(void)
     }
 
     uwb_ball_remember_tick(); /* between exchanges, in every state: keeps the pouches' slot and lives in sync */
+    leds_update(k_uptime_get());
     log_accel_events();
     log_bursts();
     log_status();

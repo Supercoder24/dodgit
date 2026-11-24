@@ -18,7 +18,7 @@
 
 #include <stdint.h>
 #include "settings.h"
-#include "uwb.h" /* enum pouch_phase */
+#include "pouch_fsm.h" /* enum pouch_phase */
 
 /* Bit i = ledi of the board (the Zephyr aliases led0..led3). */
 #define LED_NONE 0x0

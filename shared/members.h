@@ -135,6 +135,12 @@ static inline uint8_t members_acked_mask(const struct members *t)
   return mask;
 }
 
+/* Bit n set = slot n is in use but has NOT acknowledged the current Reset: deleted when it ends. */
+static inline uint8_t members_unacked_mask(const struct members *t)
+{
+  return members_mask(t) & (uint8_t)~members_acked_mask(t);
+}
+
 static inline void members_ack(struct members *t, int slot)
 {
   if (slot >= 0 && slot < MAX_POUCHES && t->used[slot])

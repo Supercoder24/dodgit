@@ -12,6 +12,7 @@
 #include <stdint.h>
 #include "settings.h"
 #include "members.h"
+#include "pouch_fsm.h"
 
 /* Probe and configure the DW3110. Returns 0 or -errno. Prints the device ID. */
 int uwb_init(void);
@@ -56,9 +57,27 @@ int uwb_ball_range_round(struct pouch_range *out, int max);
  * uwb_ball_hit() first). Returns 0 once it acknowledged that value, else -errno. */
 int uwb_ball_send_hit(int slot);
 
-/* Reset: every pouch back to LIVES_MAX in the ball's table, then broadcast RESET. Returns a
- * bitmask of the slots that acknowledged. */
-uint8_t uwb_ball_send_reset(void);
+/* ---- Reset: the join window ------------------------------------------------------------------
+ * A Reset is also how a pouch that was switched on late joins, so the ball listens for JOINs for the
+ * whole Reset (not just until every pouch has acknowledged), and deletes the pouches that never
+ * answered it. Usage: uwb_ball_reset_start() once, uwb_ball_reset_step() on every main-loop pass for
+ * the whole Reset, then uwb_ball_reset_finish() once. */
+struct reset_summary
+{
+  int joined;    /* NEW pouches registered during this Reset */
+  int deleted;   /* silent pouches removed from the table (slot freed) */
+  int remaining; /* pouches in the table now: all of them answered a RESET or joined */
+};
+
+/* Everybody's lives back to LIVES_MAX in the ball's table, nobody has acknowledged yet. */
+void uwb_ball_reset_start(void);
+/* Broadcast RESET every RESET_RETRY_MS until every pouch in the table has acknowledged it (a pouch
+ * that joins counts as acknowledged), and keep listening for JOIN messages from pouches without a
+ * slot: each is registered and told its slot (REMEMBER) at once. */
+void uwb_ball_reset_step(void);
+/* Close the window: delete every pouch that neither acknowledged nor joined (safe, because
+ * everybody's lives were just reset, so nobody loses progress by being forgotten). */
+struct reset_summary uwb_ball_reset_finish(void);
 
 /* Switch the radio off (Armed state). */
 void uwb_ball_idle(void);
@@ -66,23 +85,7 @@ void uwb_ball_idle(void);
 /* ---------------------------------------------------------------------------
  * Pouch side
  * ------------------------------------------------------------------------- */
-enum pouch_phase
-{
-  POUCH_JOINING,   /* sending JOIN, no timeslot yet */
-  POUCH_LISTENING, /* the ball is already ranging and will not answer a JOIN: silent, waiting for a REMEMBER
-                    * with our ID (we rebooted mid-game) or for a RESET (someone is being added) */
-  POUCH_JOINED,    /* timeslot assigned, ball has not ranged / hit / reset us yet */
-  POUCH_ACTIVE,    /* answering the ball: the game is running */
-};
-
-enum pouch_event_type
-{
-  EV_NONE,
-  EV_HIT,      /* lives went down (HIT message, or a REMEMBER that revealed a lost HIT) */
-  EV_RESET,    /* the ball reset the lives (already acknowledged) */
-  EV_REMEMBER, /* a REMEMBER with our ID arrived (slot and lives were overwritten with the ball's values) */
-};
-
+/* The pouch's phases and events are defined in pouch_fsm.h. */
 struct pouch_event
 {
   enum pouch_event_type type;

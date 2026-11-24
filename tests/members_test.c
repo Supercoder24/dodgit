@@ -119,12 +119,63 @@ static void test_remember_round_robin(void)
   assert(order[0] != order[1] && order[1] != order[2] && order[0] != order[2]);
 }
 
+/* The Reset window: lives back to full, pouches that answer or join are kept, silent ones are deleted
+ * (their slots freed, ranging rounds shortened), a pouch that joins in the very last moment is not. */
+static void test_reset_window(void)
+{
+  struct members t;
+  int slot;
+
+  members_init(&t);
+  for (uint32_t id = 1; id <= 4; id++)
+  {
+    members_join(&t, id, &slot);
+  }
+  members_hit(&t, 1);
+  members_hit(&t, 3);
+
+  members_new_round(&t);
+  assert(t.lives[1] == LIVES_MAX && t.lives[3] == LIVES_MAX && members_unacked_mask(&t) == 0x0F);
+
+  members_ack(&t, 0);  /* answered a RESET */
+  members_ack(&t, 2);
+  assert(members_join(&t, 5, &slot) == JOIN_NEW && slot == 4);
+  members_ack(&t, slot); /* a JOIN counts as an acknowledgement */
+  assert(members_join(&t, 1, &slot) == JOIN_REPEAT && slot == 0);
+  members_ack(&t, slot);
+  assert(members_unacked_mask(&t) == 0x0A); /* slots 1 and 3 stayed silent */
+
+  uint8_t silent = members_unacked_mask(&t);
+  for (int s2 = 0; s2 < MAX_POUCHES; s2++)
+  {
+    if (silent & (1U << s2))
+    {
+      assert(members_delete(&t, s2));
+    }
+  }
+  assert(t.count == 3 && members_mask(&t) == 0x15 && t.highest == 4 && members_unacked_mask(&t) == 0);
+
+  /* a late pouch takes the lowest freed slot, the silent ones can come back as new players */
+  assert(members_join(&t, 6, &slot) == JOIN_NEW && slot == 1);
+  assert(members_join(&t, 2, &slot) == JOIN_NEW && slot == 3);
+
+  /* everybody silent: the table empties and the next round starts from slot 0 */
+  members_new_round(&t);
+  for (int s2 = 0; s2 < MAX_POUCHES; s2++)
+  {
+    members_delete(&t, s2);
+  }
+  assert(t.count == 0 && t.highest == -1 && members_mask(&t) == 0);
+  assert(members_join(&t, 99, &slot) == JOIN_NEW && slot == 0);
+}
+
 int main(void)
 {
   test_join_repeat_full();
   test_delete_reuse_highest();
   test_lives_and_rounds();
   test_remember_round_robin();
+  test_reset_window();
   printf("members_test: OK\n");
   return 0;
 }

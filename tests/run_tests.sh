@@ -10,7 +10,7 @@ trap 'rm -rf "$OUT"' EXIT
 CFLAGS=(-std=c11 -Wall -Wextra -Werror -I"$ROOT/shared" -I"$ROOT/ball/src")
 
 cd "$ROOT"
-for t in twr_test members_test led_patterns_test; do
+for t in twr_test members_test pouch_fsm_test led_patterns_test; do
   cc "${CFLAGS[@]}" "tests/$t.c" -lm -o "$OUT/$t"
   "$OUT/$t"
 done
